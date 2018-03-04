@@ -1,0 +1,110 @@
+ls -a 查看该目录下出现的.git的隐藏目录
+git 查看当前版本库的状态
+缓冲区操作
+##操作
+```
+:wq退出
+git add      filename
+ git   rm      filename
+ git add   filename filname
+git status
+git help
+git add .添加所有修改过的文件
+git add --all 提交全部文件
+```
+提交;git  commit
+git 原理
+```
+工作区 :workspace 文件夹
+ 版本库,.git文件夹
+cache 缓存区
+版本库包括:暂存区(index/stage) ,head(指针), 分支(默认为master分支)等
+```
+查看文件修改状态的操作
+```
+git status 查看单钱版本状态(是否修改)工作空间内是否有为提交的文件
+git diff查看工作空间与版本的区别
+git diff  --cached查看版本库与缓存的区别
+版本回退:
+             git  reset  --hard  HEAD^ 回退到上一个版本
+             git  reset  --hard   HEAD^^ 回退到上2个版本
+
+             git reset    --hard  HEAD~N 回退到上一n版本
+             git reset     --hard <commitid>跳转到指定版本
+              #commitid根据log获取
+获取简洁的日历 git log --oneline
+git reflog  显示行为日志
+git checkout -- filename,回退未提交的文件信息
+git checkout HEAD  filename 将缓存区的文件回退到之前的状态 
+git  rm filename 然后 git commit 将文件从工作区和版本库中真正删除
+粘贴shift+insert
+
+
+```
+获得远端版本库
+```
+在指定文件(想要下载的地方)下使用git clone <远端版本库url>  <本地存储name>
+git remote add 远程主机name
+git remote show 远程主机name
+git pull    远程主机name  分支name   拉取并合并
+git pull   <remote>
+
+
+```
+将文件提交到远端
+```
+git push 当前主机  master分支:下层分支                     ----------向别的用户推送子分支
+git push xt master:dev
+git pull master: dev将提交的分支从提交状态拉回
+```
+分支管理
+```
+$git branch
+查找本地的分支
+git branch -a查找所有分支(包括远端)
+git branch -1v 显示主机下所有分支下进行的最新操作
+git checkout 分支名/标签名           切换分支
+#切换到指定分支或标签
+vim filename 查看指定文件的内容
+```
+创建或删除分支
+```
+git branch 分支name
+# 新分支
+git checkout -b dev
+创建并切换到dev分支
+git branch  -d 分支name
+删除分支,  -D 强制删除分支
+```
+合并分支
+```
+git merge  分支a
+将分支a合并到当前分支
+
+
+```
+冲突解决
+```
+冲突:两个分支都对一个file进行的操作切结果不同:(即主管版本库中已经有同名文件)
+主机操作
+冲突部分被<<==>>包含
+将冲突部分手动删除,写上你想写的
+然后提交,
+远端操作
+git remote add <remote> <url>
+添加远程版本库
+git remote -v
+查看远程版本库信息
+git remote show <remote>
+查看指定远程版本库信息
+git pull <remote> <branch>
+下载代码及快速合并
+git push <remote> <branch>
+上传代码及快速合并
+git merge xt master  
+将远端库合并
+git fetch xt
+从远端获版本库但不合并
+
+
+```

@@ -1,0 +1,335 @@
+
+
+1 、类加载器 (ClassLoader)
+
+1.1 、概述 ( 了解 )
+
+类加载器：
+
+负责将 .class 文件加载到内存中，并为之生成对应的 Class 对象，也就是字节码文件对象。
+
+问题：我们平时书写在 eclipse 中的 Java 程序是如何运行的呢？
+
+1 ）首先将 .java 源文件编译为 class 类文件；
+
+2 ）编译后的类文件是存在硬盘中的，那么我们运行需要在内存中看到效果，那么类文件是如何被加载到内存中的呢，就是 jvm 通过类加载器 ClassLoader 把硬盘中的 class 文件加载到内存中，这样就可以使用这个类中的成员变量和方法了。而被加载到内存中这个 class 文件就会变成一个 Class 类的对象。
+
+ 
+
+常见的类加载器有三种，每个类加载器负责加载不同位置的类：
+
+1 ） Bootstrap 根类加载器；
+
+2 ） ExtClassLoader 扩展类加载器；
+
+3 ） AppClassLoader 系统 / 应用类加载器；
+
+ 
+
+那么这三种类加载器各有什么作用或者有什么区别呢？
+
+他们三个加载的范围是不一样的。如下图所示：
+
+ 
+
+ 
+
+说明：
+
+1 ） Bootstrap 是最顶级的类加载器。它加载类文件不是我们自己书写的，是 JRE/lib/rt.jar 包下的。只有将这个包下的所有类加载到内存中，我们才可以使用这个包下所有的类。
+
+2 ） ExtClassLoader 扩展类加载器，是用来加载 JRE/lib/ext/*.jar 这个包下的所有的类，在这个 jar 包，我们是用不到的，都是 jdk 内部自己使用的。
+
+3 ） AppClassLoader 系统 / 应用类加载器，是用来加载 ClassPath 指定的所有 jar 或目录， ClassPath 表示存放类路径的，我们如果不配置 ClassPath ，那么就表示当前文件夹，在 eclipse 环境下的 ClassPath 是 workspace 中的 bin 目录。在 bin 目录存放的都是我们书写好的 class 文件，也就是说 AppClassLoader  类加载器是用来加载我们书写的 bin 目录下的 class 文件。
+
+ 
+
+需求：演示类加载器的父子关系。
+
+ 
+
+代码演示如下所示：
+
+分析：如何获取一个类的类加载器呢？
+
+如果想获得当前类的加载器，那么首先必须获得当前类的字节码文件对象，而这个字节码文件对象属于 Class 类型，我们可以使用 Class 类中的 getClassLoader() 函数来获得类加载器：
+
+ClassLoader getClassLoader() 返回该类的类加载器
+
+ 
+
+AppClassLoader ：加载 classPath 中的所有的类，也就是我们自己写的那些类 !
+
+注意：类加载器，也是一个类，也需要被加载。一般类加载器都是被父类加载器加载的！
+
+获取父类加载器的方法：使用 ClassLoader 类中的 getParent() 返回委托的父类加载器 。
+
+ 
+
+说明： AppClassLoader 是被 ExtClassLoader 加载的！
+
+ExtClassLoader 肯定也是一个类，需要被父加载，它的父亲是 BootStrap 。
+
+那么问题来了：如果这个类加载器也需要被人加载，那么就没有尽头了！因此， BootStrap 是不需要被加载的。
+
+因为它不是一个 Java 类。它是用 C++ 实现的一段代码。
+
+也就是说， jvm 虚拟机一启动就会运行 C++ 实现的这段代码，那么 BootStrap 类一旦被启动就会开始加载他下面的子类了。
+
+注意：最顶级的类加载器不是 Java 类，而是 C++ 实现的代码。
+
+ 
+
+/*
+
+ * 演示类加载器的父子关系：
+
+ * 获取一个类加载器：使用 Class 类中的函数： ClassLoader getClassLoader() 返回该类的类加载器
+
+ * 获取 Class 类的对象 ：类名 .class
+
+ * AppClassLoader ：加载 classPath 中的所有的类，也就是我们自己写的那些类！
+
+ * 类加载器，也是一个类，也需要被加载。一般类加载器都是被父类加载器加载的！
+
+ * 获取父类加载器的方法：使用 ClassLoader 类中的函数：
+
+ *            ClassLoader getParent() 返回委托的父类加载器
+
+ *
+
+ * AppClassLoader 类加载器是被 ExtClassLoader 类加载器加载的！
+
+ *
+
+ * ExtClassLoader 肯定也是一个类，需要被父类加载器加载，它的父类是 BootStrap 类加载器。
+
+ * 而 ExtClassLoader 确实被他的父类 BootStrap 类加载器加载的，
+
+ * 那么问题来了：如果 BootStrap 类加载器也需要被人加载，那么就没有尽头了！因此， BootStrap 类加载器是不需要被加载的。
+
+ * 因为它不是一个 Java 类。它是用 C++ 语言实现的一段代码。
+
+ * 所以这里获取不到 BootStrap 类加载器，就是因为他是一段 C++ 代码实现的。
+
+ */
+
+public class ClassLoaderDemo1 {
+
+         public static void main(String[] args) {
+
+                  // 获取当前类的加载器
+
+                  ClassLoader loader = ClassLoaderDemo1.class.getClassLoader();
+
+                  // 输出当前类的类加载器
+
+                  System.out.println(loader);//sun.misc.Launcher$AppClassLoader@b0014f0
+
+                  // 获取 AppClassLoader 类加载器的父类
+
+                  ClassLoader parent = loader.getParent();
+
+                  // 输出 AppClassLoader 类加载器的父类加载器
+
+                  System.out.println(parent);//sun.misc.Launcher$ExtClassLoader@325e9e34
+
+                  // 获取 ExtClassLoader 类加载器的父类
+
+                  ClassLoader grandpa = parent.getParent();
+
+                  // 输出 ExtClassLoader 类加载器的父类加载器
+
+                  System.out.println(grandpa);//null
+
+         }
+
+}
+
+ 
+
+ 
+
+1.2 、委托机制 ( 了解 )
+
+通过上述学习我们发现三种类加载器都有自己要加载的类文件，各司其职，不能乱加载，比如 Bootstrap 类加载器只能加载 JRE/lib/rt.jar 包下的类，他就不能加载 JRE/lib/ext/*.jar 包下的类文件，我们把上述这种关系叫做全盘负责委托机制。
+
+ 
+
+全盘负责委托机制：
+
+ClassLoader( 类加载器 ) 加载类用的是全盘负责委托机制。
+
+1 ）全盘负责：当一个 ClassLoader( 类加载器 ) 加载一个类的时候，那么在这个类中所引用的所有其它的类通常也都由这个类加载器来加载。
+
+举例：比如上述代码中我们在 ClassLoaderDemo1 类中书写如下代码：
+
+ 
+
+public class ClassLoaderDemo1 {
+
+         public static void main(String[] args) {
+
+                  // 获取当前类的加载器
+
+                  ClassLoader loader = ClassLoaderDemo1.class.getClassLoader();
+
+                  // 输出当前类的类加载器
+
+                  System.out.println(loader);//sun.misc.Launcher$AppClassLoader@b0014f0
+
+                  // 获取 AppClassLoader 类加载器的父类
+
+                  ClassLoader parent = loader.getParent();
+
+                  // 输出 AppClassLoader 类加载器的父类加载器
+
+                  System.out.println(parent);//sun.misc.Launcher$ExtClassLoader@325e9e34
+
+         }
+
+}
+
+ 
+
+说明：由于我们在 ClassLoaderDemo1 类中使用了 System 类，那么 System 类也应该由 ClassLoaderDemo1 的类加载器加载到内存中。
+
+换句话说，如果在 A 类中使用了 B 类，那么 A 类的加载器就会将 B 类也会加载到内存中，就是一个类的加载器同时把多个类都加载了。
+
+ 
+
+2 ）委托机制：先让 Parent （父）类加载器寻找，只有在 Parent 找不到的时候，才从自己的范围中寻找。
+
+但是呢，全盘负责要和委托机制一起使用，一个类加载器在加载一个类的时候不是上来就先加载类，而是先咨询这个类加载器的父亲，先看他的父类加载器有没有要加载的类，如果已经存在要加载的类了，那么子类加载器就不会加载，因为在加载就会重复，产生冲突了，只有在父类加载器中找不到的时候，才从自己的范围中寻找。
+
+举例：还是上述的代码，由于 ClassLoaderDemo1 类是被 AppClassLoader 类加载器加载内存中的，那么根据全盘负责机制， AppClassLoader 类加载器也会将 System 类加载到内存中，但是在加载的时候，根据委托机制 AppClassLoader 类加载器会先去咨询他的父亲 ExtClassLoader 类加载器，而这个类加载器中也没有 System 类，那么又会去咨询 ExtClassLoader 类加载器的父类 Bootstrap 类加载器，而在这个类加载器中是可以加载 System 类的，所以作为子类加载器 AppClassLoader 就不会加载了，这样才能保证一个类只会被加载一次，任何一个类同时只会被加载一次。
+
+ 
+
+如果一个类在父类加载器中找到了，那么就会把这个类加载之后保存到 cache( 缓存 ) 中。
+
+3 ）类加载器的 cache( 缓存 ) 机制：如果 cache 中保存了这个类就直接返回它，如果没有才加载这个类，然后存入 cache 中，下一次如果有其他类在使用的时候就不会在加载了，直接去 cache 缓存拿即可。这就是为什么每个类只加载一次，内存只有一份的原因。
+
+举例：还是上述代码中，当第一次使用 System 类的时候，那么 System 类就会被加载了，那么 System 类就会存储到内存中了，当下面代码中我们再一次使用 System 类的时候，由于内存中已经有了，那么就不会在去加载了，这时会直接拿过来用即可。
+
+ 
+
+因此方法区中每一个类的字节码文件只有一份的原因由全盘负责、委托机制和类加载器的 cache( 缓存 ) 机制共同决定。
+
+ 
+
+1.3 、加载配置文件的方式 ( 掌握 )
+
+需求：用类加载器加载配置文件。
+
+ 
+
+代码步骤：
+
+1 ）新建一个类 ClassLoaderDemo2 ，并书写 main 函数；
+
+2 ）在当前项目下新建一个 stu.ini 文件，并在其中输入 :
+
+name=zhangsan
+
+age=19
+
+3 ）创建 Properties 类的集合对象 p ；
+
+4 ）创建字节输入流 FileInputStream 对象关联项目根目录文件 stu.ini;
+
+5 ）使用集合对象 p 调用 load 函数加载配置文件中的内容，并使用输出语句输出内容即可；
+
+ 
+
+使用之前的 FileInputStream 方式加载配置文件方式加载文件内容：
+
+// 使用之前的加载配置文件方式加载文件内容
+
+         public static void method_1() throws IOException, FileNotFoundException {
+
+                  // 创建 Properties 类的对象
+
+                  Properties p = new Properties();
+
+                  // 调用函数加载配置文件中内容
+
+                  p.load(new FileInputStream("stu.ini"));
+
+                  // 输出内容
+
+                  System.out.println(p);
+
+         }
+
+ 
+
+说明：直接使用 FileInputStream 的相对路径，是相对于项目。
+
+ 
+
+注意：我们在开发中配置文件 stu.ini 不仅可以存放到项目的根目录，有时我们还会存放到 src 下面：
+
+ 
+
+这样我们使用 new FileInputStream("stu.ini") 在读取就会出现如下问题：
+
+ 
+
+错误原因： new FileInputStream("stu.ini") 是去项目的根目录去查找 stu.ini 文件，而由于我们已经将该文件移动到 src 下面，所以会报找不到指定文件的异常。
+
+注：当我们将 stu.ini 文件存放到 src 下面的时候，那么 eclipse 就会复制一份相同的文件存放到工作空间中 bin 目录下，而 bin 目录是存放 class 文件的，即就是 classpath 路径。
+
+ 
+
+既然使用之前的加载方式加载 src 下面的配置文件有问题，那么我们可以使用新的加载方式，就是用类加载器加载。
+
+分析步骤：
+
+1 ）使用当前类 ClassLoaderDemo2 获得 Class 对象并调用 Class 类中的 getClassLoader() 函数：
+
+ClassLoader loader = ClassLoaderDemo2.class.getClassLoader();
+
+2 ）使用类加载器对象 loader 调用 ClassLoader 类中的 InputStream getResourceAsStream(String name) 返回读取指定资源的输入流
+
+InputStream in = loader.getResourceAsStream("stu.ini");
+
+      说明：这里的 name 是文件的路径：这个路径如果使用相对路径，相对的是 classpath ，就是 bin 目录。
+
+ 
+
+代码演示如下所示：
+
+ 
+
+// 使用之前的加载配置文件方式加载文件内容
+
+         public static void method_1() throws IOException, FileNotFoundException {
+
+                  // 创建 Properties 类的对象
+
+                  Properties p = new Properties();
+
+                  // 获取当前类的加载器//不需要在创建流
+
+                  ClassLoader loader = ClassLoaderDemo2.class.getClassLoader();
+
+                  // 使用类加载器对象调用函数获取加载配置文件的字节输入流
+
+                  InputStream in = loader.getResourceAsStream("stu.ini");
+
+                  // 调用函数加载配置文件中内容
+
+//              p.load(new FileInputStream("stu.ini"));
+
+                  p.load(in);
+
+                  // 输出内容
+
+                  System.out.println(p);
+
+         }
+
+ 全盘负责委托制度:全盘只是当一个类被一个类加载后,它调用的类也归此加载器管,但此加载器会坑爹
+
+总结：这两种加载文件的区别在于加载的相对位置不一样，第一种方式相对的是当前项目的根目录，而第二种方式相对的是 classpath 或者理解为 bin 或者 src 。

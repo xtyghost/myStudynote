@@ -1,0 +1,178 @@
+重复提交的问题
+```
+解决办法令牌机制:
+
+
+```
+商品的分页
+```
+物理分页limit
+优点:可以处理大数据
+缺点:经常和数据库进行交互
+
+
+逻辑分页
+优点
+缺点
+
+
+
+
+
+```
+mysql 分页:limit关键字  最后limit   ?     ?
+oracle 进行分页:使用sql语句的嵌套
+Ajax
+```
+asynchrou   java and xml
+AJAX的功能:完成页面的局部刷新,不中断用户体验
+xmlhttpRequest对象可以向服务器异步发送请求
+
+
+xml使用xml作为数据传输的格式:json
+
+
+```
+xmlhttpRequest的属性
+```
+onreadystatechange:当xmlHtttpRequest状态改变四触发一个函数
+readyState                         :XMLHttpRequest的状态
+0;未初始化1初始化2发送数据3数据发送中4finish
+status                        :获得响应的状态码200,404
+responseText           :获得响应的1文本数据(Stringvalvaluefannxmnxnlenen/eenctypeen)
+response xml       :  获得响应的xml的数据(document)
+
+
+
+
+```
+方法
+```
+open(请求方式:请求路径:是否异步)      发送请求
+send(请求参数)                                    :发送请求
+setRequestHeader(头信息,头值)        :处理post请求的中文问题
+
+
+```
+//ajaxget请求
+创建xmlhttpRequest对象
+回调函数监听函数:onreadystatechange
+设置请求路径
+发送请求(只能用于post请求)
+//post请求方式
+设置请求头解决中文乱码
+有用的属性web.xml : listings;将web中的信息以列表形式显示
+setRequestHeader("context-type"," application/x-ww-form-urlencodeo  ")
+
+//ajax常用方法
+```
+load
+$.get(url,{属性},function,type)//回调函数可已接收到servlet向页面所显示的jsp或html,即转发也可以接受的 //不写type默认String
+$.post(url,{属性},function,type)
+
+serialize():是在ajax提交表单时会用到
+$.ajax():可以处理错误时的信息
+在jquery使用AJAX传输信息时一般都用setcontenttype("text/html;charset=utf-8"),如果不加则有些浏览器会把你传的信息当documet对象
+```
+//###JQUREY
+```
+xStream工具将集合数组,对象转成xml
+xStream.toxml
+response.setContentType("text/html;charset=utf-8");
+
+
+
+fromxml();
+重要方法find()用于在document对象中查询数据
+
+
+
+```
+
+JSON的语法
+```
+数据存在键值对中
+数据有个逗号分隔
+花括号保存对象
+方括号保存数组
+css的格式为;分割(到现在为止)
+```
+JSON的转换JSON  --------------- jsonlib ,fastjson  ,Gson
+```
+jsonlib
+
+JsonArray
+JsonObject
+JsonConfig
+setExcludes()
+
+
+
+
+```
+监听器
+```
+作用:一个java类
+用来监听其他java对象的变化
+用于
+图形化的界面
+GUI,Android
+
+
+```
+术语
+
+
+```
+事件源:别见听对象
+监听器:监听器
+事件源和监听器的绑定
+事件:事件源状态的改变
+
+
+
+
+```
+web中的监听器
+```
+三类八种    
+一类:监听   
+一类:监听创建和销毁(要配置)
+     ServletContextListener
+    HttpSessiionListener没用
+   ServletContextListener
+二类监听属性变更的(要配置)
+三类 监听httpSession对象与javaBean绑定与解绑,钝化与活化:(不需要配置,作用在javaBean上的监听器可以自己感知session中的状态<直接由javaBean实现接口即可>)
+httpSessionBindingListener:
+valuebound绑定
+valueUnbound解绑
+httpSessionActivationListener同时要实现serializable接口
+sessionDidActivate------------活化--------反序列化
+sessionWillPassivate----------------钝化-----------serializable
+
+
+监听器获得事件-----事件获得事件源-----------事件源强转后可以到属性
+配置<listener>
+`` ServletContextListener
+用于加载:配置文件
+初始化线程池
+完成定时的操作timer,timerTask   
+只要访问服务器就会创建request和response对象,静态资源由org.apache.catalina.servlets.DefaultServlet也会产生request和response对象
+优化Session
+通过配置<context>标签配置定时session序列化
+在tomcat/conf/context.xml中配置<Context>                          :所有虚拟主机都执行
+在tomcat/conf/Catalina/locationhost/context.xml 配置<Context>           ;只有localhost虚拟主机会执行
+!!当前路径下单meta_inf/context.xml配置<context>                           ;当前web应用工程下 
+```
+细节
+```
+<Context>
+<Manger className="org.apache.catalina.session.PersistenManager"    maxIdleSwap="1">                                 分中自动序列化大硬盘
+<Store className="org.apache.catalina.session.FileStore"   directory="  savePlace ">                     序列化文件存放的位置
+</Manger>
+</Context>
+文件只有正常过期时invalidate时会消失
+调用session时不会消失知会反序列化
+
+
+```

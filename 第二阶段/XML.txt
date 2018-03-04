@@ -1,0 +1,58 @@
+xml是指可扩展标记语言(extensible Markup Language),是一种标记语言,类似HTML .它的设计宗旨描述数据,而非显示数据.
+xml是一种通用的数据  
+xml文件组成:-文档声明-元素-元素的属性-注视-CDATA区(不被解释不被解析)-特殊字符-处理指令(PI:Proceesing Instruction)
+<?xml version="1.0"?>
+xml书写格式有标签体
+        没有标签体(属性)
+
+xml标签的名字可以包含字符,数字,减号,下划线和英文句点,celcenterejjjjjjjj
+                但严格区分大小写
+
+                只能以字母或下划线开头:abc-abc
+
+                不能xml(或XML,Xml等)开头---W3C保留日后使用
+
+                名称字符之间不能有空格或制表符/t
+
+                    名称字符之间不能使用冒号
+
+domfJ一种 xml文件的强力解析方式
+
+DOM: 将整棵树一口气全部加载到内存当中 , 我们可以非常方便的操作任意的标签和属性 .
+
+但是 , 如果整棵树特别大的时候 , 会出现内存溢出的问题
+
+节点 : 标签、属性、文本、甚至是换行都称之为节点  
+
+SAX: 一个节点一个节点的进行解析 ( 暂不掌握 )
+
+
+
+* Dom4J 的常用方法：
+
+                    element的删除必须有直系父类来删除(getParent)
+
+
+  *      Document
+
+  *           Element getRootElement() : 获取根元素对象（根标签）
+
+  *      Element
+
+  *           List elements() ：获取所有的子元素
+
+  *           List elements(String name) ：根据指定的元素名称来获取相应的所有的子元素//直系子元素
+
+  *           Element element(String name) ：根据指定的元素名称来获取子元素对象 , 如果元素名称重复，则获取第一个元素
+
+  *           String elementText(String name) ：根据指定的子元素名称，来获取子元素中的文本
+
+  *           String getText() ：获取当前元素对象的文本
+
+  *           void setText(String text) ：设置当前元素对象的文本
+
+  *           String attributeValue(String name) ：根据指定的属性名称获取其对应的值   *           public Element addAttribute(String name,String value) ：根据指定的属性名称和值进行添加或者修改
+
+
+
+Xml的约束:DTD,Schema

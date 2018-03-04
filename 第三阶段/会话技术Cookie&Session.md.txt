@@ -1,0 +1,69 @@
+会话技术:区分客户端
+会话的生命周期:打开浏览器的某个站点时,开始,关闭整个浏览器时会话结束
+###Cookie
+```
+数据存本地,减少服务器存储压力,安全性不好,客户端可以清除Cookie
+//cookie在java中是一个对象,但是有客户段中数据拼成要addCookie
+创建cookie   :            Cookie  cookie=new Cookie("name","value");
+发送                                response.addCookie(cookie);
+默认cookie为会话级别(存储在内存中).浏览器关闭cookie消失
+cookie中不能存中文
+设置cookie持久化时间(存储在硬盘中)
+JSESSIONID:session.getid();
+cookie.setMaxAge (seconds)
+设置Cookie的携带路径:  cookie.setPath("/web16/sendCookie");//只有访问sendCookie时才携带cookie
+cookie.setPah("/")当访问此Tomcat下的所有资源时携带Cookie
+如果不设置携带路径,那么cookie信息将会被产生cookie的文件夹内共享
+request.getCookies();
+cookie.getName()
+cookie.getValue()
+reponse.addcookie()新建cookie后要返回给浏览器
+```
+##Session
+```
+数据存服务器,安全,服务器压力大
+域对象
+Session是基于Cookie,session编号------JSESSIONID
+创建Session---request.getSession();---------单例设计模式
+销毁:   1 服务请(非正常)关闭时
+           2    session过期/失效(默认30分钟)  ;
+session.invalidate():
+在web.xml中设置    <session-timeout>30</session-timeout>
+///单个配置在/web-inf/web.xml中配置session-config
+            从最后一次操作服务端的资源开始计时
+        作用范围:一次会话中
+
+
+```
+##cookie常用方法
+```
+getName()
+getvalue()
+setmaxage()//setMaxAge(0)有效路径必须一致(消除cookie时)//小心火狐浏览器
+setDomain():默认domain是连接的Domain
+setDomain(".csdn.net")以点开始
+域名的方向是从小到大
+跨子域
+setPath();//默认的path是连接的path
+sethttponly("true")
+
+
+
+
+```
+浏览器访问案例
+split ---String[] ---------Arrays.aslist([])-------list
+Arraylist --------查询快
+linkedlist -----增删快
+##购物车
+```
+交互方式
+淘宝:需要用户登录后,才能加入购物车:--session--数据cookie
+京东:不需要登录--也能加--cookie---session
+```
+session的持久化
+全页面刷新:<meta http-equiv="refresh"  content="5;url";
+session的序列化
+
+
+

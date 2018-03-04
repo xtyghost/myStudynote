@@ -1,0 +1,118 @@
+ 格式是一个可以写java代码的html
+jsp:java.server page(java服务器的页面)
+出现原因:弥补servlet的缺陷
+jsp=html+java代码+jsp自身的东西 ,,,,,,:在html中嵌入java代码
+php      asp(.net)-----在html中嵌入响应的语言
+servlet技术:在java代码中迁入html
+jsp脚本和注射
+jsp脚本
+         1<%java 代码%>:翻译到service方法内
+          2<%=java变量或表达式子>向页面输出值
+          3<%!java代码%>:代码被翻译到成员变量的位置
+##http注释<！--         -->;全都可见
+##java注释//   ,/**/   /***/:在java代码和jsp代码中可见
+##注释jsp:<%--注释内容%>只在jsp代码中可见
+## 工作 work 
+##在Tomcat种查找任何页面均由serlet帮忙找
+jsp指令(3个)
+##page指令
+```
+属性
+       language:jsp脚本中可以嵌入的语言
+      contentType 内容的类型编码格式编译后的编码                                
+      import
+      pageEncoding   当前文件的编码格式
+    session默认是否jsp在翻译时创建session
+     errorPage如果java代码写出后向哪里跳,当前页面出错时想哪里跳              为内部转发
+     iserrorPage 处理错误的页面     为内部转发
+配置全局错误页面/内部实质为转发
+include    页面的已引入//内部引用不是client请求
+
+
+taglib     :引入标签库(jstl标签库,Struts2的标签库)  
+<%taglib url=""  prefix=""%>
+
+
+```
+jsp内置/隐式对象(9个)------笔试
+##jsp脚本中的直接使用的对象    
+```
+java.lang.Throwable exception = org.apache.jasper.runtime.JspRuntimeLibrary.getThrowable(request);错误处理页面独有,封装错误信息(报错页面)
+
+out   用于页面输出 ,jspWriter;和response.getWriter()不是同一个对象
+requset
+response
+config
+session
+aplication                     Servletcontext  类型
+page                        当前对象Object类型,this引用
+pageContext                             jsp的页面容器 
+exception :想用要设置iserrorpage
+
+
+```
+Tomcat引擎默认从response缓冲区中获取内容
+jsp的数据默认写在out缓冲区里,
+out缓冲区默认8kb可设置为0(关闭),直接向response缓冲区写
+pageContext是域对象
+pageContext可以向其他区域中存取内容(servletcontext,session,requset):pageContext.常量
+pagecontext.findAttribute() -------------从小到到找,找到就停止,pagecontext<request<session<application
+
+
+pageContext可以获得其它八大隐式对象
+  例子:pageContext.getRequeset();
+ 四大域到作用:
+```
+ page域:当前jsp页面范围
+request域
+servletContext域
+session域
+```
+###jsp标签
+```
+页面包含(动态包含) :<jsp;include   page=""/>
+//静态包含 ;被引用对象不需要格式<html>和头等只需要体和开头标签
+静态包含:将两个jsp融合为一个然后编译允许
+动态转发,两个jsp都编译,
+2请求转发:<jsp:forward  page="要转发的资源"/>
+<jsp: forward page="/路径">
+<jsp:param value="  " name="name"/>
+</jsp:forward>
+<jsp:include :page=""  />动态包含
+
+
+``` 
+## 动态包含和静态包含
+```
+动态包含: jsp都编译;只拿结果,不能引用引用jsp的属性
+
+
+
+
+静态包含:完全copy,一起翻译一起输出
+
+
+```
+##EL
+```
+作用从四大域对象中取值:
+${pageContextScope.key}
+${requestScope.key};
+${sessionScope.key};
+${applicationScope.key};
+重要:$(key)==============findAttribute()
+
+
+```
+
+
+
+
+
+
+   
+
+
+
+
+                             

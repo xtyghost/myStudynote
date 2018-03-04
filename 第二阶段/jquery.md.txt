@@ -1,0 +1,94 @@
+
+
+#####必须绑定事件
+JQuery是一个JS的框架(JS的leiku)对传统JS进行流封装(常用在互联网开发)
+JS常用框架:JQruery,ExtJS,DWR,prototype
+##JQuery的加载
+```
+传统js页面加载事件只会之行一次
+JQuery的方式,相当于页面加载事件,但可以执行多次,效率比window.onload更高.
+window.onload等页面加载完成后执行该方法.
+$(function(){}):等页面的DOM树加载完成后进行执行
+$相当于JQuery对象
+```
+##JQuery和js的转换
+```
+**jquery对象不能直接使用js方法属性必须转换
+     $( d1).html("js对象转成JQ对象")
+转JS对象:
+ 方法一
+$d1[0].innerHtml="dfadfa";
+方法二
+$d1.get(0).innerHtml="dfasfdaf";
+```
+##JQ的效果操作:
+
+
+```
+*show();
+            使用一:Jq对象.show();
+            使用二:jq对象.show("slow");///slow,nomal,fast
+
+            使用三:JQ对象.show(毫秒值);//10000
+
+            使用四:JQ对象.show(毫秒值,function(){});
+
+hide();
+            使用一:Jq对象.hide();
+            使用二:jq对象.hide("slow");///slow,nomal,fast
+
+            使用三:JQ对象.hide(毫秒值);//10000
+
+            使用四:JQ对象.hide'(毫秒值,function(){});
+slideUp();---向上滑动
+slidedown()-向下滑动
+fadeIn();淡出
+fadeout();淡入
+animate()自定义动画
+toggle(fn1,fn2,fn3)绑定多个被轮流click的事件(单击切换函数)
+
+```
+##基本选择器
+```
+jscript的选择器
+并列选择器
+``` 
+##层级选择器(冒号需要紧贴)
+```
+后代选择器  空格
+子元素选择器  >
+下一个选择器  +(下一个同辈元素)
+兄弟选择器   ~
+
+
+```
+#属性选择器
+```
+例子$(input[name="张三"])
+        $(input[name])有name属性的input
+
+
+
+```
+###优点
+```
+页面的元素和js进行分离
+通过Id绑定事件因为是动态绑定需要在页面加载时绑定使用$(function(){}),或将jquey写在体中
+将对象提到script里,通过对象.方法()来实现
+和jscript一样一般解析对象和String
+```
+##JQuery的选择器
+```
+基本过滤选择器
+行从0开始
+odd偶数行
+even奇数行
+```
+##样式的添加和移除
+```
+如果没有实现定义可以用.css方法
+如果已经定义就不能使用css方法,要使用JQ中的css类中的方法
+*addClass();
+*removeClass();
+```
+

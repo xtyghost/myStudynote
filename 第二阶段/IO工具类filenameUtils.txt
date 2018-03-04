@@ -1,0 +1,14 @@
+FilenameUtilshuo类的方法
+static String getExtension(String  filename);获取文件的扩展名
+static String getName(String filename):获取文件名
+static Boolean isEXtension(String fileName,String ext):判断FileName是否以ext结尾,严格区分大小写
+static String readFileToString(File src)读取全文本,返回字符串
+
+
+readFileToString(File file) ：读取文件内容，并返回一个 String ；
+
+writeStringToFile(File file ， String content) ：将内容 content 写入到 file 中；
+
+copyDirectoryToDirectory(File srcDir,File destDir); 文件夹复制
+
+copyFile(File srcFile,File destFile); 文件夹复制

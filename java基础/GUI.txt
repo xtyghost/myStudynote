@@ -1,0 +1,9 @@
+GUI
+         graphical user Interface 图形用户接口
+CLI   
+        command line User Interface 命令行用户接口
+
+java 为GUI提供了对象都存在java.awt 和javax.Swing两个包下
+java.awt :abstract window ToolKit
+javax.swing ;
+布局方式:.....

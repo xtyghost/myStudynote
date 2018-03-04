@@ -1,0 +1,107 @@
+JDBC 就是一套API,就是sun定义类或者是接口
+JDBC 开发步骤     1注册驱动
+
+                class.forname('com.mysql.jdbc.Driver");//导入mysql的jar包后可操作,该实现类有数据库厂商提供
+    2获得连接
+
+加载驱动的准备
+四大要素:String driverClassName="com.mysql.jdbc.Driver";
+                String  url="JDBC :mysql://localhost:3306/mydatabase";
+
+                String name="root";
+
+                String password="123456";
+
+
+
+
+         static Connection getConnection(String url, String  user,String password)
+
+         返回值时Connection 接口的实现类,在mysql程序
+
+         url:数据库地址 jdbc :mysql://连接主机IP :端口号//要使用的数据库名
+
+          Class . forName ( "com.mysql.jdbc.Driver" ) ;
+     String   url = "jdbc:mysql://localhost:3306/myfirstdatabase" ;
+     String   user = "root" ;
+     String   password = "123456" ;
+严格按照格式写不然会报错
+     Connection   con   = DriverManager . getConnection ( url ,   user ,   password ) ;      System . out . println ( con   ) ;
+
+
+    3获得语句执行平台
+
+    使用Connection对象来调用 Statement createStatement()获取执行语句对象
+    Statement state=con.createStatement();
+    4执行sql语句
+
+通过执行对象调用方法 con.execureUpdate(sql语句 );//适用于增删改,不适用于查询
+int row =state.executeUpdate("INSERT INTO use1(uname,umoney) VALUES ('nancy',1000),('jonane',500);")
+preparedStatement类
+Statement 类
+
+
+
+
+
+    5  处理结果
+
+executeQuery()查询返回ResultSet集合,
+ResultSet对象.next判断是否还有元素
+ResultSet 对象 .getObject( );//其中可以放String 类型和int类型( 请中int 为列号从1开始 )
+ResultSet 对象 .getint( );
+
+ResultSet 对象 .getString( );//获取集合元素
+
+executeUpdate()增加,删除,修改//返回修改语句的数量
+ResultSet对象.getObject(int );     6   释放资源
+    state.close();
+
+     con.close(); 
+    resultSet对象.close();
+
+
+
+
+
+
+
+
+Connection: deregisterDriver(Driver driver);删除指定的驱动程序
+                    getConnection(String url,String user,String password);
+
+注入攻击利用Statement的缺陷 preparedStatement预编译声明,是Statement接口的子接口 ent对象
+SQL 语句被预编译并存储在   PreparedStatement   对象中。然后可以使用此对象多次高效地执行该语
+
+1调用setxxx()方法设置Sql模版中的
+获取连接
+2准备模版SQL,案例:String sql="insert into emp(ename,job) values(?,?);
+3调用Connection对象获取preparedStatem 占位符(?)
+占位符(?)只能占记录的数据的位置
+
+
+
+
+预处理原理:
+        前提:连接的数据库必须支持预处理,
+
+        先编译,拿到数据后直接运行
+
+ResultSet重要方法ResultSet.getMetaData()返回ResultSetMetaData对象
+                            next()将光标移到下一行
+
+
+
+
+
+
+
+
+
+
+
+                   
+
+                    
+
+                    

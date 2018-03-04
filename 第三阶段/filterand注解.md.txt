@@ -1,0 +1,223 @@
+过滤器可以过滤从客户端向服务器发送的请求
+javax.servlet包
+dofilter(servletRequest  request,ServletResponse response,Filter chain)
+chain放行
+
+
+配置过滤器:
+filter生命周期
+服务器创建时创建
+项目被移除时销毁
+filterChain过滤器链方法dofilter()放行
+dofilter()前面是提交时的执行的程序,后面是响应时执行的语句!!!!!!!!!!!!!!!!
+过滤器链中过滤器执行的顺序与<filter-mapping>配置顺序有关
+<servlet-name>配置;根据servlet的名称来拦截servlet
+dispatcher转发者(设置过滤的方式)
+```
+REQUEST:默认值
+FORWOARD:转发<dispatcher>forward<dispatcher>
+INCLUDE        :包含
+ERROR     :错误跳转页面(全局的)
+response.(一个页面内)只能被提交一次(转发,重定向一次,放行)
+cookie不可以存中文(编码后在存)
+```
+##乱码解决
+```
+requeset.getparameterMap()会被servlet缓冲
+第二次调用时要加判断
+
+
+```
+
+
+注解@
+```
+注解:
+给虚拟机看,(让虚拟机看到程序中的注解,注解代表 一些 程序特定功能的)
+注释;给程序员看
+```
+JDK中提供的注解
+```
+@override                   ;描述子类重写父类的方法
+JDK1.5                          ;只能用在类的集成上
+JDK1.6                          ;可以用在类的实现上
+@SuppressWarnings("all")压制所有警告信息
+@Deprecated:不鼓励使用
+```
+
+自定义注解
+```
+public @interface定义一个注解
+@interface    anno1{       }
+@interface    anno2{ 
+ int a(); default  2;默认为2
+  boolean   flag();
+  String s();  }
+
+赋值 @anno1(flag=true)
+注意注解属性的类型:基本数据类型,枚举类型,class类型,注解类型,String ,以上数据类型的一维数组.
+枚举 enum   Color{
+   RED,BLUE,BLACK,YELLOW;
+
+}
+注解里只要使用一个value的属性,在使用注解时可以不写value直接赋值
+注解存在时间:默认只存在源代码阶段
+获取测试类的class
+获取方法,获取有注解的方法
+invoke()
+源注解:专门修饰注解
+@Retention();设置注解存在阶段(RententionPolicy.SOURCE/CLASS/RUNTIME)
+@Target();表示适用类型(ElementType.TYPE/FIELD/METHOD/PARAMETER)
+注解一以属性方式携带数据
+自定义注解必须结合反射让注解有意义
+class
+method
+flied
+parameter
+
+
+
+
+```
+注解开发
+servlet3.0
+@webServlet
+@weblistener
+@webfilter排序有filter的类名自然排序决定(如果在webxml也配了会产生两次注册)
+```
+文件上传,注解开发,异步请求
+jspSmartUpload:嵌入到jsp中上传文件,model1
+fileUPload         :apache文件上传
+Struts2             底层fileupload
+```
+文件上传要素
+```
+提交方式post
+表单中需要有文集上传的表单元素;<input  type="file" name="upload">
+表单的enctype属性必须是multipart/form-data
+--boundary 开始
+--bounday--结束
+通过getpart(name)得到上传文件的那部分
+   通过part  完成文件的操作,获得所有属性
+解决文件同名问题uuid
+解决一个文件夹下存储过多文件,打开写入过慢问题
+目录分离:
+时间分,用户分,数量分
+目录分离的算法分:
+
+
+利用唯一文件名hashcode--int类型
+     int   code   =   uuid . hashCode () ;
+         int   code1   =   code   &   0xF ;
+         //右移四位
+         code   =   code   >>>   4 ;          int   code2   =   code   &   0xF ;
+
+
+
+```
+@WebServlet (urlPatterns="/ServletDemo")必须tomcat1.7以上的版本
+@serveltContextlistener
+异步请求:@webServlet(urlPatterns="/A",asycSupported=true)
+想要使用servlet3.0异步请必须设置asycSuppoted=true让所有有关文件均支持异步请求
+request.startAsync(request,response)开启异步的请求线程
+////////////////////////////////////context.complete()告知容器任务完成
+
+
+##动态代理 
+```
+方法增强的的方法
+继承:控制这个类的构造(你得到类的名字,万一这个类构造私有那?)
+装饰者:增强的类和被增强的类实现同一个接口,增强的类可以得到被增强的类的引用
+动态代理:被增强的类实现了接口,,,,,,,,代理只能代理被代理对象的方法
+jdk的动态代理依靠java.lang.reflect.Proxy
+重要方法newProxyInstance(ClassLoader loader,Class<?>[]  interfaces,InvocationHandler H>;                             :该方法的返回值只可以以被转成接口类(方法返回类型为接口的一种实现类)内部为反射 ,(创建了一个接口的子类对象)
+
+
+```
+//企业应用代理
+```
+1Spring的AOP:
+AOP底层使用代理机制;面向切面的编程:新的思想
+ocp开闭原则:允许扩展但不允许,修改类本身
+ioc控制反转invoce of control
+工厂类模式:工厂专门用来修改,创建的方法
+通过配置文件对类进行解析创建
+```
+类加载器
+```
+引导类加载器:                            java_home/jre/lib/rt.jar--------runtime
+
+
+扩展类加载器:                              java_home/jre/lib/ext/*.jar  
+extract                
+
+
+应用类加载器                              加载类路径下的class
+bin------src
+如何保证类加载只加载一次:全盘负责委托机制(双亲)
+```
+baseServlet-----------------模板设计模式
+邮件的收发
+```
+发邮件协议SMTP   (simple mail transfer protocol)    默认端口25
+收邮件协议POP3      (post  office  protocol-  version3);邮件协议版本3   默认端口110
+收邮件协议IMAP      (internet   mail  Access  Protocol)internet 邮件访问协议
+
+
+
+
+
+
+
+
+```
+缓冲的技术
+```
+EhCahe                 ---hebernate的二级缓存
+Mencached           ---只支持内存缓存,不支持硬盘缓存
+Redis
+memoryStoreLocalHeap:堆内存(受到gc的影响)
+eternet        --是否常住内存
+如果eternal为false时那么内存有效时间由timeToIdelSecond和timeToLiveSecond决定
+diskePersistent服务关闭后数据是否存在
+  diskExpiryThreadIntervalSeconds = "120"扫描时间
+
+memoryStoreEvictionPoliy轻元素的算法
+LRU最近最少使用
+LFU最少使用
+FiFO先进先出
+
+
+
+
+```
+使用缓冲
+```
+1;引用ehcache的包
+2; 
+用法(一般在service层)
+创建缓冲管理者
+CacheManager.create("配置文件的name或inputStream")//web项目用流的方式,因为文件相对于tomcat的bin
+从缓冲管理者中获取特定name的缓冲区
+cache.getobjectvalue()
+因为可能要存入硬盘上所有javaBean要serializable
+//从encach缓存中去除缓存的方法
+cache.remove("")
+```
+多表:一对多的关系在表用通过外键的方式描述,开发语言java面向对象
+Hibernate 框架:ORM的DAO层框架  ORM:Object--Relational-Mappling对象关系映射   
+//根据不同的国家对date转换成string
+new DateConverter().uselocalformat(true)
+##支付的
+```
+电子签名:支付时使用秘钥和加密算法形成以hmac代表你的身份  ,银行接受到你的信息后用相同的秘钥和加密算法形成hmac码,然后比对两个hmac码是否相同
+
+
+
+
+
+
+
+
+```
+

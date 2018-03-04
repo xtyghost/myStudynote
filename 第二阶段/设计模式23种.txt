@@ -1,0 +1,35 @@
+单例设计模式(保证类的对象的唯一性)
+:饿汉式,
+public class single1{
+    private single1(){}
+    private static  final single1 sg=new single1();
+    publice static single1 getinstance(){
+        return sg;
+    }
+}
+
+
+懒汉式
+public class single2{
+    private single2(){}
+
+    private static single2 sg;
+
+     public static single2 getinstance(){
+            if(sg==null){
+
+                    synchronized( single2.class){
+
+                            if(sg==null)
+
+                                sg=new single2();
+                    }   
+                     }
+   return sg;       
+   }
+}
+
+
+
+
+简单工厂设计模式:将所有的`创建对象功能交给一个工厂实现,从工厂拿对象

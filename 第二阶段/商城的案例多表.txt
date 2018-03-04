@@ -1,0 +1,52 @@
+数据库
+##一对多的设计原则
+```
+交叉连接:笛卡尔积
+内链接  
+显示内链接select * from table1 inner join table2 on table1.id=table2.id
+隐式内链接select * from table1,table2 where table1.id=table2.id
+外联接
+左外联接select  * from a left outter join b on a.id=b.id
+右外连接:right outer join
+
+
+```
+外键保证数据的完整性 * alter table orders add foreign key (cid) references customer(cid);
+主键标识数据
+
+
+商城中的模型分析
+
+
+
+
+资源关闭过程中如果对象为null系统将会尽快对它进行回收
+
+
+方法测试junit :直接在想要测试的方法前加@Test///注意使用前需要导包(测试方法必须共有,没有返回值,没有参数)
+url当主机是本机时可以这么写jdbc:mysql:///databasename;
+##connetion //获得连接
+```
+                createStatement()创建一个sql语句的执行对象
+
+                prepareStatement(String sql):创建一具有预编译功能的sql语句执行对象
+
+                prepareCall(String sql)创建一个callableStatement对象用存储数据库的存储过程
+
+事物的管理;setAutoCommit设置是否自动提交,commit ;rollback()回滚数据
+   ```
+##Statement
+```执行sql语句
+执行批处理
+                addBatch(String sql)
+                  clearBatch()//用与防止数据溢出
+
+                 excuteBatch()执行    
+```
+使用连接池来改造jDBC工具类
+传统JDBC操作,对连接的对象销毁的操作不是特别号,每次创建和销毁都需要花费时间
+##增强一个java类中的某个方法
+```
+方法一:继承的方式:重写覆盖//在连接池中不用(你不是数据库厂商)
+方式二:修饰者模式
+方式三动态代理

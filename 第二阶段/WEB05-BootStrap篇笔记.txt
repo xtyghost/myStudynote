@@ -1,0 +1,910 @@
+第 5 章 WEB05 - BootStrap 篇
+
+今日任务
+
+Ø   使用 JQuery 完成表单校验
+
+Ø   使用 BootStrap 制作一个响应式页面
+
+Ø   使用 BootStrap 制作网站首页
+
+ 
+
+教学导航
+
+
+ 教学目标
+
+ 掌握什么是响应式及响应式原理
+
+ 掌握 BootStrap 的栅格系统
+
+ 了解 BootStrap 的其他组件及 JS 控件
+
+
+ 教学方法
+
+ 案例驱动法
+1.1 上次课内容回顾：
+
+JQuery ：
+
+* JQuery 的概述：是一个轻量级的 JavaScript 的类库 . 对 JS 进行封装 .
+
+* 常见的 JS 的框架：
+
+    * JQuery ， ExtJS ， DWR ， Prototype...
+
+* JQuery 的使用 :
+
+    * 引入 JQuery 的 JS.
+
+    * window.onload 和 $(document).ready(function(){}); 区别 ?
+
+        * onload 页面加载完成后才会执行 . 执行一次
+
+        * ready 在页面的 DOM 树绘制完成就会执行 . 执行多次 .
+
+    * JS 对象与 JQuery 对象的转换 .
+
+        * JS-->JQuery: $(JS 的对象 )
+
+        * JQuery-->JS: JQ 对象 .get(0), JQ 对象 [0]
+
+* JQuery 的选择器： (*****)
+
+    * 基本选择器：
+
+        * ID 选择器，类选择器，元素选择器，通配符选择器，选择器并列 .
+
+    * 层级选择器：
+
+        * 空格 ,> ,+ ,~
+
+    * 过滤 :
+
+        * :first,:last,:eq(),:even,:odd...
+
+    * 属性选择器 :
+
+        * [ 属性名 ],[ 属性名 =’ 属性值 ’]...
+
+    * 表单选择器 :
+
+        * :input,:text,:password,:radio...
+
+    * 可见性 :
+
+        *
+
+    * 表单对象属性：
+
+        * :checked,:selected,:enable,:disable
+
+* JQuery 实现效果 :
+
+    * show(),hide(),slideDown(),slideUp(),fadeIn(),fadeOut(),animate()
+
+* JQuery 样式操作 :
+
+    * css();
+
+* JQuery 属性操作的方法 :
+
+    * attr(),removeAttr(),prop(),removeProp(),html(),text(),val(),addClass(),removeClass()
+
+* JQuery 文档处理 :
+
+    * append(),appendTo(),insertBefore(),insertAfter(),remove(),clone(),replaceAll()
+
+* JQuery 的事件 :
+
+    * click(),change(),submit(),dblclick(),keyUp(),keyDown()...
+
+    * toggler(),hover() --- 进行事件的切换 . 1.2 案例一：使用 JQuery 完成表单校验： 1.2.1 需求：
+
+之前使用 JS 做过表单的校验 , 表单校验对于后台的开发人员比较重要的 . 使用 JQ 完成一个复杂点表单的校验 .
+
+1.2.2 分析： 1.2.2.1   技术分析：
+
+【 JQuery 的查找】
+
+
+
+* find();  
+
+* parent();
+
+* children();
+
+【 JQuery 的事件处理】
+
+
+
+* trigger 和 triggerHandler 区别 : 1.2.2.2   步骤分析 :
+
+【步骤一】：引入注册页面
+
+【步骤二】：引入 JQ 的 js.
+
+【步骤三】：为必填项添加一个 *
+
+【步骤四】：获得表单中的所有的输入项 , 为所有的输入项添加一个 blur 事件 .
+
+【步骤五】：判断当前输入项是什么 ( 用户名，密码，邮箱 )
+
+【步骤六】：为不同的输入项做不同的校验 .
+
+【步骤七】：为表单元素添加一个 submit 事件 .
+
+【步骤八】：执行之前的 blur 函数 . 查找错误信息的长度 , 如果长度 >0 有错误 不能提交 . 1.2.3 代码实现：
+
+    // 表单校验的操作
+
+            $(function(){
+
+                // 步骤一：为必填项添加一个 *.
+
+                $("form input.required").each(function(){
+
+                    // 获得他的父元素：
+
+                    $(this).parent().append("<b class='high'> *</b>");
+
+                });
+
+               
+
+                // 步骤二：获得所有的输入项 , 为输入项添加一个 blur 事件 .
+
+                $("form input").blur(function(){
+
+                   
+
+                    // 获得该元素的父元素：
+
+                    var $parent = $(this).parent();
+
+                   
+
+                    // 将原有的信息清除掉 .
+
+                    $parent.find(".formtips").remove();
+
+                   
+
+                    // 确定点击的输入项是谁 ?
+
+                    if($(this).is("#username")){
+
+                        // 判断用户名是否为空 :
+
+                        if(this.value == ""){
+
+                            // 向文本框后添加一个错误提示 .
+
+                            $parent.append("<span class='formtips onError'> 用户名不能为空 </span>");
+
+                        }else{
+
+                            // 向文本框后添加一个正确提示 .
+
+                            $parent.append("<span class='formtips onSuccess'> 用户名输入正确 </span>");
+
+                        }
+
+                    }
+
+                   
+
+                    if($(this).is("#password")){
+
+                        // 判断用户名是否为空 :
+
+                        if(this.value == ""){
+
+                            // 向文本框后添加一个错误提示 .
+
+                            $parent.append("<span class='formtips onError'> 密码不能为空 </span>");
+
+                        }else{
+
+                            // 向文本框后添加一个正确提示 .
+
+                            $parent.append("<span class='formtips onSuccess'> 密码输入正确 </span>");
+
+                        }
+
+                    }
+
+                }).keyup(function(){
+
+                    $(this).triggerHandler("blur");
+
+                }).focus(function(){
+
+                    $(this).triggerHandler("blur");
+
+                });
+
+               
+
+                // 为表单添加一个 submit 事件 .
+
+                $("form").submit(function(){
+
+                    // 执行表单中 blur 事件 .
+
+                    $("form :input").trigger("blur");
+
+                    // 获得错误信息的长度 .
+
+                    var errorLength = $(".onError").length;
+
+                    if(errorLength > 0){
+
+                        return false;
+
+                    }
+
+                });
+
+            }); 1.3    案例二：使用 BootStrap 设计一个 响应式 的页面： 1.3.1 需求：
+
+设计一套页面能够通用在不同的设备上 , 在手机 ,pad 上 , 电脑上都可以浏览这个网页 , 而不影响正常的浏览的方式 . 1.3.2 分析： 1.3.2.1   技术分析：
+
+【 BootStrap 的概述】
+
+Ø 什么是 BootStrap
+
+
+
+Ø BootStrap 可以在那些地方使用 :
+
+BootStrap 设计出响应式页面 , 由它设计页面可以在手机 ,PAD,PC 都可以直接访问 .
+
+Ø BootStrap 的使用 :
+
+下载 BootStrap:
+
+http://www.bootcss.com
+
+
+
+引入的文件
+
+
+
+添加一个 <meta> 标签：
+
+
+
+【 BootStrap 的全局 CSS 】
+
+BootStrap 的框架提供了一系列的 CSS 的样式 . 这些样式可以直接使用 .
+
+Ø 布局容器：
+
+
+
+ 
+
+Ø 栅格系统
+
+Bootstrap 提供了一套响应式、移动设备优先的流式栅格系统，随着屏幕或视口（ viewport ）尺寸的增加，系统会自动分为最多 12 列。它包含了易于使用的 预定义类 ，还有强大的 mixin 用于生成更具语义的布局 。
+
+使用 .row 样式定义栅格的行 .
+
+定义列： .col-lg-n .col-md-n  .col-sm-n   .col-xs-n
+
+
+
+Ø 排版：
+
+浏览必须用支持html的浏览器
+
+
+
+
+
+
+
+
+
+【 BootStrap 的组件】
+
+ 
+
+【 BootStrap 的 JS 的插件】
+
+ 
+
+  1.3.3 代码实现
+
+  1.4 案例三：使用 BootStrap 布局首页 1.4.1 需求：
+
+1.4.2 分析： 1.4.2.1   技术分析：
+
+【 BootStrap 的组件和 JS 的插件】
+
+  1.4.2.2   步骤分析：
+
+【步骤一】：定义一个外层 div 元素
+
+【步骤二】：定义里层 8 个 div
+
+【步骤三】：为每层中的 div 添加元素 . 1.4.3 代码实现：
+
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        <!-- 根据设备宽度，调整缩放比例 -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title> 网站首页 </title>
+
+        <!-- 引入 BootStrap 的 CSS -->
+
+        <link rel="stylesheet" href="../css/bootstrap.min.css" />
+
+        <link rel="stylesheet" href="../css/bootstrap-theme.min.css" />
+
+        <!-- 引入 JS-->
+
+        <script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
+
+        <script type="text/javascript" src="../js/bootstrap.min.js" ></script>
+
+       
+
+    </head>
+
+    <body>
+
+        <!-- 整体 div-->
+
+        <div class="container">
+
+            <!--Logon 部分 DIV-->
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <img src="../img/logo2.png" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <img src="../img/header.png" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <a href=""> 登录 </a>
+
+                    <a href=""> 注册 </a>
+
+                    <a href=""> 购物车 </a>
+
+                </div>
+
+            </div>
+
+            <!-- 导航条部分 DIV-->
+
+            <div class="row">
+
+                <nav class="navbar navbar-default">
+
+                  <div class="container-fluid">
+
+                    <!-- Brand and toggle get grouped for better mobile display -->
+
+                    <div class="navbar-header">
+
+                      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+
+                        <span class="sr-only">Toggle navigation</span>
+
+                        <span class="icon-bar"></span>
+
+                        <span class="icon-bar"></span>
+
+                        <span class="icon-bar"></span>
+
+                      </button>
+
+                      <a class="navbar-brand" href="#"> 首页 </a>
+
+                    </div>
+
+               
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                      <ul class="nav navbar-nav">
+
+                        <li class="active"><a href="#"> 手机数码 <span class="sr-only">(current)</span></a></li>
+
+                        <li><a href="#"> 电脑办公 </a></li>
+
+                        <li><a href="#"> 电脑办公 </a></li>
+
+                        <li><a href="#"> 电脑办公 </a></li>
+
+                        <li><a href="#"> 电脑办公 </a></li>
+
+                        <li class="dropdown">
+
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 更多 <span class="caret"></span></a>
+
+                          <ul class="dropdown-menu">
+
+                            <li><a href="#">Action</a></li>
+
+                            <li><a href="#">Another action</a></li>
+
+                            <li><a href="#">Something else here</a></li>
+
+                            <li role="separator" class="divider"></li>
+
+                            <li><a href="#">Separated link</a></li>
+
+                            <li role="separator" class="divider"></li>
+
+                            <li><a href="#">One more separated link</a></li>
+
+                          </ul>
+
+                        </li>
+
+                      </ul>
+
+                      <form class="navbar-form navbar-right" role="search">
+
+                        <div class="form-group">
+
+                          <input type="text" class="form-control" placeholder="Search">
+
+                        </div>
+
+                        <button type="submit" class="btn btn-default">Submit</button>
+
+                      </form>
+
+
+
+                    </div><!-- /.navbar-collapse -->
+
+                  </div><!-- /.container-fluid -->
+
+                </nav>
+
+            </div>
+
+            <!-- 图片轮播部分 DIV-->
+
+            <div class="row">
+
+                <!-- 图片的小点儿 -->
+
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+                  <!-- Indicators -->
+
+                  <ol class="carousel-indicators">
+
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+
+                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+
+                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+
+                    <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+
+                  </ol>
+
+               
+
+                  <!-- 图片 -->
+
+                  <div class="carousel-inner" role="listbox">
+
+                    <div class="item active">
+
+                      <img src="../img/bartlesvillecf.jpg" >
+
+                      <div class="carousel-caption">
+
+
+
+                      </div>
+
+                    </div>
+
+                    <div class="item">
+
+                      <img src="../img/okwu-athletics.jpg">
+
+                      <div class="carousel-caption">
+
+
+
+                      </div>
+
+                    </div>
+
+                    <div class="item">
+
+                      <img src="../img/okwu.jpg">
+
+                      <div class="carousel-caption">
+
+
+
+                      </div>
+
+                    </div>
+
+                    <div class="item">
+
+                      <img src="../img/emancipation.jpg">
+
+                      <div class="carousel-caption">
+
+
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+               
+
+                  <!-- 图片左右选择 -->
+
+                  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+
+                    <span class="sr-only">Previous</span>
+
+                  </a>
+
+                  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+
+                    <span class="sr-only">Next</span>
+
+                  </a>
+
+                </div>
+
+            </div>
+
+            <!-- 最新商品部分 DIV-->
+
+            <div class="row">
+
+                <div >
+
+                    <h3> 最新商品 <img src="../img/title2.jpg"></h3>
+
+                </div>
+
+                <div >
+
+                    <div class="col-md-2" style="padding: 0px;height: 440px;">
+
+                        <img src="../img/big01.jpg" width="100%" height="100%"/>
+
+                    </div>
+
+                    <div class="col-md-10">
+
+                        <!-- 第一行 -->
+
+                        <div class="row" >
+
+                            <div class="col-md-6" style="height:230px;padding: 0px;">
+
+                                <img src="../img/middle01.jpg" height="100%" width="100%"/>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small01.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small02.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small03.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                        </div>
+
+                        <!-- 第一行 -->
+
+                        <div class="row">
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small01.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small02.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small03.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small01.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small02.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small03.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- 广告部分 DIV-->
+
+            <div class="row">
+
+                <img src="../img/ad.jpg" width="100%"/>
+
+            </div>
+
+            <!-- 热门商品部分 DIV-->
+
+            <div class="row">
+
+                 <div >
+
+                    <h3> 热门商品 <img src="../img/title2.jpg"></h3>
+
+                </div>
+
+                <div >
+
+                    <div class="col-md-2" style="padding: 0px;height: 440px;">
+
+                        <img src="../img/big01.jpg" width="100%" height="100%"/>
+
+                    </div>
+
+                    <div class="col-md-10">
+
+                        <!-- 第一行 -->
+
+                        <div class="row" >
+
+                            <div class="col-md-6" style="height:230px;padding: 0px;">
+
+                                <img src="../img/middle01.jpg" height="100%" width="100%"/>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small01.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small02.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small03.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                        </div>
+
+                        <!-- 第一行 -->
+
+                        <div class="row">
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small01.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small02.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small03.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small01.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small02.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <img src="../img/small03.jpg" />
+
+                                <center><p> 豆浆机 </p>
+
+                                <p style="color:red"> ￥ 299</p></center>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!--footer 部分 DIV-->
+
+            <div class="row">
+
+                <img src="../img/footer.jpg" width="100%"/>
+
+            </div>
+
+            <!-- 链接及关于我们部分 DIV-->
+
+            <div class="row">
+
+                <center>
+
+                   
+
+ 
+
+    关于我们 联系我们 招贤纳士 法律声明 友情链接 支付方式 配送方式 服务声明 广告声明 <br/>
+
+ 
+
+Copyright © 2005-2016 传智商城 版权所有
+
+                </center>
+
+            </div>
+
+        </div>
+
+    </body>
+
+</html>
+
+ 
+
+ 

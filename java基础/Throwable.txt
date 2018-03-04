@@ -1,0 +1,14 @@
+getMessage();输出throwable的详细字符串
+printStackTrace();提供堆栈跟踪信息
+toString();输出Throwable的简述
+处理异常的方法:throws 类名,类名.                   
+       try{}catch(Exception e){ }finally{一定会被执行;关流,处理垃圾}
+     try(){}catch(Exception e){ }finally{}//,在try(AutoColseable c )内的数据会自动被关流
+异常分类:
+                运行时异常:RuntimeException的子类就是运行时异常,编译时可以自由选择处理或不处理
+
+                编译时异常:编译时必须处理是Exception中 非RuntimeException的子类
+            NullPointException:在引用数据类型值为NULL时调用方法时抛出
+
+父类中的方法没有抛异常,子类覆盖是也不能抛否自则不是重写
+一旦发生异常除非被处理否者程序终止

@@ -1,0 +1,182 @@
+
+ 类型 detial
+ int  整型
+
+
+
+
+
+
+ double 浮点型
+
+
+
+
+
+
+ varchar 字符串类型
+
+
+
+
+
+
+ date 日期类型,格式为yyyy-MM-dd,只有年月日,没有时分秒
+
+
+
+
+
+
+MYSQL Oracle DB2 SQLServer SyBase SQLite 结构化查询语言(Structured Query Language) 是一种数据查询和程序设计语言,用于存储数据以及查询,更新和管理关系数据库系统
+创建数据库:create database name(可选character set 编码字符集)
+查询数据库: show databases ;
+查询某个数据库的定义信息:show create database 数据库名
+删除数据库:drop database name;
+切换数据库:use databasename 查看正在使用的数据库:select database( );
+创建数据库表格式:create  table 表名( 字段名 (列名)   datatype(length) 
+ primary) primary 的functions:limet what should be writed or can't be writed
+primary的类型:1主键约束2非空约束3唯一约束4外键约束
+定义
+数据库是存储数据的仓库,本质是一个文件系统,数据按照特定的方式存储起来,用户可以对数据进行,增删改查.
+类---------表
+类中属性----------表中字段
+对象-----------记录
+开启方式登录方式 ctr+r-------------net start mysql ---------关闭------net stop mysql
+ctr +r------------cmd-----mysql--uroot-ppassword mysql----host=127.0.0.1---------user=root--password=root
+                         SQL通用语法                
+                          SQL语句可以单行或多行属性,以分好结尾
+                    使用空格和缩进增强语句可读性
+                    MySQL数据库的SQL语句不区分大小写,建议大写
+注释:/**/通java多行注释
+数据类型
+int
+varchar(length)字符串 .除数字意外,均用'   '包起来
+double
+date YYYY-MM_DD只有年月日没有时分秒
+数据库的操作 show drop select use
+create database   name;//CREATE DATABASE mydatabase
+create database   name     character set 字符集(解析方式)//CREATE DATABASE mydatabase   CHARACTER  SET  gbk;
+查询数据库:  show databases;
+查询指定数据库 ;  show create database      name;
+删除数据库:drop database name //drop在删除属性时还用因此要指定删除对象类型
+使用数据库: use name        //use只在此处使用
+查看正在使用的数据库:select database();//select也会在查表中数据数使用 数据库中表的操作: alter delete from insert into    add      drop
+要明确修改的类型 table
+创建表:create table name(
+数据类型(datatype) ,       //可以加主键: 约束 PRIMARY KEY  AUTO_INCREMENT
+datatype ,以逗号结尾
+datatype  最后一句不用逗号
+)
+约束
+create table 表名(
+        列名  类型(长度) 约束
+
+           列名  类型(长度) 约束
+
+)
+限定约束所在类的数据,
+约束的类型:
+            主键约束,最后指定primary key(key);或者在想要指定的字段后加primary key//主键一般自动增                                            长:auto_increment(只适用于MySQL)
+
+              非空约束:  not null
+
+             唯一约束;
+              外键约束
+
+
+代码的保存,sql不保存.已经操作了
+SQLyog中ctr+s保存
+主键用于标识(不具有含义) 特点 非空,唯一
+主键的删除:alter    table   表名 drop primary key;
+查询数据库中的表
+查询表名:show tables
+查询表的结构:desc  表名:
+修改表的结构:
+添加:
+alter table 表名 add 列名 type(长度) 约束:
+修改 表中列(类型) aler  table  表名 modify 列名 newtype(length) 约束
+修改 表中列(name) alter  table 表名 change oldname  newname 约束;
+删除列: alter table 表名 drop 列名;
+修改表名:rename table  表名to new表名
+修改表的字符集
+alter  table  表名  character set 编码表;
+删除 表 drop table 表名; 表中数据的修改
+
+
+添加:
+        insert into 表名(列名,列名...) values (值,值...........) 
+
+        insert into 表名 values (列,列..),(值,值...);
+
+        insert into 表名 (不用包含主键) value(不用包含主键);
+更新数据
+update 表名 set  列名=newdata ,列名=newdata;全部设置
+update  表名 set 列名 =newdata ,列名=newdata where id="行号"(确定具体位置)
+修改时 类型要一致 ,不可以超限,varchar类型''
+删除
+delete from 表名 where 条件(确定位置)//不会重置主键
+truncate table 重置表 命令行乱码
+dos命令行的默认编码表为GBK
+mysql为utf8
+method1(暂时)
+set character  set results=gbk;
+set names gbk; 数据表和测试数准备//不修改数据库
+查询表
+        select  字段,..........from 表名;//从指定表中读取数据
+
+        select    *from 表名//好简便
+
+        select distinct  字段 from 表名;//将筛选后的字段去重打印
+          别名查询 as关键字(as 可省略)
+         select *from as 别名
+
+        select 列名 from as 别名(在显示时将列名改为别名(不改变数据库))
+
+        对列进行运算操作  
+
+           select  列名+1000 from 别名(显示时美观不然会有+1000)
+
+   数据查询标准格式: select 列名 from 表名  where  条件;
+
+while 的条件种类:
+     比较运算符:
+       <   >   <=   >=       =  <>--------------------------------------------<>为不等于
+        between             ..............................            and................ 显示特定区域的值(包含头尾)
+
+        IN-----------------------in(100,200)表示100或200
+
+        like 模糊查询-----------------------------------like 语句中的通配符:%多个(任意字符)  案例 'a%';
+
+                                                                                                        _用来匹配一个字符  案例 'a_';
+
+            is null   是否非空------------------is null 判断为空,,,,,,,,,,,,is not null 判断非空
+
+        and -----------------相当于&&多个条件同时成立
+
+or -------------相当于||成立一个即可
+not  ------------不成立相当于
+数据列表排序(放在语句的最后)
+order by 列名[asc]升序(默认升序)可以不写
+order by 列名 [desc ] 降序
+案例select 列名 from 表名 order by 列名 DESC 或asc
+查询账务表时一定要先过滤在排序 注意sql语句求横向的和时null值不会当0而是null,null加任何值均为null 聚 合函数(统计列的数据)//
+
+
+count 统计指定列不为null的数据的次数//但是count(*)统计的是记录(不会因为,其中属性为空而不计算)默认long类型
+sum 对一组数据进行求和,非数字数据按0计算
+max
+min
+avg 求平均值;为null的值不列入计算 分组查询:
+                     group by 案例 select 列名,列名....(列名的先后代表显示的先后)from 表名,groub by 列名 having  条件.
+                    分组中的having语句,用在分组后对数据进行过滤,作用类似where
+
+                    having 和where 的区别
+
+                        having 在分组后对数据进行过滤
+
+                        where 在分组前对数据进行过滤
+
+                        having 后可以使用分组函数与group by 一起使用
+
+                        where 后不可以使用分组函数

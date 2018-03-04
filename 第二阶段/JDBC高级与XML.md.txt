@@ -1,0 +1,106 @@
+#元数据
+```
+datasourcmetadata
+*获得数据库元数据:connection中的getMetadata();
+
+
+parametermetadata
+获得参数元数据:preparedStatement中的getParameterMetaDate()
+resultsetmetadata
+获得结果集元数据:resultSet中的getMeta()
+```
+system.err.print();//打印红色异常
+xml可扩展的标记标记语言(可以自定意义标签)
+xml作用:传输和存取数据
+                软件的配置文件:数据格式清晰
+
+###xml
+```
+文档声明:*<?xml  属性名="属性值"    属性名="属性值"....... ?>
+                    *version     :必须 使用"1.0"(一般)//必须第一行第一列 
+
+                       *encoding           :字符集,浏览器打开所采用的字符集的编码
+
+                    *standalone  :描述xml文档是否依赖其它文件
+
+注释<!-- xml的注释 -->
+xml命名规则
+   名称中不能有(:)
+名称可以含有字母,数字,其它字符
+名称不能以数字,标点符号开头
+名称字符不能以"xml"有关的字符打头
+ 名称中不能含有空格
+character data cdata区
+<![CDDATA[数据内容]]>
+xml必须有关闭标签
+
+
+```
+
+
+###重点
+```
+xml的解析方式
+//一次性将文档加载到内存,形成树形结构
+dom
+缺点:当文档特别大时,容易导致内存溢出
+优点:可以不xmll进行增删该
+sax解析:simple Api for Xml//事件驱动的方式,一行一行的解析
+缺点:不能增删改:(因为)找不到父节点
+优点不会内存溢出
+```
+针对这两种解析方式,不同的公司提供了不同的API的实现
+```
+jaxp         :sun公司提供的一套xml解析的apI;
+jdom       开源组织提供的一套xml的解析的API-jdom
+DOM4J    开源组织提供的一套xml的解析的ApI-dom4J(优点dom 和sax区分不明显可解析一次可查询可增删:因为他对sax又进行了封装),支出xpath
+pull             :主要用于Android手机端解析XML
+
+
+```
+###xpath
+```
+dom4j支持xpath的jar包
+
+
+    支持Xpath的包jaxen-1.1-beta-6.jar
+dom4j的XPath支持的API;
+            (支持Xpath) 传统方法:List                           document.selectNodes(String xpath);
+                         Node                                document.selectSingleNode(String Xpath)
+
+
+
+
+
+``` 
+###约束
+```
+DTD:语法自成一体:数据类型均是字符串
+
+
+
+
+
+
+Schema:语法就是xml的语法更容易被解析
+Schema支持名称空间< 不同Schema下区别同名属性>
+Schema比DTD更强的语意和语法约束
+Schema的默认后缀名.xsd
+一个xml文件只能引用一个DTD但可以引用多个Schema
+```
+##3schema的编写
+```
+步骤一:引入w3c名称空间:标识本文档是约束或被约束的文档
+xmlns=" http://www.w3.org/2001/xmlSchema"
+步骤二:定义自己的名字(定义元素或属性绑定一个名称空间)
+targetNamespace=" http://www.itheima.com/ee25"
+步骤三:定义内容
+元素个数
+复杂或简单元素
+是否有序<sequence></sequence><all></all><choice></choice>
+
+
+
+
+```
+

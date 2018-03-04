@@ -1,0 +1,1 @@
+PrintWtiter:字符打印流可具有自动刷新功能,当刷新功能被允许时(println,printf,format可以实现刷新),具有换行功能(println该换行与编码表无关) 这些方法使用平台自有的行分隔符概念，而不是换行符(同bufferdwriter的newline)

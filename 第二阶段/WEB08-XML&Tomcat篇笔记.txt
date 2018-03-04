@@ -1,0 +1,687 @@
+第 8 章 WEB08-XML&Tomcat 篇
+
+今日任务
+
+Ø   通过 XML 作为配置文件完成模拟 Tomcat 的案例
+
+Ø   安装 Tomcat 服务器发布一个 WEB 项目
+
+教学导航
+
+
+ 教学目标
+
+ 了解 XML 的基本语法，并能够编写正确格式的 XML.
+
+ 了解 XML 的约束 .
+
+ 掌握 XML 的解析 .
+
+ 熟练掌握并使用 tomcat 发布一个 web 应用
+
+ 了解 HTTP 协议及掌握 HTTP 协议中的常用的头信息 .
+
+
+ 教学方法
+
+ 案例驱动法
+1.1 上次课内容回顾 :
+
+JDBC    :
+
+* JDBC 的概述 :
+
+    * JDBC:Java Database Connectivity
+
+* JDBC 的 API:
+
+    * Connection: 连接 .
+
+        * 获得连接 .
+
+        * 执行事务的管理 .
+
+    * Statement:
+
+        * 执行 SQL 语句 .
+
+ * int executeUpdate(String sql);
+
+            * ResultSet executeQuery(String sql);
+
+            * boolean execute(String sql);
+
+    * ResultSet:
+
+        * getXXX(int idx), getXXX(String name);
+
+* JDBC 完成 CRUD 的操作 :
+
+连接池 :
+
+* 自定义连接池 :( 了解 )
+
+    * 增强一个类中的某个方法有几种方式 :
+
+        * 继承 :
+
+            * 控制控制这个类的构造 .
+
+        * 装饰者模式 :
+
+            * 增强的类和被增强类实现相同的接口 .
+
+            * 在增强类中获得被增强的类引用 .
+
+                * 接口中方法过多 , 增强其中一个方法 , 其他方法都要重写 .
+
+        * 动态代理 :
+
+            * 被增强的类实现了接口即可 .
+
+                * 编写代码的时候麻烦 .
+
+* DBCP:
+
+* C3P0:
+
+DbUtils: 工具类 :
+
+* 使用 DBUtils 完成 CRUD 的操作 1.2 案例一：使用 XML 作为配置文件的方式完成模拟 Tomcat. 1.2.1 需求 :
+
+现在有一套页面 , 这套页面想被其他人访问到 . 端口号可以进行修改的 -( 不修改源码的基础上 ). 1.2.2 分析 : 1.2.2.1   技术分析 :
+
+【 Java 基础的网络编程】
+
+ 
+
+【 XML 的概述】
+
+Ø 什么是 XML:
+
+
+
+
+
+**** 允许用户自定义标签的！！！
+
+Ø XML 的作用 :
+
+* 传输 和 存取数据 .
+
+* 软件的配置文件 .
+
+Ø XML 的使用 :
+
+* XML 的语法 .
+
+【 XML 的语法】
+
+Ø XML 的基本语法 :
+
+* XML 必须有关闭标签
+
+* 区分大小写
+
+* 属性需要有引号
+
+* 标签必须正确嵌套 .
+
+ 
+
+Ø XML 的文档声明
+
+* 文档声明：通常出现在 XML 的第一行第一列的位置 !!!
+
+* 写法 :
+
+    * <?xml 属性名 =” 属性值 ” 属性名 =” 属性值 ” ...?>
+
+        * version : 必须的 . 使用 ”1.0”
+
+        * encoding   : 字符集 . 是使用浏览器打开的时候采用的默认的字符集的编码 .
+
+        * standalone : 描述 XML 文档是否需要依赖其他的文件 .
+
+Ø XML 的注释
+
+* <!-- XML 的注释 -->
+
+Ø XML 的元素
+
+* 元素（标签）的命名规范 :
+
+
+
+***** 名称中不能包含冒号 (:)
+
+Ø XML 的属性
+
+* 属性的名称规范与元素一致 .
+
+***** 属性需要使用引号！
+
+ 
+
+Ø XML 的特殊字符和 CDATA 区
+
+* XML 的特殊字符 :
+
+
+
+* XML 的 CDATA 区 :(CDATA:Character Data)
+
+* <![CDATA[  内容   ]]>
+
+【 XML 的解析】
+
+Ø XML 的解析 : 从 XML 文档中获得想要的数据 ( 通过代码完成的 .):
+
+Ø XML 的解析的方式 (*****) :
+
+* DOM 解析 :DOM:Document Object Model.
+
+* SAX 解析 :Simple Api for XML.
+
+* DOM 和 SAX 的区别 :
+
+事件驱动
+
+Ø 针对这两种解析的方式，不同的公司提供了不同的 API 的实现 .
+
+* JAXP      :SUN 公司提供的一套 XML 的解析的 API.
+
+* JDOM      : 开源组织提供了一套 XML 的解析的 API-jdom.
+
+* DOM4J     : 开源组织提供了一套 XML 的解析的 API-dom4j.
+
+* pull      : 主要应用在 Android 手机端解析 XML.
+
+ 
+
+Ø DOM4J 的入门案例步骤 :
+
+* 【步骤一】导入 jar 包 .dom4j-1.6.1.jar
+
+* 【步骤二】创建解析器
+
+* 【步骤三】解析文档获得代表文档的 Document 对象 .
+
+* 【步骤四】获得跟节点 .
+
+* 【步骤五】从跟节点下查找其他的节点 .
+
+ 
+
+* 代码实现 :
+
+@Test
+
+    /**
+
+     * 获得元素的内容 : 查询的操作 .
+
+     */
+
+    public void demo1() throws Exception{
+
+        // 创建解析器
+
+        SAXReader reader = new SAXReader();
+
+        // 解析 XML 的文档
+
+        Document document = reader.read("xml/demo1.xml");
+
+        // 获得跟节点
+
+        Element root = document.getRootElement();
+
+        System.out.println(root.getName());
+
+        // 查找跟节点下的子节点 . element() elements();
+
+        Element pElement = root.element("person"); // 查找的是第一个 person 元素
+
+        // root.elements("person").get(1); // 查找的是第二个 person 元素
+
+        Element nElement = pElement.element("name");
+
+        Element aElement = pElement.element("age");
+
+        Element sElement = pElement.element("sex");
+
+        System.out.println(nElement.getText());
+
+        System.out.println(aElement.getText());
+
+        System.out.println(sElement.getText());
+
+    }
+
+Ø XPath ：
+
+* dom4j 支持 XPath 的 jar 包 .
+
+    * jaxen-1.1-beta-6.jar
+
+* dom4j 的 XPath 支持的 API:
+
+    * List document.selectNodes(String xPath);
+
+    * Node document.selectSingleNode(String xPath);
+
+* 代码 :
+
+    @Test
+
+    /**
+
+     * DOM4J 的 XPath 的写法 :
+
+     */
+
+    public void demo2() throws Exception{
+
+        // 创建解析器 :
+
+        SAXReader reader = new SAXReader();
+
+        // 解析 XML 返回 Document 对象 .
+
+        Document document = reader.read("xml/demo1.xml");
+
+        /*List<Node> list = document.selectNodes("//name");
+
+        for (Node node : list) {
+
+            Element element = (Element) node;
+
+            System.out.println(element.getText());
+
+        }*/
+
+       
+
+        List<Node> list = document.selectNodes("//person['@id']");
+
+        for (Node node : list) {
+
+            Element element = (Element) node;
+
+            System.out.println(element.attributeValue("id"));
+
+        }
+
+    } 1.2.3 代码实现 :
+
+【步骤一】：将基础班的 Socket 编写的代码复制到工程中 .
+
+【步骤二】：新建 xml. 在 conf/server.xml
+
+【步骤三】：使用 DOM4J 解析 XML
+
+public class MyServer {
+
+   
+
+    public static void main(String[] args) throws Exception {
+
+        // 解析 XML:
+
+        // 创建解析器
+
+        SAXReader reader = new SAXReader();
+
+        // 解析 XML 文档 :
+
+        Document document = reader.read("conf/server.xml");
+
+        Element element = (Element)document.selectSingleNode("//Connector['@port']");
+
+        String port = element.attributeValue("port");
+
+        // ServerSocket 对象可以监听端口
+
+        ServerSocket serversocket = new ServerSocket(Integer.parseInt(port));
+
+        while(true) {
+
+            Socket socket = serversocket.accept(); // 等待客户端的连接请求，一旦有请求过来，就结束阻塞，返回客户端对象
+
+            //System.out.println(socket.getInetAddress());
+
+            // 一旦有客户来访问， 就另开一个新线程去提供服务， main 线程继续等待下一个客户的连接
+
+            new Thread(new MyService(socket)).start();
+
+ 
+
+        }
+
+    }
+
+ 
+
+} 1.2.4 总结 : 1.2.4.1   XML 的约束 :
+
+Ø XML 的约束的额概述 :
+
+* 什么是 XML 的约束 : 就是用来约束 XML 的文档中可以出现哪些标签，不能出现哪些标签，标签中是否有顺序，出现的次数 .
+
+* XML 的约束          : 用来规范 XML 的写法 .
+
+***** XML 的约束的种类及区别 ?
+
+     * DTD 和 Schema :
+
+         * 区别 :
+
+             1.DTD 语法是自成一体的 .Schema 语法就是 XML 的语法 .
+
+             2.Schema 的语法就是 XML 的语法所以更容易被解析器所解析 .
+
+             3.Schema 支持名称空间 .
+
+             4.Schema 有比 DTD 更加强大的语义和语法的约束 .
+
+Ø DTD 的语法    :( 了解 ).DTD
+
+* DTD 的引入方式 :
+
+     * 内部的 DTD:
+
+    <!DOCTYPE persons [
+
+   
+
+    ]>
+
+     * 外部的 DTD:
+
+         * 一种本地 DTD:
+
+         <!DOCTYPE persons SYSTEM "unknown.dtd">
+
+         * 一种网络 DTD:
+
+         <!DOCTYPE persons PUBLIC "//UNKNOWN/" "unknown.dtd">
+
+* DTD 的语法 :
+
+     * 元素 :
+
+         * <!ELEMENT 元素名 元素类型 >
+
+             * 元素类型 :
+
+                 * EMPTY
+
+                 * ANY
+
+                 * 子元素
+
+                     * 是否有序 : 使用 逗号 (,) 或者竖线 (|) 表示 .
+
+                     * 出现的次数： ?: 零次或一次 + ：一次或多次 * ：零次或多次
+
+                 * PCDATA
+
+    * 属性 :
+
+        * <!ATTLIST 元素名称 属性名称 属性的类型 属性的约束 >
+
+            * 属性的类型 :
+
+                * ID 类型 : 表示属性值需要是唯一的 .
+
+                * CDATA 类型 : 普通的字符串 .
+
+                * 枚举 :
+
+            * 属性的约束 :
+
+
+
+Ø Schema 的语法 :( 了解 ).xsd
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+    名称空间 : 一个 XML 只能引入一个 DTD 约束文档 . 使用了 Schema 约束 XML 文档 , 一个 XML 可以引入多个 Schame 的约束 !!!
+
+如果再多个 Schema 文档中定义了相同的属性名称 该怎么办 ?
+
+      * 名称空间类似于 java 中的 package. 通过名称空间区分 标签或属性来自于哪个文档的！！！通常名称空间唯一的不重复的即可 . 一般情况下使用一个 URL 地址表示一个名称空间 .
+
+     
+
+    xmlns               :xml name sapace . 代表当前的文档应用的名称空间 .//引用的约束文档
+
+    targetNameSpace     : 目标名称空间 .//自己的包名
+
+    elementFormDefault :
+
+ -->
+
+<schema
+
+xmlns="http://www.w3.org/2001/XMLSchema"//w3c的约束
+
+targetNamespace="http://www.itheima.com/ee25"
+
+elementFormDefault="qualified">//在跟标签上
+
+    <!-- 复杂标签 -->
+
+    <element name="persons">
+
+        <!-- 复杂类型 -->//有子元素
+
+        <complexType>
+
+            <sequence maxOccurs="unbounded" minOccurs="1">
+
+                <element name="person">
+
+                    <complexType>
+
+                        <sequence>
+
+                            <!-- 简单标签 -->直接带text
+
+                            <element name="name" type="string"></element>
+
+                            <element name="age" type="int"></element>
+
+                            <element name="sex" type="string"></element>
+
+                        </sequence>
+
+                        <attribute name="id" type="string" use="required"/>
+
+                    </complexType>
+
+                </element>
+
+            </sequence>
+
+        </complexType>
+
+    </element>
+
+</schema>
+
+
+
+
+w3c约束schema;schema约束xml 1.3 案例二：使用 Tomcat 发布一个 WEB 项目 . 1.3.1 需求 :
+
+有一个 web 项目 , 需要通过 tomcat 服务器被其他人访问到 . 1.3.2 分析 : 1.3.2.1   技术分析 :
+
+【软件的架构】
+
+Ø C/S 架构的软件 :
+
+* Client / Server 客户端和服务器端的软件 . 都是需要在 PC 端安装的软件 . 比如 QQ, 迅雷 , 暴风 ...
+
+* 优点 : 效果炫 , 一部分代码写到客户端 ( 速度快 ).
+
+* 缺点 : 服务器端更新 , 客户端都需要更新 .
+
+ 
+
+Ø B/S 架构的软件 :
+
+* Browser / Server 浏览器端和服务器端的软件 . 不需要安装到 PC 端 , 只需要有一个浏览器即可 . 比如 京东 , 网银 ,WEBQQ,WEB 迅雷 ...
+
+* 优点 : 服务器端更新 , 客户端浏览器不需要进行更新 .
+
+* 缺点 : 效果不炫 , 所有的代码运行都在服务器端 , 导致服务器压力过大 .
+
+    * 效果：使用 HTML5,CSS3 可以做出很炫效果 .
+
+    * 服务器端压力 : 搭建服务器的集群 . 而且还有 AJAX 技术 .
+
+【 WEB 的资源】
+
+Ø 静态资源 :
+
+* HTML,CSS,JS, 图片 ...
+
+Ø 动态资源 :
+
+* PHP           :
+
+* ASP           :
+
+* Servlet/JSP   :
+
+【服务器】
+
+Ø 硬件 : 其实就是一台配置很高的电脑 .
+
+Ø 软件 : 必须在一台电脑上安装服务器软件 . 这台电脑称为是 WEB 服务器 .
+
+【常见 WEB 服务器】
+
+Ø Apache      : 发布 PHP 的 .LAMP:Linux Apache MySQL PHP.
+
+Ø IIS         : 发布 ASP 的 .
+
+Ø WebSphere   :IBM 公司研发 , 收费的大型服务器软件 , 支持 EE 的所有的开发规范 .
+
+Ø WebLogic    :BEA 公司研发 , 收发的大型服务器软件 , 支持 EE 的所有的开发规范 .
+
+Ø Tomcat      :Apache 组织研发 , 免费的小型的服务器软件 , 支持 Servlet/JSP 的开发规范 .
+
+Ø JBoss       :
+
+【 WEB 动态资源目录结构】
+
+website
+
+    |----- 静态资源
+
+    |-----WEB-INF
+
+                |-----web.xml  : 必须的
+
+                |-----classes  : 可选的
+
+                |-----lib      : 可选的 1.3.3 案例实现 : 1.3.3.1   Tomcat 的安装 :
+
+【下载 Tomcat 】
+
+http://tomcat.apache.org/download-70.cgi
+
+【安装 Tomcat 】
+
+解压即可 .
+
+【了解 Tomcat 的目录结构】
+
+
+
+* bin       :tomcat 的执行的文件 .
+
+* conf      :tomcat 的配置文件 .
+
+* lib       :tomcat 运行的需要的 jar 包 .
+
+* logs      :tomcat 的运行的日志文件 .
+
+* temp      :tomcat 产生临时文件存放的路径 .
+
+* webapps   :tomcat 发布的 web 项目的路径 .
+
+* work      :tomcat 运行 JSP 的时候 ,JSP 翻译成 Servlet 的代码存放的路径 . 1.3.3.2   发布一个 WEB 项目到 Tomcat 中 .
+
+Ø 发布一个 WEB 工程到 Tomcat 中共有三种方式 :
+
+* 1. 直接将工程 copy 到 tomcat/webapps 下 .
+
+* 2. 配置 tomcat 虚拟路径：
+
+* 3. 配置 tomcat 虚拟路径：
+
+【方式一：直接将项目 copy 到 webapps 下】
+
+* 将工程复制到 webapps 即可 .
+
+【方式二：配置 tomcat 的虚拟路径 - 不推荐】
+
+* 在 tomcat/conf/ server.xml 文件中进行配置 :
+
+* 在 <Host> 标签下配置 :
+
+    * <Context path="/itheima" docBase="C:/website"/>
+
+【方式三：配置 tomcat 的虚拟路径 - 推荐】
+
+* 在 tomcat/conf/Catalina/localhost/xxx.xml
+
+* 配置 <Context docBase="C:/website"/>
+
+* xxx 作为虚拟路径的名称 . 1.3.4 总结 : 1.3.4.1   使用 STS 工具发布一个 WEB 工程 .
+
+  1.3.4.2   Tomcat 常见问题 :
+
+【没有配置 JAVA_HOME 引发 tomcat 一闪消失】
+
+* 一定要配置 JAVA_HOME 环境变量 .
+
+【端口号冲突的问题】
+
+* 一种 : 将占用端口的应用结束 .
+
+    * netstat -ano
+
+    * 打开任务管理器结束：
+
+* 二种 : 修改自身应用的端口号 .
+
+    * tomcat/conf/server.xml
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 

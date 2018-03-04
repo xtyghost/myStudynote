@@ -1,0 +1,11 @@
+工厂模式             好模式;增强改造,提供对象的
+单例模式           懒汉,恶汉
+适配器模式         wrap   一个和被增强类完全相似的类
+装饰者模式        增强的类和被增强的类都实现接口
+代理模式         proxy       invokeitionhandler
+模板模式     baseServlet
+责任链模式              过滤链filter ,chain
+桥接模式         drivermanager
+享元模式
+构建者模式
+mvc模式尽量从servlet出发开始考虑

@@ -1,0 +1,6 @@
+302重定向:两次访问web服务器(第二次为浏览器自动生成)
+                地址栏已经改变  
+
+                response.sendRedirect("/web/name")
+设置定时刷新的头
+response.setHeader("refresh","5;url= http://www.baidu.com")//五秒刷新到百度    

@@ -1,0 +1,38 @@
+使用io流相对路径为项目下的文件
+使用类加载器引用的是src,bin下的文件
+File 文件和目录路径名的抽象表现形式
+使用file的构造方法时代表指向"       "该文件:
+在同一File对象同时使用mkdir和creatnewFile()方法时先使用的一方成功(若都成功会造成指向歧义):
+File f=new File("d:\\a\\b.txt");
+f.absoluteFile()返回绝对路径
+f.avsolutePath()返回绝度路径名
+二进制文件的读取只能使用字节流
+
+
+  *   获取功能
+
+         File getAbsoluteFile()  
+
+  *      String getAbsolutePath()
+
+  *      String getParent()  
+
+  *      File getParentFile()
+
+  *      String getName()//文件名或文件夹名
+
+  *      String getPath()  
+
+        file.tostring.
+
+
+        long lastModified()
+
+        long length()
+
+编码表:就是把计算机底层的二进制数据转成人可以读懂的字符
+使用字符数组读取数据数组长度一般为1024的倍数,读到几个数据写几个len
+流向:
+            输入流:           读取数据:           FileReader         Reader
+
+            输出流:            写入数据            FileWriter            Writer

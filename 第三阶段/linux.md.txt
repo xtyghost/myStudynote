@@ -1,0 +1,281 @@
+#unix
+```
+
+
+Unix一个强大的多用户,多任务操作系统
+于1969年AT&T的贝尔实验室开发
+商标权别国际开放标准化组织所拥有
+```
+#linux
+```
+linux之父:linus torvalds
+
+服务器系统,:
+          web应用服务器,数据库服务器,DNS,FIP等   LAMP: Linux  Apache  Mysql   PHP免费
+```
+linux版本
+```
+内核版本是指linus领导下的内核小组开发维护的系统内核的版本号
+发行版本是一些组织和公司根据自己开发的不同而定的
+
+
+``
+虚拟机的安装
+```
+vmWare
+VirtualBox
+
+
+```
+linux目录结构
+···
+/下
+linux部分盘符
+隐藏目录:一点开头的文件
+···
+linux常用命令 
+man command
+```
+root登录
+ifconfig查看ip地址
+cd/切换到根路径(最上层路径)
+ll或者ls显示本路经下所有的文件信息
+~代表家路径root的路径
+回到家路径 cd ~  或者 cd root/ 或者原路返回
+跳到上层路径cd ..
+cd  -切换到上一个所在的目录
+cd /切换到系统根路径
+cd   file 切换到 file的目录下(切换目录必须是当前目录的子目录)
+
+
+```
+查询命令
+```
+help
+ls --help
+man ls局部显示信息,人性化的显示或者求助
+q退出特定状态
+```
+列出文件列表 ls ll dir
+```
+格式  ls [参数][路径或文件名]
+ls -a 显示所有文件(包含隐藏文件)
+ls -l  显示详细信息
+ls 显示所有文件==dir
+```
+打包;
+    tar -cvf xxx.tar  ./*
+打包并压缩:
+  tar -zcvf xxx.tar.gz   ./*
+解压    
+     tar    -xvf  xxx.tar
+   tar   -xvf  xxx.tar.gz  -C  /usr/aaa指定目录解压
+创建文件vim  touch
+##3结束编写文件
+
+:wq //
+
+在退出时，直接输入
+
+:wq
+
+会发现退不出去，退出方法是：
+
+
+
+
+编辑 完成后按
+
+ESC
+
+，然后
+
+输入
+
+:q
+
+就是退出
+
+;
+
+还有
+
+:wq
+
+是 保存 后退出，加感叹号是表示强制
+
+
+
+```
+文件的操作创建移除
+```
+mkdir app 当前目录下架创建app目录
+mkdir  -p    app2/test  连续创建多级目录
+rmdir   filename  删除空的子目录
+```
+文件的阅览
+```
+cat   filename
+more filename         * 空格显示下一页数据   回车显示下一行的数据
+
+less filename           pgup   ,pgon
+
+动态的阅览文件    tail  -f  catalina.log
+结束动态查询状态ctrl+c
+```
+文件的删除操作
+```
+rm     a.txt
+直接删除文件
+rm   -f  a.txt
+删除目录
+rm   -r  filename
+/直接删除目录
+rm   -rf   filename递归的强制的删除所有文件 
+rm  -rf  *删除当前文件夹下的所有文件
+rm  -rf   /*清空系统
+```
+文件的操作  cp  ,mv
+```
+cp   a.txt  b.txt   将a.txt复制为b.txt
+cp  a.txt   ../       见文件复制到上一层目录
+
+
+mv 文件的移动或者重命名
+mv  a.txt  ../将文件移动到上一层目录
+mv  a.txt    ../b.txt  将文件移动到上一层目录并重命名我b.txt
+```
+tar命令(打包或解压)
+```
+xxx.tar.gz才是压缩后的文件
+-c  创建一个tar文件  (打包文件)
+-v ：显示运行过程的信息
+
+  -f ：指定文件名
+
+  -z ：调用 gzip 压缩命令进行压缩
+
+  -t ：查看压缩文件的内容
+
+  -x ：解开 tar 文件
+
+  打包:
+   tar   -cvf  xx.tar   ./*将当前文件夹下的所有文件打包为xx.tar
+   导包并压缩
+  tar  -zcvf  xxx.tar.gz   ./*
+解压
+     tar  -xvf  xxx.tar   默认在当前文件夹下解压信息
+     tar  -xvf  xxx.tar.gz  -C    /usr/aaa将文件解压到指定目录
+```
+grep
+```
+grep  name    filename 
+
+
+
+
+```
+管道
+```
+ls   --help  |  more  分页查询帮助信息
+ps   -ef   |  grep  java   查询name为java的进程
+
+
+ifconfig    | more
+cat   index.html  |  more
+ps  -ef  |  grep  aio  查询aio相关的进程
+
+
+```
+
+
+pwd 显示文件路径
+linux没有格式之分
+ll -h友好的显示列表文件
+wget下载资料
+#用户管理
+```
+useradd添加一个用户
+      useradd  test
+      useradd  test  -d/home/t1 指定用户home目录
+
+
+passwd  设置修改密码
+    passwd test    为test用户设置密码
+
+
+
+
+ssh   -i  test  -p  22 (端口号)   127.0.0.1(ip)  切换登录
+su   -用户名  ;    切换用户
+ 删除用户
+userdel删除用户
+userdel   test   删除用户但不删除home下的目录
+userdel    -r    删除用户及home下的目录
+
+
+
+
+```
+系统命令
+```
+date显示系统时间
+date  -s  "yyyy - MM-dd  h:m:s  "设置系统时间
+df -h友好的显示磁盘大小
+free   -m 以mb单位显示内存状态
+top  像是管理执行中的程序
+clear清屏
+ps    像回事运行摸个进程的状态
+ps  -ef 查看所有进程
+ps  fu  查看自己打开的进程
+kill杀死摸个进程
+
+
+     kill   编号
+  kill  -9  编码     强杀进程
+du显示文件大小
+du -h友好的显示
+who显示登录用户信息
+hostname看看当主机名
+uname显示系统信息
+
+
+
+
+
+
+
+
+`` `
+
+
+###3集群  不会session共享 都是固定ip
+```
+集群+分布式
+分布式  是session共享
+
+
+```
+nginx
+```
+反向代理  :
+
+
+正向代理 :翻墙
+linux 下运行软件用./name
+透明代理:  :控制你联网
+开启nginx  :                   ./nginx
+关闭杀死进程     ./nginx  -s stop
+动态加载配置文件     ./nginx   -s  reload
+./nginx  -s  quit  退出;   程序执行完毕后执行此命令
+
+
+
+
+```
+
+
+
+
+
+

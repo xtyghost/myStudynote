@@ -1,0 +1,94 @@
+form :表单//凡需要提交必须用此标签
+action:行动(提交路径)
+imput:输入
+type:输入类型
+text:文本输入框
+password:密码
+radio单选框
+checkbox复选框
+file 文本传输框
+hidden隐藏字段
+reset重置
+button按钮'
+name名称(元素字符段名称)
+values值选项框的默认值<有用户直接输入的值的提交方式不需要它>
+size :大小(文本大小,)输入框的宽度
+checked ,selected默认选择的
+readonly:只读的
+disabled不可用的
+maxlength:输入框内可输入的最大长度
+select,选项框
+
+option:条目
+textarea区域
+submit提交
+style样式//任何标签均具有的属性
+color颜色
+font-size字体颜色
+pink:粉红色
+gold黄金色
+gray灰色
+blue蓝色
+red红色
+yellow黄色
+black黑色
+white白色
+background-color:背景色
+
+
+border边框
+width宽
+height高
+margin外边距
+padding内边距
+float浮动
+clear清除
+none:无(元素不浮动)
+left左边
+right右边
+both同时
+display展示
+block显示的方式
+block显示的(显示为块级元素)
+inline再同一行(显示为内联元素)
+div;块级元素的区域
+span内联元素的区域
+element元素
+top顶级
+bottom底部
+product产品
+header头部信息
+menu菜单
+show显示
+father父类
+big大
+small小
+DIV:它是一个html 标签 ,是一个块级元素(单独显示一行(一块)),他单独使用时无意义,必须结合CSS来使用,用于页面布局
+  Span它是一个html标签,一个内联元素(占自己的位置),后来的元素跟着它,必须结合CSS,用于对括起来的内容修饰
+
+基本选择器{设置风格用style}
+选择器用于查找我需要设置样式的元素,css样式代码所处的位置
+
+
+元素选择器:div{ name:param;name1:param1}
+类选择器:.div class{}
+id选择器: #divid{} ,id必须唯一且不能以数字开头
+选择器内容之间;分隔
+分层选择器 div p{}
+属性选择器 input[ type="text"]{}
+内部引入:方便同一组数据进行操纵
+行内引用就近引用:style属性
+外部引用 <link rel="stylesheet" href="style" type"text/css"/>//在css文件中直接写代码不用style
+优先级为就近原则和java一样后执行生效
+css的浮动:浮动的框可以左右浮动,直达它碰到其它框为止,具有float属性
+
+
+由于浮动框不在文档的普通流中，所以文档的普通流中的块框表现得就像浮动框不存在一样。
+ clear:清除浮动
+外间距margin
+边框border
+ 内间距padding 属性设置(上右下左)不允许负数,如果设置为h1{padding :10px  20px}上下10px左右20px
+默认margin,border,padding均为零
+
+
+

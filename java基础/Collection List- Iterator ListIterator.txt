@@ -1,0 +1,12 @@
+Iterator是依赖于集合相当于集合的副本 ,如果迭代器发现与集合不同就会发生:concurrentmoidificationException.
+但当Iterator修改时会同步集合.所以可以使用implement了Iterator接口的类直接修改迭代器
+Collection :
+    LIst:有序(存入和取出的顺序一致),元素都有索引(角标),元素可以重复
+
+    Set:元素不能重复,无序;
+
+addall(collection<? extend E> c)将指定集合c的内容全部添加到本集合
+removeAll(collection<?> c)删除与指定集合相同的元素
+retainAll(collection<?> c)保留..........
+toArray(T[] a);
+Arrays.aslist();

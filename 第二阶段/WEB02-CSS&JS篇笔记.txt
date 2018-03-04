@@ -1,0 +1,1388 @@
+第 2 章 WEB02 -CSS&JS 篇
+
+今日任务
+
+Ø   使用 CSS 完成网站首页的美化
+
+Ø   使用 CSS 完成网站注册页面的美化
+
+Ø   使用 JS 完成简单的数据校验
+
+Ø   使用 JS 完成图片轮播效果
+
+教学导航
+
+
+ 教学目标
+
+ 了解 CSS 的概念
+
+ 了解 CSS 的引入方式
+
+ 了解 CSS 的基本语法和常用的选择器
+
+ 了解 CSS 的盒子模型 , 悬浮和定位 .
+
+ 了解 JS 的概念
+
+ 掌握 JS 的基本语法 , 数据类型 , 能够使用 JS 完成简单的页面交互 .
+
+
+ 教学方法
+
+ 案例驱动法
+1.1 上次课的内容回顾：
+
+HTML:
+
+* HTML 的概述：
+
+    * HTML ： Hyper Text Markup Language.
+
+    * HTML 就是由一组标签所组成的 .
+
+* HTML 的字体标签 :
+
+    * <font> 标签 :
+
+        * 属性： color,size,face
+
+* HTML 的排版标签 :
+
+    * h 标签：标题标签 .
+
+    * p 标签：段落标签 .
+
+    * b 标签：加粗标签 .
+
+    * i 标签：斜体标签 .
+
+    * u 标签：下划线标签 .
+
+    * br 标签：换行 .
+
+    * hr 标签：水平线 .
+
+* HTML 的图片标签 :
+
+    * img 标签 :
+
+        * 属性 :
+
+            * src 属性 : 图片的路径 .
+
+            * 相对路径 :  ./ 代表当前目录    ../ 上一级目录    
+
+            * width,height,alt.
+
+* HTML 的超链接标签 :
+
+    * a 标签 :
+
+       * 属性：
+
+            * href: 链接的路径 .
+
+            * target: 链接打开的方式 . _self,_blank,_parent
+
+* HTML 的列表标签 :
+
+   　 * 无序列表 :<ul>
+
+     * 有序列表 :<ol>
+
+* HTML 的表格标签：
+
+     * table 标签 :
+
+         * tr 标签：表格的行 .
+
+         * td 标签：表格的列 .
+
+* HTML 的表单标签：（ ***** ）
+
+     * form 标签：
+
+         * action 属性：表单提交的路径
+
+         * method 属性：表单的提交的方式 .
+
+             * GET 和 POST ：
+
+                 * GET ：地址栏上会显示提交的数据的信息 , 大小限制 .
+
+                 * POST ：地址栏不会显示提交的数据的信息 , 没有大小限制 .
+
+    * <input>
+
+        * type=”text”: 文本框
+
+        * type=”password”: 密码框 .
+
+        * type=”radio”: 单选按钮 .
+
+        * type=”checkbox”: 复选框 .
+
+        * type=”file”: 文件上传 .
+
+        * type=”hidden”: 隐藏字段 .
+
+        * type=”submit” ：提交按钮 .
+
+        * type=”reset”: 重置按钮 .
+
+        * type=”button”: 普通按钮 .
+
+        * type=”image”: 图片按钮 .
+
+   * <select>: 下拉列表 .
+
+   * <textarea>: 文本区
+
+* HTML 的框架标签 :
+
+   * <frameset>
+
+   * <frame> 1.2 案例一：使用 DIV+CSS 方式重新布局网站的首页 . 1.2.1 需求：
+
+网站首页的设计：采用 DIV+CSS 的方式完成 .
+
+
+
+之前使用的是表格的布局！！！表格的布局有缺陷！！！ 1.2.2 分析： 1.2.2.1   技术分析：
+
+【 HTML 的块标签】
+
+<div></div>     : 默认一个 div 独占一行 .
+
+<span></span>   : 默认在同一行 .
+
+【 CSS 的概述】
+
+Ø 什么是 CSS:
+
+
+
+* HTML 相当于网站的骨架！ CSS 对骨架进行美化！
+
+Ø CSS 在那些地方使用：
+
+任何网站都会使用 CSS 去美化页面！！！
+
+Ø 如何使用 CSS
+
+知道 CSS 的语法 .
+
+【 CSS 的基本语法】
+
+CSS 的基本语法通常包含两个部分：一个是选择器，一个声明 .
+
+* 选择器 { 属性 : 属性值 ; 属性 : 属性值 ...}
+
+
+
+【 CSS 的引入的方式】
+
+Ø 行内样式：直接在 HTML 的元素上使用 style 属性设置 CSS.
+
+<h1 style="color:red;font-size:200px ;"> 标题 </h1>
+
+ 
+
+Ø 页面内样式：在 HTML 的 <head> 标签中使用 <style> 标签设置 CSS.
+
+        <style>
+
+            h1{
+
+                color:blue;
+
+                font-size: 40px;
+
+            }
+
+        </style>
+
+ 
+
+Ø 外部样式 : 单独定一个 .css 的文件 . 在 HTML 中引入该 CSS 文件 . 
+
+<link href="../../css/demo1.css" rel="stylesheet" type="text/css" />
+
+ 
+
+【 CSS 的 选择器 】
+
+Ø 元素选择器：
+
+div{
+
+    border:1px solid blue;
+
+    width:40px;
+
+    height:45px;
+
+}
+
+Ø ID 选择器 :
+
+#d1{
+
+    border:2px solid red;
+
+}
+
+Ø 类选择器：
+
+.divClass{
+
+    border:2px solid yellow;
+
+}
+
+【 CSS 的浮动】
+
+Ø 使用 float 属性可以完成 DIV 的浮动 .
+
+
+
+float 属性的取值 :
+
+
+
+Ø 清除浮动效果：使用 clear 属性进行清除 :
+
+
+
+ 
+
+Ø 案例：
+
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        <title></title>
+
+        <style>
+
+            .divClass{
+
+                border:1px solid blue;
+
+                width:200px;
+
+                height:220px;
+
+            }
+
+           
+
+            #d1{
+
+                float:left;
+
+            }
+
+            #d2{
+
+                float:left;
+
+            }
+
+            #d3{
+
+                float:left;
+
+            }
+
+            .clear{
+
+                clear:both;
+
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div id="d1" class="divClass">DIV1</div>
+
+        <div id="d2" class="divClass">DIV2</div>
+
+        <div id="d3" class="divClass">DIV3</div>
+
+        <div class="clear"></div>
+
+        <div id="d4" class="divClass">DIV4</div>
+
+    </body>
+
+</html> 1.2.2.2   步骤分析 :
+
+【步骤一】创建一个首页的 HTML 文件
+
+【步骤二】创建一个整体的 DIV 元素 .
+
+【步骤三】创建每个部分的 DIV 元素 .
+
+【步骤四】为每个部分填充属于自己的那块内容 . 1.2.3 代码实现 :
+
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        <title> 首页 </title>
+
+        <style>
+
+            #bodyDiv{
+
+                border:1px solid blue;
+
+                width:90%;
+
+            }
+
+           
+
+            .logoDiv{
+
+                border:1px solid blue;
+
+                width:33%;
+
+                float:left;
+
+                height:50px;
+
+            }
+
+           
+
+            .clear{
+
+                clear:both;
+
+            }
+
+           
+
+            #menuDiv{
+
+                width:100%;
+
+                height:50px;
+
+                border:1px solid blue;
+
+                background-color: black;
+
+            }
+
+           
+
+            #imgDiv{
+
+                width:100%;
+
+                border:1px solid blue;
+
+            }
+
+           
+
+            #menuDiv a{
+
+                font-size: 20px;
+
+                color: white;
+
+            }
+
+            .productClass{
+
+                width:100%;
+
+                border:1px solid blue;
+
+            }
+
+            .contentClass{
+
+                width:100%;
+
+                border:1px solid blue;
+
+            }
+
+            .contentClass font{
+
+                font-size: 30px;
+
+                color: black;
+
+               
+
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <!-- 整体的 DIV -->
+
+        <div id="bodyDiv">
+
+            <!-- logo 的 DIV -->
+
+            <div>
+
+                <div class="logoDiv">
+
+                    <img src="../img/logo2.png" height="48">
+
+                </div>
+
+                <div class="logoDiv">
+
+                    <img src="../img/header.png" height="48">
+
+                </div>
+
+                <div class="logoDiv">
+
+                    <a href=""> 登录 </a>
+
+                    <a href=""> 注册 </a>
+
+                    <a href=""> 购物车 </a>
+
+                </div>
+
+                <div class="clear"></div>
+
+               
+
+            </div> 
+
+            <!-- Menu 的 DIV -->
+
+            <div id="menuDiv">
+
+                <a href=""> 首页 </a>&nbsp;&nbsp;
+
+                <a href=""> 电脑办公 </a>&nbsp;&nbsp;
+
+                <a href=""> 手机数码 </a>&nbsp;&nbsp;
+
+                <a href=""> 烟酒糖茶 </a>&nbsp;&nbsp;
+
+            </div> 
+
+            <!-- 图片滚动的 DIV -->
+
+            <div id="imgDiv">
+
+                <img src="../img/1.jpg" width="100%">
+
+            </div> 
+
+            <!-- 热门商品的 DIV -->
+
+            <div class="productClass">
+
+                <!-- 文字部分的 DIV -->
+
+                <div class="contentClass">
+
+                    <font> 热门商品 </font><img src="../img/title2.jpg">
+
+                </div>
+
+                <!-- 商品部分的 DIV -->
+
+                <div style="width:100%;border:1px solid blue;">
+
+                    <div style="width:15%;height: 460px;border:1px solid blue;float:left;">
+
+                        <img src="../img/big01.jpg" width="100%" height="100%">
+
+                    </div>
+
+                   
+
+                    <div style="width:84%;height: 460px;border:1px solid blue;float:left;">
+
+                        <div>
+
+                            <div style="border:1px solid blue;width:48%;float:left;height:228px;">
+
+                                <img src="../img/middle01.jpg" width="100%" height="100%">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                        </div>
+
+                        <div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div> 
+
+            <!-- 广告的 DIV -->
+
+            <div style="width:100%;border:1px solid blue;">
+
+                 <img src="../img/ad.jpg" width="100%" height="80">
+
+            </div> 
+
+            <!-- 最新商品的 DIV -->
+
+            <div class="productClass">
+
+                <!-- 文字部分的 DIV -->
+
+                <div class="contentClass">
+
+                    <font> 最新商品 </font><img src="../img/title2.jpg">
+
+                </div>
+
+                <!-- 商品部分的 DIV -->
+
+                <div style="width:100%;border:1px solid blue;">
+
+                    <div style="width:15%;height: 460px;border:1px solid blue;float:left;">
+
+                        <img src="../img/big01.jpg" width="100%" height="100%">
+
+                    </div>
+
+                   
+
+                    <div style="width:84%;height: 460px;border:1px solid blue;float:left;">
+
+                        <div>
+
+                            <div style="border:1px solid blue;width:48%;float:left;height:228px;">
+
+                                <img src="../img/middle01.jpg" width="100%" height="100%">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                        </div>
+
+                        <div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                            <div style="border:1px solid blue;width:16%;float:left;height:228px;">
+
+                                <img src="../img/small03.jpg">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div> 
+
+            <!-- 页脚的 DIV -->
+
+            <div  style="width:100%;border:1px solid blue;">
+
+                <img src="../img/footer.jpg" width="100%">
+
+            </div> 
+
+            <!-- 友情链接及版权的 DIV -->
+
+            <div style="width:100%;border:1px solid blue;">
+
+                <center>
+
+                   
+
+ 
+
+    关于我们 联系我们 招贤纳士 法律声明 友情链接 支付方式 配送方式 服务声明 广告声明 <br/>
+
+ 
+
+Copyright © 2005-2016 传智商城 版权所有
+
+                </center>
+
+            </div> 
+
+        </div>
+
+    </body>
+
+</html> 1.2.4 总结：
+
+【 CSS 的其他选择器】
+
+Ø 属性选择器：
+
+        <style>
+
+            input[type="text"]{
+
+                background-color: red;
+
+            }
+
+        </style>
+
+ 
+
+Ø 后代选择器 :
+
+div span 查找的是所有 div 中的所有的 span 元素 .
+
+h1 strong{
+
+   color:red;
+
+}
+
+        <h1>
+
+            This is <strong>very</strong> <strong>very</strong> important.
+
+        </h1>
+
+       
+
+        <h1>This is
+
+            <strong>very</strong>
+
+            <em>really
+
+                <strong>very</strong>
+
+            </em>
+
+                important.
+
+        </h1>
+
+Ø 子元素选择器：
+
+div > span 找这个 div 中的第一层级的 span 元素 .
+
+h1 > strong{
+
+   color:red;
+
+}
+
+        <h1>
+
+            This is <strong>very</strong> <strong>very</strong> important.
+
+        </h1>
+
+       
+
+        <h1>This is
+
+            <strong>very</strong>
+
+            <em>really
+
+                <strong>very</strong>
+
+            </em>
+
+                important.
+
+        </h1>
+
+Ø 并列选择器 :
+
+选择器 , 选择器 {
+
+}
+
+【 CSS 的样式】
+
+Ø 背景
+
+
+
+Ø 文本
+
+
+
+Ø 字体
+
+
+
+Ø 列表
+
+1.3 案例二：使用 DIV+CSS 布局注册页面 : 1.3.1 需求：
+
+使用 DIV+CSS 的方式完成注册页面的布局 :
+
+1.3.2 分析 : 1.3.2.1   技术分析：
+
+【 CSS 中的盒子模型】
+
+
+
+Ø 内边距： padding.
+
+
+
+
+
+Ø 边框： border
+
+ 
+
+Ø 外边距： margin
+
+
+
+【 CSS 中的定位】
+
+position 属性设置定位：
+
+* relative: 相对定位
+
+* absolute: 绝对定位
+
+使用另外两个属性 :left,top
+
+  1.3.2.2   步骤分析：
+
+【步骤一】创建一个 html 页面
+
+【步骤二】创建一个整体的 DIV
+
+【步骤三】在整体 DIV 中创建 5 个 DIV.
+
+【步骤四】为每个 DIV 添加所属的内容 . 1.3.3 代码实现 :
+
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        <title> 注册页面 </title>
+
+        <style>
+
+            div{
+
+                border:1px solid blue;
+
+            }
+
+           
+
+            .bodyDiv{
+
+                width:90%;
+
+            }
+
+           
+
+            .bodyDiv > div{
+
+                width:100%;
+
+            }
+
+           
+
+            .logoDiv{
+
+                width:33%;
+
+                height:50px;
+
+                float:left;
+
+            }
+
+           
+
+            .clear{
+
+                clear:both;
+
+            }
+
+           
+
+            ul li{
+
+                display:inline;
+
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <!-- 整体 DIV-->
+
+        <div class="bodyDiv">
+
+            <div>
+
+                <div class="logoDiv">
+
+                    <img src="../img/logo2.png" height="50"/>
+
+                </div>
+
+                <div class="logoDiv">
+
+                    <img src="../img/header.png" height="50"/>
+
+                </div>
+
+                <div class="logoDiv" style="margin-top:0px;padding-top:10px;height:40px;">
+
+                    <a href=""> 登录 </a>
+
+                    <a href=""> 注册 </a>
+
+                    <a href=""> 购物车 </a>
+
+                </div>
+
+                <div class="clear"></div>
+
+            </div>
+
+            <div style="height:50px;background-color: black;color:white;font-size: 20px;">
+
+                <ul >
+
+                    <li> 首页 </li>
+
+                    <li> 首页 </li>
+
+                    <li> 首页 </li>
+
+                    <li> 首页 </li>
+
+                </ul>
+
+            </div>
+
+            <div style="height:500px;background-image: url(../img/regist_bg.jpg);">
+
+                <div style="border:5px solid gray;background-color:white;position:absolute;left:350px;top:160px;width:600px;">
+
+                    <form>
+
+                    <table border="0" width="100%" cellspacing="15">
+
+                        <tr>
+
+                            <td> 用户名 </td>
+
+                            <td><input type="text" name="username"></td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td> 密码 </td>
+
+                            <td><input type="password" name="password"></td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td> 确认密码 </td>
+
+                            <td><input type="password" name="repassword"></td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td> 性别 </td>
+
+                            <td><input type="radio" name="sex" value=" 男 "> 男 <input type="radio" name="sex" value=" 女 "> 女 </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td> 籍贯 </td>
+
+                            <td>
+
+                                <select name="province">
+
+                                    <option>- 请选择 -</option>
+
+                                </select>
+
+                                <select name="city">
+
+                                    <option>- 请选择 -</option>
+
+                                </select>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td> 爱好 </td>
+
+                            <td>
+
+                                <input type="checkbox" name="hobby" value=" 篮球 " /> 篮球
+
+                                <input type="checkbox" name="hobby" value=" 足球 " /> 足球
+
+                                <input type="checkbox" name="hobby" value=" 排球 " /> 排球
+
+                                <input type="checkbox" name="hobby" value=" 羽毛球 " /> 羽毛球
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td> 邮箱 </td>
+
+                            <td><input type="text" name="email"></td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td colspan="2"><input type="submit" value=" 注册 "></td>
+
+                        </tr>
+
+                    </table>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <div>
+
+                <img src="../img/footer.jpg" width="100%"/>
+
+            </div>
+
+            <div>
+
+                <center>
+
+                   
+
+ 
+
+    关于我们 联系我们 招贤纳士 法律声明 友情链接 支付方式 配送方式 服务声明 广告声明 <br/>
+
+ 
+
+Copyright © 2005-2016 传智商城 版权所有
+
+                </center>
+
+            </div>
+
+        </div>
+
+    </body>
+
+</html> 1.3.4 总结： 1.3.4.1   超链接的伪类
+
+1.4 案例三：完成对注册页面的数据的简单校验 . 1.4.1 需求：
+
+对注册页面的数据进行非空的简单校验！！！如果有某个值没有输入 , 点击提交 , 弹出一个对话框进行提示！！ 1.4.2 分析 : 1.4.2.1   技术分析 :
+
+【 JS 的概述】
+
+Ø 什么是 JavaScript ：
+
+运行在浏览器端的脚本语言 !
+
+
+
+JavaScript 的历史：
+
+Ø JavaScript 的组成：
+
+
+
+ECMAScript ： JavaScript 的基本的语法
+
+BOM ： Browser Object Model   ：
+
+DOM ： Document Object Model  ：
+
+Ø 其他的脚本语言：
+
+JavaScript,ActionScript,Flex
+
+Ø JS 的用途：
+
+使页面更加丰富 , 使页面动起来！！！
+
+【 JS 的基本语法】
+
+Ø 区分大小写：
+
+
+
+Ø 弱变量类型语言：（与 Java 不同）
+
+* Java
+
+   * int i = 3;
+
+   * String s = “abc”;
+
+* JavaScript:
+
+   * var i = 3;
+
+   * var s = “abc”;
+
+Ø 分号可有可无：
+
+
+
+Ø 变量命名：
+
+
+
+【 JS 的数据类型】
+
+JS 将数据类型分成两类：
+
+* 原始类型：
+
+    * undefined ：未定义类型
+
+    * boolean: 布尔类型
+
+    * number: 数字类型
+
+    * string: 字符或字符串 .
+
+    * null ：空
+
+ 
+
+* 引用类型：
+
+    * 对象类型 . 对象类型默认值是 null.
+
+【 JS 的运算符】
+
+JS 中的运算符与 Java 中基本一致！
+
+JS 中有一个 === 全等于 . 全等于是类型和值都一致的情况下才为 true.
+
+【 JS 的语句】
+
+JS 中的语句与 Java 的语句一致！
+
+【 JS 的通常开发的步骤】
+
+JS 通常都由一个事件触发 .
+
+触发一个函数 , 定义一个函数 .
+
+获得操作对象的控制权 .
+
+修改要操作的对象的属性或值 .
+
+ 
+
+定义函数 :
+
+* function 函数名称 (){
+
+// 函数体
+
+}
+
+ 
+
+* window.onload = function(){
+
+ 
+
+}
+
+常用事件： onclick,ondblclick,onmouseover,onmouseout,onload...
+
+【 JS 的引入方式】
+
+通常两种方式：
+
+一种：页面内直接编写 JS 代码 ,JS 代码需要使用 <script></script>.
+
+二种：将 JS 的代码编写到一个 .js 的文件中 , 在 HTML 中引入该 JS 代码即可 .
+
+  1.4.3 代码实现：
+
+        <script>
+
+           
+
+            // alert("Hello!");
+
+           
+
+            function checkForm(){
+
+                // 获得文本框的值：
+
+                var username = document.getElementById("username").value;
+
+                // var val = username.value;
+
+                // alert(username);
+
+                if(username == ""){
+
+                    alert(" 用户名不能为空！ ");
+
+                    return false;
+
+                }
+
+               
+
+                // 校验密码：
+
+                var password = document.getElementById("password").value;
+
+                if(password == ""){
+
+                    alert(" 密码不能为空 ");
+
+                    return false;
+
+                }
+
+               
+
+                // 校验确认密码 :
+
+                var repassword = document.getElementById("repassword").value;
+
+                if(repassword != password){
+
+                    alert(" 两次密码输入不一致！ ");
+
+                    return false;
+
+                }
+
+               
+
+                // 校验邮箱 :
+
+                var email = document.getElementById("email").value;
+
+                // JS 校验正则表达式就有两个方法 :String 对象中的 match 方法 , 一个是正则对象中的 test 方法 .
+
+                // str.match(" 正则表达式 ");  正则 .test(" 字符串 ");
+
+                if(!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(email)){
+
+                    alert(" 邮箱格式不正确！ ");
+
+                    return false;
+
+                }
+
+            }
+
+        </script> 1.4.4 总结 :
+
+将 JS 的代码定义成一个文件引入 :
+
+<script src="../js/check.js"></script>
+
+ 
+
+获得页面中的元素 :
+
+* document.getElementById(“”);
+
+ 
+
+正则的匹配 :
+
+JS 中有两种匹配正则的方式 :
+
+* 使用 String 对象中的 match 方法 .
+
+* 使用正则对象中的 test 方法 . 1.5 案例四：使用 JS 完成图片滚动的效果 : 1.5.1 需求 :
+
+
+
+ 
+
+使用 JS 完成该效果： 1.5.2 分析 : 1.5.2.1   技术分析 :
+
+【 HTML 的 window 对象】
+
+* setInterval();   : 每隔多少毫秒执行某个表达式 .
+
+    * setInterval(“change()”,5000);
+
+ 
+
+* setTimeout();    : 隔多少毫秒执行一个该表达式 .
+
+    * setTimeout(“change()”,5000);
+
+ 
+
+ 

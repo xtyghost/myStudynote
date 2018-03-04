@@ -1,0 +1,968 @@
+     第 4 章 WEB04 - JQuery 篇
+
+今日任务
+
+Ø   使用 JQuery 完成页面定时弹出广告
+
+Ø   使用 JQuery 完成表格的隔行换色
+
+Ø   使用 JQuery 完成复选框的全选效果
+
+Ø   使用 JQuery 完成省市联动效果
+
+Ø   使用 JQuery 完成下列列表左右选择
+
+教学导航
+
+
+ 教学目标
+
+ 掌握 JQuery 的基本使用
+
+ 掌握 JQuery 的基本选择器 , 层次选择器
+
+ 会使用 JQuery 完成 DOM 的基本操作 .
+
+
+ 教学方法
+
+ 案例驱动法
+1.1 上次课的内容回顾：
+
+JavaScript:
+
+* JavaScript: 基本使用 :
+
+   * ECMAScript:
+
+       * 变量：弱变量类型 : var i;
+
+       * 数据类型 : 原始类型和引用类型 .
+
+       * 语句
+
+       * 运算符
+
+       * 对象 :
+
+           * String,Boolean,Date,Math,Number, 正则 ...
+
+       * 全局函数 :eval(),encodeURI(),encodeURIComponent(),decodeURI(),decodeURIComponent(),parseInt(),parseFloat()
+
+   * BOM: 浏览器对象 .
+
+       * window:
+
+       * Navigator:
+
+       * Screen:
+
+       * History:
+
+       * Location:
+
+   * DOM ：文档对象 .
+
+       * 获得元素 :
+
+           * document.getElementById(),document.getElementsByName(),document.getElementsByTagName();
+
+       * 添加元素 :
+
+           * element.appendChild(),element,insertBefore();
+
+       * 删除元素 :
+
+           * element.removeChild();
+
+       * 创建元素 :
+
+           * document.createElement(),document.createTextNode();
+
+       * 修改元素值 :
+
+           * innerHTML 属性 : 1.2 使用 JQuery 完成定时弹出广告： 1.2.1 需求：
+
+之前使用的 JS 的方式完成定时弹出广告，现在使用 JQuery 完成同样的效果 :
+
+1.2.2 分析 1.2.2.1   技术分析：
+
+【 JQuery 的概述】
+
+Ø 什么是 JQuery:
+
+JQuery 是一个 JS 的框架（ JS 的类库） . 对传统的 JS 进行了封装 .
+
+现在企业的开发中往往不会使用传统的 JS 进行开发，通常都会使用 JS 框架进行开发 .
+
+Ø JS 的常用的框架 :
+
+JQuery,ExtJS,DWR,Prototype...
+
+Ø JQ 的使用 :
+
+学习 JQuery 的语法 .
+
+【 JQuery 的入门】
+
+Ø 引入 Jquery 的 js 文件 .
+
+<script src="../../js/jquery-1.11.3.min.js"></script>
+
+Ø JQuery 的入口函数 :
+
+            // 传统的 JS 的方式：页面加载的事件只能执行一次 .
+
+            /*window.onload = function(){
+
+                alert("aaa");
+
+            }
+
+           
+
+            window.onload = function(){
+
+                alert("bbb");
+
+            }*/
+
+           
+
+            // JQuery 的方式：相当于页面加载的事件 , 可以执行多次 . 效率比 window.onload 要高 .
+
+            // window.onload 等页面加载完成后执行该方法 .
+
+            // $(function(){}): 等页面的 DOM 树绘制完成后进行执行 .
+
+            // $ 相当于 JQuery
+
+            $(function(){
+
+                alert("aaa");
+
+            });
+
+           
+
+            $(function(){
+
+                alert("bbb");
+
+            });
+
+【 JS 对象和 JQ 对象的转换】
+
+            window.onload = function(){
+
+                // 传统 JS 方式：
+
+                var d1 = document.getElementById("d1");
+
+                // JS 对象的属性和方法 :
+
+                // d1.innerHTML = "JS 对象的属性 ";
+
+                // d1.html("aaaaaa");
+
+                // 将 JS 对象转成 JQ 的对象 .
+
+                $(d1).html("JS 对象转成 JQ 对象 ");
+
+            }
+
+ 
+
+             $(function(){
+
+                var $d1 = $("#d1");
+
+                // $d1.html("JQ 对象的属性 ");
+
+                // 转成 JS 的对象 :
+
+                // 一种方式
+
+                // $d1[0].innerHTML = " 将 JQ 的对象转成 JS 对象 ";
+
+                // 二种方式 :
+
+                $d1.get(0).innerHTML = " 将 JQ 的对象转成 JS 对象的方式二 ";
+
+            });
+
+【 JQ 显示和隐藏】
+
+Ø JQ 的效果操作 :
+
+* show();
+
+    * 使用一 :Jq 对象 .show();
+
+    * 使用二 :Jq 对象 .show(“slow”); // slow,normal,fast
+
+    * 使用三 :Jq 对象 .show( 毫秒值 ); // 1000
+
+    * 使用四 :Jq 对象 .show( 毫秒值 ,function(){});
+
+ 
+
+* hide();
+
+    * 使用一 :Jq 对象 .hide();
+
+    * 使用二 :Jq 对象 .hide(“slow”); // slow,normal,fast
+
+    * 使用三 :Jq 对象 .hide( 毫秒值 ); // 1000
+
+    * 使用四 :Jq 对象 .hide( 毫秒值 ,function(){});
+
+ 
+
+* slideDown();  -- 向下滑动
+
+    * 使用一 :Jq 对象 .slideDown();
+
+    * 使用二 :Jq 对象 .slideDown(“slow”); // slow,normal,fast
+
+    * 使用三 :Jq 对象 .slideDown( 毫秒值 ); // 1000
+
+    * 使用四 :Jq 对象 .slideDown( 毫秒值 ,function(){});
+
+ 
+
+* slideUp();    -- 向上滑动
+
+    * 使用一 :Jq 对象 .slideUp();
+
+    * 使用二 :Jq 对象 .slideUp(“slow”); // slow,normal,fast
+
+    * 使用三 :Jq 对象 .slideUp( 毫秒值 ); // 1000
+
+    * 使用四 :Jq 对象 .slideUp( 毫秒值 ,function(){});
+
+ 
+
+* fadeIn();     -- 淡入
+
+    * 使用一 :Jq 对象 .fadeIn();
+
+    * 使用二 :Jq 对象 .fadeIn(“slow”); // slow,normal,fast
+
+    * 使用三 :Jq 对象 .fadeIn( 毫秒值 ); // 1000
+
+    * 使用四 :Jq 对象 .fadeIn( 毫秒值 ,function(){});
+
+ 
+
+* fadeOut();    -- 淡出
+
+    * 使用一 :Jq 对象 .fadeOut();
+
+    * 使用二 :Jq 对象 .fadeOut(“slow”); // slow,normal,fast
+
+    * 使用三 :Jq 对象 .fadeOut( 毫秒值 ); // 1000
+
+    * 使用四 :Jq 对象 .fadeOut( 毫秒值 ,function(){});
+
+ 
+
+* animate();    -- 自定义动画
+
+* toggle();     -- 单击切换函数
+
+    * Jq 对象 .toggle(fn1,fn2...); 单击第一下的时候执行 fn1, 单击第二下执行 fn2... 1.2.2.2   步骤分析：
+
+【步骤一】：创建一个 HTML 的页面 .
+
+【步骤二】：在页面中创建一个广告部分的 DIV, 并且设置 DIV 是隐藏的 .
+
+【步骤三】：设置定时操作 ,5 秒钟执行一个显示的方法 .
+
+【步骤四】：在设置一个定时 ,5 秒钟执行一个隐藏的方法 . 1.2.3 代码实现
+
+        <script>
+
+            var time ;
+
+            $(function(){
+
+                // 设置定时 5 秒钟执行一个 显示广告的方法：
+
+                time = setInterval("showAd()",5000);
+
+            });
+
+           
+
+            function showAd(){
+
+                // 获得元素：
+
+                //$("#adDiv").show(2000);
+
+                // $("#adDiv").slideDown(2000);
+
+                $("#adDiv").fadeIn(3000);
+
+                clearInterval(time);
+
+                // 再设置定时 5 秒钟隐藏 .
+
+                time = setInterval("hideAd()",5000);
+
+            }
+
+           
+
+            function hideAd(){
+
+                //$("#adDiv").hide(2000);
+
+                // $("#adDiv").slideUp(2000);
+
+                $("#adDiv").fadeOut(3000);
+
+                clearInterval(time);
+
+            }
+
+           
+
+        </script> 1.2.4 总结： 1.2.4.1   JQuery 的选择器：
+
+【基本选择器】 (*****)
+
+Ø id 选择器
+
+* 用法 :$(“#id”)
+
+Ø 类选择器
+
+* 用法 :$(“. 类名 ”)
+
+Ø 元素选择器
+
+* 用法 :$(“ 元素名称 ”)
+
+Ø 通配符选择器
+
+* 用法 :$(“*”)
+
+Ø 并列选择器
+
+* 用法 :$(“ 选择器 , 选择器 , 选择器 ”)
+
+ 
+
+            $(function(){
+
+                $("#but1").click(function(){
+
+                    // alert("aaaa");
+
+                    $("#one").css("background","#bbffaa");
+
+                });
+
+               
+
+                 $("#but2").click(function(){
+
+                    $(".mini").css("background","#bbffaa");
+
+                });
+
+               
+
+                $("#but3").click(function(){
+
+                    $("div").css("background","#bbffaa");
+
+                });
+
+               
+
+                $("#but4").click(function(){
+
+                    $("*").css("background","#bbffaa");
+
+                });
+
+               
+
+                $("#but5").click(function(){
+
+                    $("#two,span,.mini").css("background","#bbffaa");
+
+                });
+
+            });
+
+【层级选择器】：
+
+Ø 后代选择器：使用空格    所有后代包含孙子及以下的元素
+
+Ø 子元素选择器：使用 >   第一层的元素（儿子）
+
+Ø 下一个元素 : 使用 +      下一个同辈元素
+
+Ø 兄弟元素 : 使用 ~        后面所有的同辈元素
+
+        <script>
+
+            $(function(){
+
+                // 后代选择器 :
+
+                $("#but1").click(function(){
+
+                    $("body div").css("background","#bbffaa");
+
+                });
+
+               
+
+                // body 下的第一层 div 元素
+
+                $("#but2").click(function(){
+
+                    $("body > div").css("background","#bbffaa");
+
+                });
+
+               
+
+                // 查找下一个同辈的元素
+
+                $("#but3").click(function(){
+
+                    $("#three + div").css("background","#bbffaa");
+
+                });
+
+               
+
+                $("#but4").click(function(){
+
+                    $("#two ~ div").css("background","#bbffaa");
+
+                });
+
+               
+
+            });
+
+           
+
+        </script>
+
+【基本过滤选择器】
+
+
+
+        <script>
+
+            $(function(){
+
+                $("#but1").click(function(){
+
+                    $("#three div:first").css("background","#bbffaa");
+
+                });
+
+                $("#but2").click(function(){
+
+                    $("#three div:last").css("background","#bbffaa");
+
+                });
+
+                $("#but3").click(function(){
+
+                    $("div:odd").css("background","#bbffaa");
+
+                });
+
+                $("#but4").click(function(){
+
+                    $("div:even").css("background","#bbffaa");
+
+                });
+
+                $("#but5").click(function(){
+
+                    $("#three div:eq(1)").css("background","#bbffaa");
+
+                });
+
+            });
+
+           
+
+        </script>
+
+【内容选择器】
+
+
+
+        <script>
+
+            $(function(){
+
+                $("#but1").click(function(){
+
+                    $("div:contains('1')").css("background","#bbffaa");
+
+                });
+
+            });
+
+           
+
+        </script>
+
+【属性选择器】
+
+
+
+【表单选择器】
+
+
+
+        <script>
+
+            $(function(){
+
+                $("#but1").click(function(){
+
+                    $(":input").css("background","#bbffaa");
+
+                });
+
+                $("#but2").click(function(){
+
+                    // $(":text").css("background","#bbffaa");
+
+                    $("input[type='text']").css("background","#bbffaa");
+
+                });
+
+            });
+
+           
+
+        </script>
+
+【表单属性选择器】
+
+1.3 案例二：表格隔行换色的案例： 1.3.1 需求：
+
+对数据的表格进行隔行换色的显示效果 , 使用 JQuery 完成该效果 .
+
+1.3.2 分析： 1.3.2.1   技术分析：
+
+【 JQuery 的选择器】
+
+* 基本过滤选择器：
+
+    * odd    ：
+
+    * even   :
+
+【 JQuery 中添加和移除样式】
+
+* 如果样式没有事先定义 , 可以使用 css 方法为奇数行或者偶数行设置背景颜色 .
+
+* 如果已经在 css 文件中事先将样式定义完成了 , 不能使用 css 方法了 . 使用 JQ 中的 CSS 类中的方法：
+
+    * addClass();
+
+    * removeClass(); 1.3.2.2   步骤分析：
+
+【步骤一】：引入 jquery 的 js
+
+【步骤二】：在页面加载的函数中 , 选择奇数行 , 添加样式
+
+【步骤三】：在页面加载的函数中 , 选择偶数行 , 添加样式 1.3.3 代码实现 :
+
+        <script>
+
+            $(function(){
+
+                /*$("tr:odd").addClass("odd");
+
+                $("tr:even").addClass("even");*/
+
+               
+
+                $("tbody tr:odd").addClass("odd");
+
+                $("tbody tr:even").addClass("even");
+
+            });
+
+        </script> 1.4 案例三：使用 JQuery 完成复选框的全选和全不选 1.4.1 需求：
+
+使用 JQuery 完成复选框的全选和全不选的操作 :
+
+1.4.2 分析： 1.4.2.1   技术分析 :
+
+【 JQuery 对属性的操作的方法】
+
+* attr();
+
+    * 使用方法一： $(“”).attr(“src”);
+
+    * 使用方法二： $(“”).attr(“src”,”test.jpg”);
+
+    * 使用方法三： $(“”).attr({“src”:”test.jpg”,”width”:”100”});
+
+* removeAttr();
+
+* prop(); 新版本的方法 .
+
+    * 使用方法一： $(“”).prop(“src”);
+
+    * 使用方法二： $(“”).prop(“src”,”test.jpg”);
+
+    * 使用方法三： $(“”).prop({“src”:”test.jpg”,”width”:”100”});
+
+* removeProp();
+
+* addClass()
+
+* removeClass(); 1.4.2.2   步骤分析 :
+
+【步骤一】：在页面中添加复选框 .
+
+【步骤二】：引入 jquery 的 js
+
+【步骤三】：编写 JQ 的入口函数
+
+【步骤四】：点击上面的复选框 , 获得下面的所有的复选框 .
+
+【步骤五】：修改下面的复选框的值 . 1.4.3 代码实现：
+
+            // 复选框全选和全不选
+
+            $(function(){
+
+                // 获得上面的复选框 :
+
+                //var $selectAll = $("#selectAll");
+
+                // alert($selectAll.attr("checked"));
+
+                /*$selectAll.click(function(){
+
+                    // alert($selectAll.prop("checked"));
+
+                    if($selectAll.prop("checked") == true){
+
+                        // 上面的复选框被选中
+
+                        $(":checkbox[name='ids']").prop("checked",true);
+
+                    }else{
+
+                        // 上面的复选框没有被选中
+
+                        $(":checkbox[name='ids']").prop("checked",false);
+
+                    }
+
+                });*/
+
+               
+
+                // 简化：
+
+                $("#selectAll").click(function(){
+
+                    $(":checkbox[name='ids']").prop("checked",this.checked);
+
+                });
+
+            }); 1.5 案例四：使用 JQuery 完成省市二级联动 : 1.5.1 需求：
+
+在注册页面上籍贯的信息 , 需要用到省市联动效果 .
+
+  1.5.2 分析： 1.5.2.1   技术分析 :
+
+【 JQuery 的 DOM 操作】
+
+
+
+* 常用的方法 :
+
+    * append();         --- 在某个元素后添加内容 .  
+
+    * appendTO();       --- 将某个元素添加到另一个元素后 .
+
+    * remove();         --- 将某个元素移除 .
+
+【 JQuery 的遍历】
+
+遍历的方式一：
+
+* $.each(objects,function(i,n){
+
+   
+
+});
+
+遍历的方式二 :
+
+* $(“”).each(function(i,n){
+
+ 
+
+});
+
+ 
+
+            $(function(){
+
+                var arrs = new Array(" 张森 "," 张凤 "," 张芙蓉 ");
+
+                // 将这个数组转成 JQ 的对象使用 each 方法 .
+
+                /*$(arrs).each(function(i,n){
+
+                    alert(i+"   "+n);
+
+                });*/
+
+               
+
+                $.each(arrs,function(i,n){
+
+                    alert(i+"   "+n);
+
+                });
+
+            }); 1.5.2.2   步骤分析：
+
+【步骤一】：引入注册页面，引入 jq 的 js.
+
+【步骤二】：获得到第一个下拉列表 ,change 事件 .
+
+【步骤三】：获得到被选中的下拉列表的值 .
+
+【步骤四】：去数组中进行比对 .
+
+【步骤五】：将数组中的值遍历获得到 .
+
+【步骤六】：创建元素，创建文本 , 将文本添加到元素中 , 将元素添加到第二个列表中 . 1.5.3 代码实现：
+
+        <script>
+
+            $(function(){
+
+                // 定义数组：
+
+                /*var arrs = new Array(5);
+
+                arrs[0] = new Array(" 杭州市 "," 绍兴市 "," 温州市 "," 义乌市 "," 嘉兴市 ");
+
+                arrs[1] = new Array(" 南京市 "," 苏州市 "," 扬州市 "," 无锡市 ");
+
+                arrs[2] = new Array(" 武汉市 "," 襄阳市 "," 荆州市 "," 宜昌市 "," 恩施 ");
+
+                arrs[3] = new Array(" 石家庄市 "," 唐山市 "," 保定市 "," 邢台市 "," 廊坊市 ");
+
+                arrs[4] = new Array(" 长春市 "," 吉林市 "," 四平市 "," 延边市 ");*/
+
+               
+
+                var cities = [
+
+                    [" 杭州市 "," 绍兴市 "," 温州市 "," 义乌市 "," 嘉兴市 "],
+
+                    [" 南京市 "," 苏州市 "," 扬州市 "," 无锡市 "],
+
+                    [" 武汉市 "," 襄阳市 "," 荆州市 "," 宜昌市 "," 恩施 "],
+
+                    [" 石家庄市 "," 唐山市 "," 保定市 "," 邢台市 "," 廊坊市 "],
+
+                    [" 长春市 "," 吉林市 "," 四平市 "," 延边市 "]
+
+                ];
+
+               
+
+                var $city = $("#city");
+
+                // 获得代表省份的下拉列表 :
+
+                $("#province").change(function(){
+
+                    // alert(this.value);
+
+                    // alert($(this).val());
+
+                    $city.get(0).options.length = 1;
+
+                   
+
+                    var val = this.value;
+
+                    // 遍历并且判断 :
+
+                    $.each(cities,function(i,n){
+
+                        // 判断 :
+
+                        if(i == val){
+
+                            $(n).each(function(j,m){
+
+                                // alert(j+"   "+m);
+
+                                $city.append("<option>"+m+"</option>");
+
+                            });
+
+                        }
+
+                    });
+
+                });
+
+            });
+
+        </script> 1.6 案例五：下拉列表的左右选择： 1.6.1 需求 :
+
+在分类的修改的页面中 , 有某个分类下的所属的商品的信息 . 可以对这些商品信息进行选择 .
+
+1.6.2 分析 : 1.6.2.1   技术分析：
+
+【 JQuery 的选择器】
+
+1.6.3 代码实现 :
+
+传统的 JS 的方式进行实现 :
+
+            window.onload=function(){
+
+                // 添加到右侧 :
+
+                document.getElementById("addRight").onclick = function(){
+
+                    // 获得左侧的下拉列表
+
+                    var selectLeft = document.getElementById("selectLeft");
+
+                    // 遍历左侧列表中的所有的 option 元素 .
+
+                    for(var i = selectLeft.options.length - 1;i>=0;i--){
+
+                        // 判断该元素是否被选中
+
+                        if(selectLeft.options[i].selected == true){
+
+                            document.getElementById("selectRight").appendChild(selectLeft.options[i]);
+
+                        }
+
+                    }
+
+                }
+
+               
+
+                // 全部到右侧 :
+
+                document.getElementById("addAll").onclick = function(){
+
+                    // 获得左侧的下拉列表
+
+                    var selectLeft = document.getElementById("selectLeft");
+
+                    // 遍历左侧列表中的所有的 option 元素 .
+
+                    for(var i = selectLeft.options.length - 1;i>=0;i--){
+
+                        document.getElementById("selectRight").appendChild(selectLeft.options[i]);
+
+                    }
+
+                }
+
+            }
+
+ 
+
+使用 JQ 完成下拉列表左右选择 :
+
+            $(function(){
+
+                // 添加左侧选中的元素到右侧
+
+                $("#addRight").click(function(){
+
+                    // 获得左侧被选中的 option 元素 :
+
+                    $("#selectLeft option:selected").appendTo("#selectRight");
+
+                });
+
+               
+
+                // 添加所有到右侧
+
+                $("#addAll").click(function(){
+
+                    // 获得左侧被选中的 option 元素 :
+
+                    $("#selectLeft option").appendTo("#selectRight");
+
+                });
+
+               
+
+                // 移除右侧被选中元素到左侧 :
+
+                $("#removeLeft").click(function(){
+
+                    $("#selectRight option:selected").appendTo("#selectLeft");
+
+                });
+
+               
+
+                // 移除右侧被选中元素到左侧 :
+
+                $("#removeAll").click(function(){
+
+                    $("#selectRight option").appendTo("#selectLeft");
+
+                });
+
+               
+
+                // 双击左侧的的某个元素，移动到右侧 :
+
+                $("#selectLeft").dblclick(function(){
+
+                    $("option:selected",this).appendTo("#selectRight");
+
+                });
+
+                   
+
+                // 双击左侧的的某个元素，移动到右侧 :
+
+                $("#selectRight").dblclick(function(){
+
+                    $("option:selected",this).appendTo("#selectLeft");
+
+                });
+
+            }); 1.6.4 总结 : 1.6.4.1   JQuery 常用事件：
+
+1.6.4.2   JQ 的事件切换：
+
+* toggle();     -- 单击事件的切换
+
+* hover();      -- 鼠标悬停的切换

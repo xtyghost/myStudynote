@@ -1,0 +1,49 @@
+tomcat是一种web 应用 服务器
+httpwatch抓包工具:如何抓包请求,响应
+请求行:请求方式  资源的地址  协议版本
+请求头:键值对 
+请求体:post提交方式的参数//get在地址栏中
+响应基于请求
+响应行:协议的版本:状态码状态描述信息:常见状态码:200:一切正常
+                                                                                            206   断点下载
+                                                                                            302:重定向
+
+                                                                                            304:拿本地缓存(如果信息没改拿本地缓存 )
+                                                                                            404:没有该资源
+
+                                                                                            500:服务器错误
+
+last-modifed
+location
+content-Disposion
+Set-cookie
+refresh
+响应头和响应体之间有空行
+响应体:是服务器会写给客户端的页面正文,浏览器将正文加载到内存,然后解析渲染显示页面内容
+web应用服务器:将服务端的信息返回给客户端
+##Web 开发的常识概念    
+B/S系统:浏览器  服务器   系统+++++++++网站
+C/S系统  客户端   服务端  系统
+web应用服务器:向外部发布web资源的服务软件
+web资源:存在于web应用服务器可供外界访问的资源就是web资源
+web开发中常用的web应用服务器
+weblogic;oracle公司
+websphere:IBM公司
+Tomcat:Apache开源组织的开源的免费的小型的web服务器,支持javaEE中的servlet和jsp规范
+javaEE一共有13门技术
+
+
+结构:mail下面有静态页面和WEB-INF文件夹,WEB-INF文件夹下有claass文件夹,lib文件夹,web.xml(web项目的配置文件)
+注意WEB-INF目录是受保护的,外界不能直接访问
+web-context root关联路径(tomcat中的)
+
+
+ 设置虚拟路径conf/service.xml下   <context path="/itheima"  docBase="   "/>     
+方式二:tomcat,conf,catalina,localhost,建议寻找的虚拟路径名的文件<context  docBase="       "/>    
+映射的配置C:\Windows\System32\drivers\etc   
+
+
+
+
+
+                                                                                             

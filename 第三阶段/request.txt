@@ -1,0 +1,79 @@
+可操作get也可操作post
+###操作请求行
+```
+获取请求方式:request.getmethod()
+request.getContextPath()----获取web应用的名称,前面加一个地址符文/
+getRequesURI();
+getRequestRUL()
+//获取参数字符串get类型
+getQueryString
+```
+###操作请求头
+```
+getheader()
+Enumeration getHeaders(String name);
+referer 头的作用:指定该次访问的来源---防盗链
+...
+
+
+```
+###操作请求体
+```
+getparameternames()获得所有请求的name  
+getparameter()获取单个数据
+Map   getparameterMap(String s,String[] s1);
+request.getparametervalues()  获得数组
+```
+查找画板mspaint
+###request.getRomoteAddr()--获取访问的客户端Ip地址
+##request完成转发
+```
+//获得转发器
+RequestDipatcher   getRequestDispatcher(String path)
+转发对象
+requestDispatch er.forward(ServletRequest request,ServletResponse response)
+```
+##request的其他功能:
+```
+request和servletcontext都是域对象
+setAttribute();  
+getAttribute();
+removeAttribute();
+
+
+```
+转发与重定向的区别
+```
+转发:一次连接(一个request,一个response),操作一个页面,servlet1内部调用servlet2,地址不变 ,转发只能使用web应用内部资源,性能更好
+转发:2次连接(2个request,2个response),地址在变
+
+
+
+```
+
+
+客户端地址:加web的项目名,直接访问,重定向
+服务器地址,内部资源的跳转,不加web,除非你要调用别的web应用
+//不加目录名的状态下默认为本web
+##注册表单的实现
+```
+
+
+
+
+
+
+```
+乱码的解决;
+``
+,request. setCharacterEncoding( charset ); 方法只适合post方式的提交
+
+最好的解决方式    un[]=string.getbytes("ios8859-1");string-new String(un[],"UTF-8")
+请求体中的内容一般以流的方式读取
+请求行以 以unicode码的方式读取
+```
+UUID
+```
+UUID.randomUUID().toString(),36位
+```
+客户端发送的数据到服务器端都为字符串

@@ -1,0 +1,109 @@
+常见错误:<%=pageContext.getRequest().getContextPath()%>不能实现:因为pageContext.getrequest()得到的是servletrequest不是httpServletrequest
+El从域中取数据
+java server page standar taglibrary language 不可以进行比较,加减
+只是一个固定格式的函数表达式
+
+
+Expression Language
+简化jsp的写法
+尽量少用脚本代码
+${}类似findAttribute()
+获取map的值:
+${map.key}
+获取对象属性
+${bean.attribute}
+如果特殊字符   ["特殊字符"]
+如果是用el进行+,-,*,/运算 el会进行long.parselong()转换//不要字符串拼接
+如果是比较运算,则不转换//如果又一边是number类型也要long.parselong()
+不能执行位运算
+EL的内置对象
+```
+基于模式
+param,paramValues         ---
+header  ,headerValues      ---
+initParam            ---
+cookie         ----${cookie.key.value}
+pageContext              --${pageContext.request.remoteArr}  ; ${pageContext.request.contextpath}
+
+
+
+
+
+
+```
+EL功能4{cookie.key.cvalueskeyvalvaluesvalue   ininnitparams
+```
+简化代码
+获取数据
+执行表达式${1+1} ;${1=1?true:false}
+运算
+${empty  user}判断某个对象是否为空
+EL表达式认为""也是null
+EL不能做逻辑作用
+```
+JSTL    (jsp Standard Tag Libary)内部包含一些有用的方法,是jsp的操作更规范,便捷
+```
+完成逻辑运算库
+
+
+
+
+```
+标签导入<%@ taglib   uri:="http//java.sun.com/jsp/jstl/core"   procfix="c"%>
+ 标签库:
+```
+<C:if test="">
+
+
+</c:if>
+<c: if test!="">
+
+
+</C:if>
+
+
+
+
+```
+重点:当用户登录成功我们一般将用户对象存到session中
+EL的11内置对象
+
+
+####jstl
+
+
+```
+
+
+JSTL 1.0;不支持el
+jstl:1.1和1.2   支持el
+五大标签: core , fmt国际化标签(同步语言),xml,sql ,fn函数库
+,,导包:
+引入标签库<%@ taglib url =" "  prefix=""%>
+core:if     foreach
+fn --el表达式里支持的函数(只能写在el内部)=====String
+//foreach标签
+增强for
+<c:foreach  var="i"  items="${}" varStatus="status">
+${status.index}//默认脚标,没有角标时代表本身
+${status.count}
+
+</c:foreach>
+普通for?
+
+<c:foreach  var="i" begin=""  end="" >
+</c:foreach>
+
+<c:foreach  var="i"  items="${}">
+</c:foreach>
+function:导包<%@ taglib uri=" http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
+
+
+
+
+
+
+```
+
+
+

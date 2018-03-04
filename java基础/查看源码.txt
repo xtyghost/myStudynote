@@ -1,0 +1,5 @@
+ctrl+shift+t :打开查询界面 (输入类名)
+ctrl +o:查看类中的方法
+static 修饰的成员为类字段(随着类的加载而加载)
+Object类静态变量class ,方法getClass(),Class. fornName(" ")
+instanceof某某的实例. object  intanceof   Class 判断object 是否是Class 的实例

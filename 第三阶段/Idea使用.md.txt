@@ -1,0 +1,77 @@
+##ctrl
+```
+Ctrl +N   打开指定的类
+ Ctrl+R 重命名--将字段名改变
+ctr +F查询各种类表单
+Ctr +G跳跃
+ctr +P  提示所有属性=============厉害
+Ctr +1,2,3,4,5,6,7,8等书签的使用
+Ctr+shift+1,2,3,4,5,6等  添加标签----------取消标签 再按一遍
+Ctrl +delete  向后删除一个字符串======快
+Ctrl+左箭头    向前删除一个字符串
+Ctrl +W 选中单词单位,再按一次向外扩展
+Ctrl +左箭头----------
+Ctrl+右箭头---------以字符为单位跳转
+Ctrl +[ 
+Ctrl +]----------以html标签为单位进行跳转
+shift+上下   -------向上或者向下选中信息
+Ctrl+上下------------文本框的上下拖动
+ctrl+e最近使用文件的显示
+Ctrl+f12以html标签为的属性name为条件查询信息
+Ctrl+f3---------ctrl+f的集成,向下查询同名信息
+ESC退出状态
+ctr +/注释java,jsp,html注释----------------------------强
+ctrl +shift+/多行注释
+Ctrl +B查看源代码
+Ctrl +空格   代码补全
+Ctrl+G跳转到指定行列
+Ctrl+-整理代码
+ctrl+D向下复制整行
+Ctrl+f12查看类的结构file Structure
+Ctral+shift+r全局中替换字符串
+alt +f7查找当前变量的使用
+ctrl+alt+f7  查找当前变量使用,并对话框显示
+ctrl+shif+i  以对话框显示源代码
+ctrl +f7  文件张查找
+ctrl+shift+f7高亮显示用法
+```
+##shift
+```
+shift +f6重构里面的重命名
+shift+单击关闭一个文件夹
+shift+end----------从起始位置到行末尾
+
+shift+home---------从起始位置到行结束
+
+shift+f11查询行的数据书签
+shift+enter向下空一行
+ctrl+alt+enter向上空一行
+F2 或Shift+F2 高亮错误或警告快速定位
+
+```
+###alt
+```
+ALt +F7 查询(带改建)    
+alt +/代码只能补全
+alt +f1 弹出文件选择目标
+alt +home方便的文件的选择
+alt  _鼠标选区
+shift +alt+鼠标多点编辑
+Ctrl + Shift + Alt + J          --->   选中下边相同字符，进行列模式操作 ( 可用于类属性创建 )
+
+
+
+ ```
+
+
+
+
+file and  code
+live templete
+```
+生成动态模板
+live templete 的默认变量要用""包含起来
+
+
+```
+

@@ -1,0 +1,35 @@
+link Connection fail Mysql服务没开
+Uniform Resource Locator， URL
+
+连接池必须实现datasource接口
+DBCP是一个开源的连接池是Apche 从模拟成员之一,在企业开发中非常常见,tomcat的内置连接池子
+BaiscDataSource实现了datasource接口javax包下(java扩展包)
+内部常用方法有
+                        close( )
+                        getConnection()获取连接
+
+                        setPassword()
+
+                        setUrl()
+
+                        setUsername()
+
+                        setDriverClassName()///因为com.mysql.jdbc.Driver是驱动名字
+
+使用空参构造可以获BaisicDataSource对象
+通过SetXXx( )可以设置4个必要参数
+可以设置四个不必要:setinitialSize();//初始的线程数量不代表最后的
+                                setMaxActive();
+                                setMaxIdle();
+
+                                setMinIdle();
+
+                                setmaxwait():最大等待时间,当为-1时无限等待
+
+close()方法为归还资源//不用主动调用
+SqlException表示数据库操作中的连接失败,语法错误,等问题
+
+
+
+
+

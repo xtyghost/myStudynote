@@ -1,0 +1,14 @@
+String s1="a";
+String s2="d"
+String s3="ad"
+String s4="a"+"d";
+String s5=s1+s2;
+s4==s3 true
+s5==s3 false
+s5==s4 false
+字符窜常量拼接时直接拼接创建对象在方法区中,会缓存
+字符串变量相加时内部调研StringBuilder:new了新地址.(存在堆内存中)
+Stringbuffer:setlength()方法可以用来清空数据
+                    delete(start,off)用来清空数据(主要)
+
+                    

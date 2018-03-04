@@ -1,0 +1,33 @@
+package  practice03 ;
+public   class   Test   {
+     public   static   void   main ( String []   args )   {
+         //  TODO  Auto-generated method stub
+         //1.    定义志愿者功能 Helper接口，具有帮忙方法 void help()
+          int   s = 111 ;
+         FactoryWorker   fw = new   FactoryWorker ( "张三" , 11 ) ;
+         UniversityStudent   us = new   UniversityStudent ( "李四" , 13 ) ;
+         fw . work () ;
+         fw . help () ;
+        
+         us . study () ;
+         us . help () ;
+         Worker   w = new   FactoryWorker ( "王五" , 15 ) ;
+        
+     /*    new Helper(){
+            @Override
+            public void help() {
+                //  TODO  Auto-generated method stub
+                System.out.println("围观式救人");
+                System.out.println(s);//局部内部类只能调用方法内的常量和成员变量
+            }
+            
+        }.help();*/
+        
+     }
+     public   int   s ;
+     class   WWWII {
+         void   method (){
+             System . out . println ( s ) ;
+          }
+     }
+}

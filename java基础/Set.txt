@@ -1,0 +1,7 @@
+使用二叉树结构,可以使用二分查找法提高效率
+TreeSet 小的在左边大的在右边
+hashset 内部数据结构是哈希表,不同步/更据哈希表来确定位置 在用equals 方法来,且具有存储的唯一性,可存一个null
+linkedhashset 元素有须且唯一(有序的定义,根据存入的顺序储存)
+treeset 通过实现comparable(元素),或comparator接口来实现排序,是不同步的
+红黑树
+

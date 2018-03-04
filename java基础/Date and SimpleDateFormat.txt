@@ -1,0 +1,13 @@
+Date d=new Date();//默认为当前时间
+Date d=new Date( );//美国时间1970年1月1日00时00秒
+System . arraycopy ( src ,   srcPos ,   dest ,   destPos ,   length ) ;
+
+  System . exit ( 0 ) ; //正常情況終止0
+  System . exit ( 1 ) ; //非0表示異常情況下終止
+
+System.currentTimeMillis();//获得当前时间
+new SimpleDateFormat();
+Calendar ca=Calendar.getIntance();
+ca.setTime(date)//设置日历
+Calendar ca=format.calendaer与Calendar.getIntance( )类似(format为simpledateformat的对象)
+

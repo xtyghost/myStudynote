@@ -1,0 +1,3 @@
+/r/n           / window
+/r            linux
+/n           /mac

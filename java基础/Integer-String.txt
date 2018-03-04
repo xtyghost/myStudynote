@@ -1,0 +1,26 @@
+    int   s = 2 ;
+     Integer   s1 = 2 ;
+     Integer   s2 = new   Integer ( 2 ) ;
+     Integer   s3 = Integer . valueOf ( 2 ) ;      System . out . println ( s1 == s3 ) ;
+
+==比较地址值,是new了对象的数就与其他属不同
+Integer有自动装箱,自动拆箱,自动装箱时有缓存机制byte类型的范围内用的均是固定对象,节省内存
+String 的字符串相加按照数组来算,相加后为新数组
+凡是自动装箱和拆卸结果均是不同的对象   Integer  i=1;   i++之后是新的对象,地址不同    
+基本数据类型之间可以强制,强转为截取损失精度
+但基本数据类型对象之间不能强制,对象之间强制必须是继承关系   
+#运行效率的比较
+String<StringBuffer<StringBuilder
+```
+但这不是绝对的,jvm在编译时会对String进行优化
+在字符串直接相加时:"i"+"love"+"java" ,编译器会直接将结果识别形成ilovejava存放到常量池中,所以String在此时效率最高,
+
+但只有是有对象相加还是遵循 String<StringBuffer<StringBuilder
+
+
+
+
+
+
+```
+

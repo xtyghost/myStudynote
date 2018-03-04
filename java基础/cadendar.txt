@@ -1,0 +1,23 @@
+
+
+①获取星期几的时候1代表星期天
+                                2代表星期一以此类推
+            所以获取星期几的话最好按以下代码编写：
+    String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+        Calendar calendar=Calendar.getInstance();
+        System.out.println("今天是"+weekDays[calendar.get(Calendar.DAY_OF_WEEK)-1]);
+                 ②获取月份的时候0代表1月所以要显示的话应该把结果+1来显示
+
+
+Date date = new Date();
+        SimpleDateFormat strdate = new SimpleDateFormat("E");
+        String str = strdate.format(date);
+        System.out.println(str);
+        Calendar ca=Calendar.getInstance()获取默认时间的日历
+
+        Calendar ca=strdate.getcalendar(),获得parse和format使用的calendar
+
+        ca.settime(date)设置日历
+
+
+

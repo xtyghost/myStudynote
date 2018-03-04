@@ -1,0 +1,8 @@
+map.clear();
+重复刷新问题;刷新当前页面,运行到当前页面的方法,
+     // beanutils 封装集合对象时候不会以null而是一个个空对象
+
+一般来使用mvc设计模式一个jsp对应一个servlet
+history.go()
+history.forward()
+history.back()

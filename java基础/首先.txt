@@ -1,0 +1,16 @@
+  首先，next（）一定要读取到有效字符后才可以结束输入，对输入有效字符之前遇到的空格键、Tab键或Enter键等结束符，next（）方法会自动将其去掉，只有在输入有效字符之后，next（）方法才将其后输入的空格键、Tab键或Enter键等视为分隔符或结束符。简单地说，next（）查找并返回来自此扫描器的下一个完整标记。完整标记的前后是与分隔模式匹配的输入信息，所以next方法不能得到带空格的字符串而nextLine（）方法的结束符只是Enter键，即nextLine（）方法返回的是Enter键之前的所有字符，它是可以得到带空格的字符串的。
+
+来源：  https://jingyan.baidu.com/article/9f63fb91ad6cbfc8400f0e82.html nextLine（）自动读取了被next（）去掉的Enter作为他的结束符，所以没办法给s2从键盘输入值。
+
+extLine（）自动读取了被next（）去掉的Enter作为他的结束符，所以没办法给s2从键盘输入值。经过验证，其他的next的方法，如double nextDouble()  ， float nextFloat() ， int nextInt() 等与nextLine（）连用时都存在这个问题，解决的办法是：在每一个 next（）、nextDouble()  、 www.gzlij.com（）、nextFloat()、nextInt() 等语句之后加一个nextLine（）语句，将被next（）去掉的Enter结束符过滤掉
+
+简单来说,除nxetline()以外均不接受 空格键、Tab键或Enter键,且仅把它们作为结束符,但必须接受到有效数字后才遇到结束符号才算结束,但nextline遇到enter就结束且把结束符号吞了
+
+
+
+
+
+
+
+
+

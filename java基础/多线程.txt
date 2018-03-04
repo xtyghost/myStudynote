@@ -1,0 +1,39 @@
+多线程安全问题:
+                            共享数据
+
+                            多条线程
+
+                            且共享数据被多条语句操作
+
+当判断语句没有(必须默认的)执行体语句时并无意义
+生产者消费者问题
+sleep释放权限，释放资格，不释放锁，可自己醒来，
+wait释放权限，释放资格，释放锁（多线程)，不会自己醒来。
+lock=new reentrantlock()锁
+condtion监视器
+wait_notify_notifyall-全叫醒
+await-signal_signalall叫醒指定监视器锁定的线程
+
+
+单例设计方式:饿汉式,
+                       私有静态变量
+
+                    懒汉式
+
+
+
+
+
+实现多线程的方法:1继承
+                            2implements runnable接口,共享线程任务中出了run()以外的所有信息,
+
+
+
+Runnable  task=new Runable实现类();
+new Thread(task).start()等于开启新的线程并让改线程运行task.run()方法
+  public   void   run ()   {
+         if   ( target   !=   null )   {
+             target . run () ;
+         }      }
+
+一个线程不可以被重复开启多次

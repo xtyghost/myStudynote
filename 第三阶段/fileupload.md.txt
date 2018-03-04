@@ -1,0 +1,67 @@
+
+
+在线支付:
+```
+
+
+
+
+
+
+
+
+
+
+
+
+```
+文件上传
+```
+文件上传三要素
+post提交
+type=file   name
+ 
+enctype=multipart/form-data---------------------------一旦属性改为此则getparameter,等方法不能用了也不可以用baseServlet--因为baseServlet要用到getParameter
+fileupload需要两个包commons -fileupload -1.21.jar
+                                  commons-io-1.4.jar
+
+
+
+
+DiskFileItemFactory factory=new DiskFileItemFactory();
+ServletFileUpload fileupload =new ServletFileUpload();
+设置缓存区的大小
+diskFileItemFactory.setSizeThreshold();
+设置临时文件所存放的路径
+diskFileItemFactory.setRepository(repository)
+解决中文文件名上传的乱码
+fileUpload.setHeaderEncoding("utf-8")
+设置文件大小
+fileupload.setsizemax()
+fileupload.setifilesizemax();
+解析request返回fileitem集合
+List<FileItem> items =fileupload.parseRequest(request);
+for(FileItem item :items){
+//判断普通项和文件上传项
+        if(item.isFormField()){
+          //普通项
+              String key =item.getFieldName();
+                 String value=item.getString("utf-8")//解决普通项的中文乱码
+            }else{
+                文件上传项--------解决乱码文件名
+fileUpload.setHeaderEncoding("utf-8") 
+
+            item.getname()
+
+
+            } 
+
+
+}
+
+
+
+
+
+
+```

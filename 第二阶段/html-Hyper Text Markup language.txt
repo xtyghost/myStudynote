@@ -1,0 +1,94 @@
+ 标记语言:通过一组标签的形式描述事物的一门语言
+html制作静态页面
+<html> 
+            <head> 
+
+                        <title>text<title>
+
+            </head>
+
+            <body>
+
+                        this is <font color='blue' size='9'>my  </font> first html file<br>
+
+                        second line
+
+            </body>
+
+</html>
+<hr/>水平线
+标签数据不能为数字
+超文本标记语言:
+                        超文本:比普通文本更强大的文本
+
+                        标记语言:使用一组标签进行描述的一门语言,<不是编程语言不需被编译>
+
+html语法和规范:
+                    1后缀名均以.html和htm结尾,建议html
+
+                     2html由<head></head>,<body></body>组成  ,且仅有一个根标签  <html> </html>
+                    3html标签都有开始和结束标签组成,但可以写在一起<br/>
+                    4  html忽略大小写,建议小写
+
+常用标签:
+        字段标签
+
+              <hn></hn>标题标签
+            < b></b>加粗
+
+            <!></!>斜体
+
+            <font></font>属性face字体:必须设置本机已有字体否则无效
+,size,color
+
+            
+
+        图片标签       <img /> 属性src地址,weight,height,alt备注
+
+        相对路径:1统计直接写或./在写
+
+                        2上级../加文件名(几级加几个../)
+
+                        3下级,目录名加/文件名
+
+        超链接: <a></a>属性href跳转(默认刷新本身) target="_blank "点击超链接后会在创建一个页面
+        列表标签    
+                    无序<ul>     <li></li></ul>
+
+                    有序 <ol>     <li></li></ol>    
+
+                    单元格: cellspacing 设置边框与边框的间距,cellpadding 设置边框与内容的间距
+<table border="1px" width ="450px" height+"150px" align="center" bgcolor="pink" cellspacing="0px" cellpadding="0px">表
+
+                <tr>行
+
+                            <td>       </td>列
+
+
+
+                        
+
+                </tr>
+
+
+
+
+
+</table>
+
+
+
+
+<frameset rows="" cols="">//占body的位置
+    <a href="?" tagart="name">可以完成?在name的区域显示
+
+     <frame src=""/>指定frame地址
+    <frame name=""/>指定frame名字
+
+</frameset >
+ 
+  
+
+
+
+

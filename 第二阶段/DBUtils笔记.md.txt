@@ -1,0 +1,571 @@
+今日内容介绍
+1、Properties配置文件
+2、DBUtils
+###01数据表数据存储对象
+    * A: 数据表数据存储对象
+        * a: 准备工作
+            * 导入jar包
+            * 拷贝day32定义的工具类JDBCUtils
+ 
+        * b: 案例代码
+            //定义实体类Sort
+            public class Sort {
+                private int sid;
+                private String sname;
+                private double sprice;
+                private String sdesc;
+                public Sort(int sid, String sname, double sprice, String sdesc) {
+                    this.sid = sid;
+                    this.sname = sname;
+                    this.sprice = sprice;
+                    this.sdesc = sdesc;
+                }
+                public Sort(){}
+                public int getSid() {
+                    return sid;
+                }
+                public void setSid(int sid) {
+                    this.sid = sid;
+                }
+                public String getSname() {
+                    return sname;
+                }
+                public void setSname(String sname) {
+                    this.sname = sname;
+                }
+                public double getSprice() {
+                    return sprice;
+                }
+                public void setSprice(double sprice) {
+                    this.sprice = sprice;
+                }
+                public String getSdesc() {
+                    return sdesc;
+                }
+                public void setSdesc(String sdesc) {
+                    this.sdesc = sdesc;
+                }
+                @Override
+                public String toString() {
+                    return "Sort [sid=" + sid + ", sname=" + sname + ", sprice=" + sprice + ", sdesc=" + sdesc + "]";
+                }               
+            }
+ 
+            /*
+             *  JDBC读取数据表sort,每行数据封装到Sort类的对象中
+             *  很多个Sort类对象,存储到List集合中
+             */
+            public class JDBCDemo {
+                public static void main(String[] args) throws Exception{
+                    //使用JDBC工具类,直接获取数据库连接对象
+                    Connection con = JDBCUtils.getConnection();
+                    //连接获取数据库SQL语句执行者对象
+                    PreparedStatement pst = con.prepareStatement("SELECT * FROM sort");
+                    //调用查询方法,获取结果集
+                    ResultSet rs = pst.executeQuery();
+                    //创建集合对象
+                    List<Sort> list = new ArrayList<Sort>();
+                    while(rs.next()){
+                        //获取到每个列数据,封装到Sort对象中
+                        Sort s = new Sort(rs.getInt("sid"),rs.getString("sname"),rs.getDouble("sprice"),rs.getString("sdesc"));
+                        //封装的Sort对象,存储到集合中
+                        list.add(s);
+                    }
+                    JDBCUtils.close(con, pst, rs);
+                    //遍历List集合
+                    for(Sort s : list){
+                        System.out.println(s);
+                    }
+                }
+            }
+ 
+ 
+ 
+ 
+ 
+ 
+###02properties配置文件
+    * A: properties配置文件       
+        * a: 相关介绍
+            * 开发中获得连接的4个参数（驱动、URL、用户名、密码）通常都存在配置文件中，方便后期维护，程序如果需要更换数据库，
+                只需要修改配置文件即可。
+            * 通常情况下，我们习惯使用properties文件，此文件我们将做如下要求：
+                1.    文件位置：任意，建议src下
+                2.    文件名称：任意，扩展名为properties
+                3.    文件内容：一行一组数据，格式是“key=value”.
+                    a)    key命名自定义，如果是多个单词，习惯使用点分隔。例如：jdbc.driver
+                    b)    value值不支持中文，如果需要使用非英文字符，将进行unicode转换。
+ 
+###03properties文件的创建和编写
+    * A: properties文件的创建和编写
+        * a: properties文件的创建
+            * src路径下建立database.properties(其实就是一个文本文件)
+        * b: properties文件的编写(内容如下)
+            driverClass=com.mysql.jdbc.Driver
+            url=jdbc:mysql://localhost:3306/mybase
+            username=root
+            password=123       
+ 
+###04加载配置文件
+    * A: 加载配置文件
+        * a: 案例代码       
+            /*
+             *  加载properties配置文件
+             *  IO读取文件,键值对存储到集合
+             *  从集合中以键值对方式获取数据库的连接信息,完成数据库的连接
+             */
+            public class PropertiesDemo {
+                public static void main(String[] args) throws Exception{
+                    FileInputStream fis = new FileInputStream("database.properties");
+                    System.out.println(fis);
+                    //使用类的加载器
+                    InputStream in = PropertiesDemo.class.getClassLoader().getResourceAsStream("database.properties");
+                    System.out.println(in);
+                    Properties pro = new Properties();
+                    pro.load(in);
+                    System.out.println(in);                   
+                }
+            }
+ 
+ 
+ 
+ 
+###05通过配置文件连接数据库
+    * A: 通过配置文件连接数据库
+        * a: 案例代码
+            /*
+             *  加载properties配置文件
+             *  IO读取文件,键值对存储到集合
+             *  从集合中以键值对方式获取数据库的连接信息,完成数据库的连接
+             */
+            public class PropertiesDemo {
+                public static void main(String[] args) throws Exception{
+                    FileInputStream fis = new FileInputStream("database.properties");
+                    System.out.println(fis);
+                    //使用类的加载器
+                    InputStream in = PropertiesDemo.class.getClassLoader().getResourceAsStream("database.properties");
+                    System.out.println(in);
+                    Properties pro = new Properties();
+                    pro.load(in);
+                    //获取集合中的键值对
+                    String driverClass=pro.getProperty("driverClass");
+                    String url = pro.getProperty("url");
+                    String username = pro.getProperty("username");
+                    String password = pro.getProperty("password");
+                    Class.forName(driverClass);
+                    Connection con = DriverManager.getConnection(url, username, password);
+                    System.out.println(con);
+ 
+                }
+            }
+ 
+ 
+###06读取配置文件的工具类
+    * A: 读取配置文件的工具类
+        * a: 案例代码
+            /*
+             *  编写数据库连接的工具类,JDBC工具类
+             *  获取连接对象采用读取配置文件方式
+             *  读取文件获取连接,执行一次,static{}
+             */
+            public class JDBCUtilsConfig {
+                private static Connection con ;
+                private static String driverClass;
+                private static String url;
+                private static String username;
+                private static String password;
+ 
+                static{
+                    try{
+                        readConfig();
+                        Class.forName(driverClass);
+                        con = DriverManager.getConnection(url, username, password);
+                    }catch(Exception ex){
+                        throw new RuntimeException("数据库连接失败");
+                    }
+                }
+ 
+                private static void readConfig()throws Exception{
+                    InputStream in = JDBCUtilsConfig.class.getClassLoader().getResourceAsStream("database.properties");
+                     Properties pro = new Properties();
+                     pro.load(in);
+                     driverClass=pro.getProperty("driverClass");
+                     url = pro.getProperty("url");
+                     username = pro.getProperty("username");
+                     password = pro.getProperty("password");
+                }
+ 
+ 
+                public static Connection getConnection(){
+                    return con;
+                }
+ 
+            }           
+ 
+###07测试工具类
+    * A: 测试工具类
+        * a: 案例代码
+            public class TestJDBCUtils {
+                public static void main(String[] args) {
+                    Connection con = JDBCUtilsConfig.getConnection();
+                    System.out.println(con);
+                }
+            }
+ 
+###08DButils工具类的介绍个三个核心类//有更先进的关闭方法closeQuietly(con,stat,rs)
+    * A: DButils工具类的介绍个三个核心类
+        * a: 概述
+            * DBUtils是java编程中的数据库操作实用工具，小巧简单实用。
+            * DBUtils封装了对JDBC的操作，简化了JDBC操作，可以少写代码。
+            * DBUtils就是JDBC的简化开发工具包。需要项目导入commons-dbutils-1.6.jar才能够正常使用DBUtils工具。它依赖mysql-connector-java包
+        * b: Dbutils三个核心功能介绍
+            * QueryRunner中提供对sql语句操作的API.
+                * update(Connection conn, String sql, Object... params) ，用来完成表数据的增加、删除、更新操作
+                * query(Connection conn, String sql, ResultSetHandler<T> rsh, Object... params) ，用来完成表数据的查询操作
+            * ResultSetHandler接口，用于定义select操作后，怎样封装结果集.
+            * DbUtils类，它就是一个工具类,定义了关闭资源与事务处理的方法//自动归还数据
+ 
+ 
+ 
+###09事务的简单介绍(此知识点简单了解，难度较大，就业班会详细 讲解)
+    * A: 事务的简单介绍
+        * a: 见day32/day32_source/事务.jgp
+ 
+###10QueryRunner类的update方法介绍
+    * A：QueryRunner类的update方法介绍
+        * a: 方法介绍
+            * update(Connection conn, String sql, Object... params) ，用来完成表数据的增加、删除、更新操作
+            *  使用QueryRunner类,实现对数据表的insert delete update
+            *  调用QueryRunner类的方法 update (Connection con,String sql,Object...param)
+                *  Object...param 可变参数,Object类型,SQL语句会出现?占位符
+                *  数据库连接对象,自定义的工具类传递
+ 
+ 
+###11QueryRunner类实现insert添加数据
+    * A: QueryRunner类实现insert添加数据
+        * a: 案例代码
+            public class QueryRunnerDemo {
+                private static Connection con = JDBCUtilsConfig.getConnection();
+                public static void main(String[] args)throws SQLException {
+                    insert();           
+                }               
+                /*
+                 * 定义方法,使用QueryRunner类的方法update向数据表中,添加数据
+                 */
+                public static void insert()throws SQLException{
+                    //创建QueryRunner类对象
+                    QueryRunner qr = new QueryRunner();
+                    String sql = "INSERT INTO sort (sname,sprice,sdesc)VALUES(?,?,?)";
+                    //将三个?占位符的实际参数,写在数组中
+                    Object[] params = {"体育用品",289.32,"购买体育用品"};
+                    //调用QueryRunner类的方法update执行SQL语句
+                    int row = qr.update(con, sql, params);
+                    System.out.println(row);
+                    DbUtils.closeQuietly(con);
+                }
+            }
+ 
+ 
+###12QueryRunner类实现update修改数据
+    * A: QueryRunner类实现update修改数据
+        * a: 案例代码
+            public class QueryRunnerDemo {
+                private static Connection con = JDBCUtilsConfig.getConnection();
+                public static void main(String[] args)throws SQLException {
+                    update();
+                }               
+                /*
+                 *  定义方法,使用QueryRunner类的方法update将数据表的数据修改
+                 */
+                public static void update()throws SQLException{
+                    //创建QueryRunner类对象
+                    QueryRunner qr = new QueryRunner();   
+                    //写修改数据的SQL语句
+                    String sql = "UPDATE sort SET sname=?,sprice=?,sdesc=? WHERE sid=?";
+                    //定义Object数组,存储?中的参数
+                    Object[] params = {"花卉",100.88,"情人节玫瑰花",4};
+                    //调用QueryRunner方法update
+                    int row = qr.update(con, sql, params);
+                    System.out.println(row);
+                    DbUtils.closeQuietly(con);
+                }               
+            }
+ 
+ 
+ 
+ 
+###13QueryRunner类实现delete删除数据
+    * A: QueryRunner类实现delete删除数据
+        * a: 案例代码
+            public class QueryRunnerDemo {
+                private static Connection con = JDBCUtilsConfig.getConnection();
+                public static void main(String[] args)throws SQLException {
+                    delete();
+                }
+                /*
+                 *  定义方法,使用QueryRunner类的方法delete将数据表的数据删除
+                 */
+                public static void delete()throws SQLException{
+                    //创建QueryRunner类对象
+                    QueryRunner qr = new QueryRunner();   
+                    //写删除的SQL语句
+                    String sql = "DELETE FROM sort WHERE sid=?";
+                    //调用QueryRunner方法update
+                    int row = qr.update(con, sql, 8);
+                    System.out.println(row);
+                    /*
+                     *  判断insert,update,delete执行是否成功
+                     *  对返回值row判断
+                     *  if(row>0) 执行成功
+                     */
+                    DbUtils.closeQuietly(con);
+                }               
+            }
+ 
+###14JavaBean类
+    * A: JavaBean类
+        * a: 概念
+            * JavaBean就是一个类，在开发中常用封装数据。具有如下特性
+                1.    需要实现接口：java.io.Serializable ，通常实现接口这步骤省略了，不会影响程序。
+                2.    提供私有字段：private 类型 字段名;
+                3.    提供getter/setter方法：
+                4.    提供无参构造
+ 
+###15DBUtils工具类结果集处理的方式
+    * A: DBUtils工具类结果集处理的方式
+        * a: QueryRunner实现查询操作
+            *    query(Connection conn, String sql, ResultSetHandler<T> rsh, Object... params) ，用来完成表数据的查询操作
+        * b: ResultSetHandler结果集处理类
+            * ArrayHandler    将结果集中的第一条记录封装到一个Object[]数组中，数组中的每一个元素就是这条记录中的每一个字段的值
+            * ArrayListHandler    将结果集中的每一条记录都封装到一个Object[]数组中，将这些数组在封装到List集合中。
+            * BeanHandler    将结果集中第一条记录封装到一个指定的javaBean中。
+            * BeanListHandler    将结果集中每一条记录封装到指定的javaBean中，将这些javaBean在封装到List集合中
+            * ColumnListHandler    将结果集中指定的列的字段值，封装到一个List集合中
+            * ScalarHandler    它是用于单数据。例如select count(*) from 表操作。
+            * MapHandler    将结果集第一行封装到Map集合中,Key 列名, Value 该列数据
+            * MapListHandler    将结果集第一行封装到Map集合中,Key 列名, Value 该列数据,Map集合存储到List集合
+ 
+###16QueryRunner类的方法query
+    * A: QueryRunner类的方法query
+        * a: QueryRunner数据查询操作
+            * 调用QueryRunner类方法query(Connection con,String sql,ResultSetHandler r, Object..params)
+            *  ResultSetHandler r 结果集的处理方式,传递ResultSetHandler接口实现类
+            *  Object..params SQL语句中的?占位符
+            *  注意: query方法返回值,返回的是T 泛型, 具体返回值类型,跟随结果集处理方式变化
+        * b: 案例代码
+            public class QueryRunnerDemo1 {
+                private static Connection con = JDBCUtilsConfig.getConnection();
+            }
+ 
+###17结果集处理ArrayHandler
+    * A: 结果集处理ArrayHandler
+        * 案例代码
+            public class QueryRunnerDemo1 {
+                private static Connection con = JDBCUtilsConfig.getConnection();
+                public static void main(String[] args) throws SQLException{
+                    arrayHandler();
+                }   
+                /*
+                 *  结果集第一种处理方法, ArrayHandler
+                 *  将结果集的第一行存储到对象数组中  Object[]
+                 */
+                public static void arrayHandler()throws SQLException{
+                    QueryRunner qr = new QueryRunner();
+                    String sql = "SELECT * FROM sort";
+                    //调用方法query执行查询,传递连接对象,SQL语句,结果集处理方式的实现类
+                    //返回对象数组
+                    Object[] result = qr.query(con, sql, new ArrayHandler());
+                    for(Object obj : result){
+                        System.out.print(obj);
+                    }
+                }   
+            }
+ 
+###18结果集处理ArrayListHandler
+    * A: 结果集处理ArrayListHandler
+        * a: 案例代码
+            public class QueryRunnerDemo1 {
+                private static Connection con = JDBCUtilsConfig.getConnection();
+                public static void main(String[] args) throws SQLException{
+                    arrayListHandler();
+                }
+                /*
+                 *  结果集第二种处理方法,ArrayListHandler
+                 *  将结果集的每一行,封装到对象数组中, 出现很多对象数组
+                 *  对象数组存储到List集合
+                 */
+                public static void arrayListHandler()throws SQLException{
+                    QueryRunner qr = new QueryRunner();
+                    String sql = "SELECT * FROM sort";       
+                    //调用query方法,结果集处理的参数上,传递实现类ArrayListHandler
+                    //方法返回值 每行是一个对象数组,存储到List
+                    List<Object[]> result=  qr.query(con, sql, new ArrayListHandler());
+ 
+                    //集合的遍历
+                    for( Object[] objs  : result){
+                        //遍历对象数组
+                        for(Object obj : objs){
+                            System.out.print(obj+"  ");
+                        }
+                        System.out.println();
+                    }
+                }
+            }
+ 
+ 
+ 
+###19结果集处理BeanHandler
+    * A: 结果集处理BeanHandler
+        * a: 案例代码
+            public class QueryRunnerDemo1 {
+                private static Connection con = JDBCUtilsConfig.getConnection();
+                public static void main(String[] args) throws SQLException{
+                    beanHandler();
+                }
+                /*
+                 *  结果集第三种处理方法,BeanHandler
+                 *  将结果集的第一行数据,封装成JavaBean对象
+                 *  注意: 被封装成数据到JavaBean对象, Sort类必须有空参数构造
+                 */
+                public static void beanHandler()throws SQLException{
+                    QueryRunner qr = new QueryRunner();
+                    String sql = "SELECT * FROM sort ";
+                    //调用方法,传递结果集实现类BeanHandler
+                    //BeanHandler(Class<T> type)
+                    Sort s = qr.query(con, sql, new BeanHandler<Sort>(Sort.class));
+                    System.out.println(s);
+                }
+            }
+ 
+ 
+###20结果集处理BeanListHandler
+    * A: 结果集处理BeanListHandler
+        * a: 案例代码
+        public class QueryRunnerDemo1 {
+            private static Connection con = JDBCUtilsConfig.getConnection();
+            public static void main(String[] args) throws SQLException{
+                beanListHander();
+            }
+            /*
+             *  结果集第四种处理方法, BeanListHandler
+             *  结果集每一行数据,封装JavaBean对象
+             *  多个JavaBean对象,存储到List集合
+             */
+            public static void beanListHander()throws SQLException{
+                QueryRunner qr = new QueryRunner();
+                String sql = "SELECT * FROM sort ";
+                //调用方法query,传递结果集处理实现类BeanListHandler
+                List<Sort> list = qr.query(con, sql, new BeanListHandler<Sort>(Sort.class));
+                for(Sort s : list){
+                    System.out.println(s);
+                }
+            }
+        }
+ 
+ 
+###21结果集处理ColumnListHandler
+    * A: 结果集处理ColumnListHandler
+        * a: 案例代码
+            public class QueryRunnerDemo1 {
+                private static Connection con = JDBCUtilsConfig.getConnection();
+                public static void main(String[] args) throws SQLException{
+                    columnListHandler();
+                }   
+                /*
+                 *  结果集第五种处理方法,ColumnListHandler
+                 *  结果集,指定列的数据,存储到List集合
+                 *  List<Object> 每个列数据类型不同
+                 */
+                public static void columnListHandler()throws SQLException{
+                    QueryRunner qr = new QueryRunner();
+                    String sql = "SELECT * FROM sort ";       
+                    //调用方法 query,传递结果集实现类ColumnListHandler
+                    //实现类构造方法中,使用字符串的列名
+                    List<Object> list = qr.query(con, sql, new ColumnListHandler<Object>("sname"));
+                    for(Object obj : list){
+                        System.out.println(obj);
+                    }
+                }   
+            }
+ 
+ 
+###22结果集处理ScalarHandler
+    * A: 结果集处理ScalarHandler
+        * a: 案例代码
+            public class QueryRunnerDemo1 {
+                private static Connection con = JDBCUtilsConfig.getConnection();
+                public static void main(String[] args) throws SQLException{
+                    scalarHandler();
+                }   
+                /*
+                 *  结果集第六种处理方法,ScalarHandler
+                 *  对于查询后,只有1个结果
+                 */
+                public static void scalarHandler()throws SQLException{
+                    QueryRunner qr = new QueryRunner();
+                    String sql = "SELECT COUNT(*) FROM sort";
+                    //调用方法query,传递结果集处理实现类ScalarHandler
+                    long count = qr.query(con, sql, new ScalarHandler<Long>());
+                    System.out.println(count);
+                }
+            }
+ 
+###23结果集处理MapHandler
+    * A: 结果集处理MapHandler
+        * a: 案例代码
+            public class QueryRunnerDemo1 {
+                private static Connection con = JDBCUtilsConfig.getConnection();
+                public static void main(String[] args) throws SQLException{
+                    mapHandler();
+                }
+                /*
+                 *  结果集第七种处理方法,MapHandler
+                 *  将结果集第一行数据,封装到Map集合中
+                 *  Map<键,值> 键:列名  值:这列的数据
+                 */
+                public static void mapHandler()throws SQLException{
+                    QueryRunner qr = new QueryRunner();
+                    String sql = "SELECT  * FROM sort";
+                    //调用方法query,传递结果集实现类MapHandler
+                    //返回值: Map集合,Map接口实现类, 泛型
+                    Map<String,Object> map = qr.query(con, sql, new MapHandler());
+                    //遍历Map集合
+                    for(String key : map.keySet()){
+                        System.out.println(key+".."+map.get(key));
+                    }
+                }
+            }
+ 
+###24结果集处理MapListHandler
+    * A: 结果集处理MapListHandlerr
+        * a: 案例代码
+            public class QueryRunnerDemo1 {
+                private static Connection con = JDBCUtilsConfig.getConnection();
+                public static void main(String[] args) throws SQLException{
+                    mapListHandler();
+                }
+                /*
+                 *  结果集第八种处理方法,MapListHandler
+                 *  将结果集每一行存储到Map集合,键:列名,值:数据
+                 *  Map集合过多,存储到List集合
+                 */
+                public static void mapListHandler()throws SQLException{
+                    QueryRunner qr = new QueryRunner();
+                    String sql = "SELECT  * FROM sort";
+                    //调用方法query,传递结果集实现类MapListHandler
+                    //返回值List集合, 存储的是Map集合
+                    List<Map<String,Object>> list = qr.query(con, sql, new MapListHandler());
+                    //遍历集合list
+                    for( Map<String,Object> map : list ){
+                        for(String key : map.keySet()){
+                            System.out.print(key+"..."+map.get(key));
+                        }
+                        System.out.println();
+                    }
+ 
+                }
+            }
+ 
+###25总结
+    * 把今天的知识点总结一遍。
+ 

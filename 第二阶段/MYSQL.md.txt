@@ -1,0 +1,62 @@
+--是注释                                                                                                                                                        安装里mysql数据库的电脑别成为////MySQL数据库服务器
+##SQL的概述:
+```
+###SQL结构化的查询语言
+###SQL的分类:
+DDL数据定义语言:create,alter,drop..truncate modify,change rename
+DML数据操纵语言
+update,insert,delete,from,set
+DCL数据控制语言
+grant.if...
+DQL数据查询语言
+select having where order by group by  sum  avg   count 
+```
+##创建数据
+```
+create datatbase name;
+create table name;
+```
+##数据类型
+```
+java数据类型            MSQL数据类型
+String                      char/varchar\\必须设置默认长度,其它数据都有默认长度
+                                    区别:char是固定长度的字符串;如果输入的字符长度不够用空格顶替
+
+                                            varchar可变长度的字符串:原样输入,原样输出
+
+Date                                   data/time/datetime/timestamp
+                                               区别:datetime和timestamp都是已有年月日又有日期的类型
+                                                       区别:datetime需要外部传人日期否则是值为null,timestamp会将系统的时间作为它的默认值
+
+文本                           Text
+二进制文件                 BlOB
+*******Oraicle 使用ClOB/BloB
+
+
+```
+##修改编码表
+```
+找到MYSQL的安装路径/my.ini文件;将client的编码表改为gbk
+重新加载配置文件
+方法1:services.msc
+方法2搜索栏大service
+```
+##主键约束:非空,唯一,被引用
+##表数据的拼接
+```
+union all 
+union  去重拼接
+
+
+select * from a  
+uinon
+select * from b
+字段的拼接concat
+```
+外键的操作
+```
+alter table name add constraint fkname  foreign key() references name1();
+alter table name drop foreign key  fkname  ;
+
+
+```

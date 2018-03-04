@@ -1,0 +1,92 @@
+
+
+
+
+文件下载
+```
+浏览器
+servlet类型
+   content-type  设置mime类型(非必须)
+  content-disposition   设置文件为下载
+
+
+```
+response 取出数据
+
+响应行响应头一般有tomcat组装,response
+
+##设置响应行
+
+         setStatu(int  sc):
+
+##设置响应行:
+
+             setHeader(String s,String s1)
+
+             addHeader(String s,String s1)
+
+##重定向:多次访问客户端302
+
+            状态码302,目的地址location
+
+            方法二:sendRedirect(url)
+
+            方法三:setHeader("refresh","5,url=http://www.baidu.com")//定时刷新
+
+            动态效果要js
+
+##iso-8859-1码表 西欧码表
+
+  utf-8国际标准码表
+
+   通知response去查utf-8:===========response.setCharacterEncoding("UTF-8")
+
+   
+
+    向客户端告知去查询的编码response.setHeader("Content-Type","test/html;charset=UTF-8")
+
+                 setContextType( "test/html;charset=UTF-8")
+
+明确下载文件的类型:response.setContentType(this.getServletContext().getMimeType(filename ))
+
+解决中文乱码filename=new String(filename.getBytes("IS08859-1"),"UTF-8");
+
+base64Encoder base64Encoder=new BASE64Encoder();
+
+小心工作空间的编码
+
+要点:response所获的的流不需要关闭
+
+    getWriter和getOutputStrream不可以同时调用
+
+    重定向后一般不写代码
+
+//文件读流按照自己的逻辑(找bin)来读取信息:不理web.html,所有一般给绝对地址
+BasicDataSourceFactory.createDataSource(properties);
+
+response缓冲器+tomcat引擎自己添加的信息组成了一个http响应
+
+//转发只能在工程内跳转
+##3response内涵:html文件可以被任何浏览器解析,每个浏览器有不同的编码,Tomcat有自己的编码,
+```
+
+
+中文乱码问题:
+html文件可以被所以浏览器解析,
+浏览器向tomcat查询时直接拿内容去查,
+tomcat获得信息后要解析,然后编码成自己理解的信息去查
+当查到后要将字符,特定的编码格式传给浏览器,浏览器再去解析
+
+
+
+
+
+
+
+
+```
+图片的刷新
+       function  chang(obj) {
+        obj.src =  "/web16/checkImgServlet?time="  +  new  Date().getTime();     }
+
+

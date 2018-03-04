@@ -1,0 +1,578 @@
+第15章WEB15-AJAX和JQuery案例 篇
+
+今日任务
+
+Ø   使用 AJAX 完成用户名的异步校验
+
+Ø   使用 JQuery 完成用户名异步校验
+
+Ø   使用 JQuery 完成商品信息模糊显示
+
+Ø   使用 JQuery 完成省市联动效果返回 XML
+
+Ø   使用 JQuery 完成省市联动效果返回 JSON
+
+教学导航
+
+
+ 教学目标
+
+ 了解 AJAX 的基本使用
+
+ 掌握 JQuery 的 AJAX 部分的代码
+
+ 掌握 JQuery 返回 XML 和 JSON 格式数据如何处理
+
+
+ 教学方法
+
+ 案例驱动法
+1.1 上次课内容回顾 :
+
+JDBC 的案例 :
+
+* 商品信息的查询 :
+
+* 商品信息的插入 :
+
+    * 插入功能的实现 :
+
+    * 防止表单的重复提交 : 令牌机制 :
+
+* 商品信息的修改 :
+
+    * 根据 ID 查询商品 :
+
+    * 将数据回显到表单元素中 :
+
+* 商品信息的删除 :
+
+    * 删除多条记录 : 使用事务管理 .
+
+* 商品信息的条件查询 :
+
+    * 模糊查询 :
+
+    * 多个条件 : 拼接 SQL 语句 .
+
+* 商品信息的分页 :
+
+    * MYSQL 分页 :limit 关键字 :   limit a,b;   --a: 从哪开始    b: 查询多少条记录 .   limit 10 1.2 案例一：异步校验用户名是否存在 : 1.2.1 需求 :
+
+在很多网站上实现注册功能的时候 , 需要输入用户名 , 光标离开文本框的时候 , 提示：显示用户名已经存在 / 用户名可以使用 ! 1.2.2 分析 : 1.2.2.1   技术分析 :
+
+【 AJAX 的概述】：
+
+Ø 什么是 AJAX:
+
+* AJAX: 异步的 JavaScript And XML.
+
+    * 使用的是老的技术 , 用的是新的思想 .
+
+Ø 了解同步和异步的区别 :
+
+* 参考图一 :
+
+Ø AJAX 的功能 : 完成页面的局部刷新 , 不中断用户的体验 .
+
+* 早期的时候 JS 技术根本不受重视 . 后台开发人员经常将 JS 当成一种玩具式语言 .JS 中有一个对象 XMLHttpRequest 对象可以向服务器异步发送请求 . 传统的 B/S 结构的软件 , 所有实现功能都需要在服务器端编写代码 ( 胖服务器 ). 现在有了 AJAX 以后 , 可以将部分代码写到客户端浏览器 (RIA:Rich Internet Application).FLEX:AS 脚本编程 .
+
+* XML: 使用 XML 做为数据传递的格式 : JSON:
+
+【 XMLHttpRequest 】：
+
+Ø 属性 :
+
+* readyState           :XMLHttpRequest 的状态
+
+   
+
+* onreadystatechange   : 当 XMLHttpRequest 状态改变的时候触发一个函数 .
+
+* status               : 获得响应的状态码 . 200 , 404 ...
+
+* responseText         : 获得响应的文本数据 .
+
+* responseXML          : 获得响应的 XML 的数据 .
+
+Ø 方法 :
+
+* open( 请求方式 , 请求路径 , 是否异步 )     : 异步去向服务器发送请求 .
+
+* send( 请求参数 )                    : 发送请求 .
+
+* setRequestHeader( 头信息 , 头的值 )    : 处理 POST 请求方式的中文问题 .
+
+Ø 创建 XMLHttpRequest 对象 :
+
+* IE        : 将 XMLHttpRequest 对象封装在一个 ActiveXObject 组件 .
+
+* Firefox   : 直接就可以创建 XMLHttpRequest 对象 .
+
+function createXmlHttp(){
+
+   var xmlHttp;
+
+   try{ // Firefox, Opera 8.0+, Safari
+
+        xmlHttp=new XMLHttpRequest();
+
+    }
+
+    catch (e){
+
+       try{// Internet Explorer
+
+             xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
+
+          }
+
+        catch (e){
+
+          try{
+
+             xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+
+          }
+
+          catch (e){}
+
+          }
+
+    }
+
+ 
+
+    return xmlHttp;
+
+ }
+
+【 AJAX 的入门】
+
+Ø AJAX 的编写的步骤 :
+
+* 第一步：创建一个异步对象 .
+
+* 第二步：设置对象状态改变触发一个函数 .
+
+* 第三步：设置向后台提交的路径
+
+* 第四步：发送请求 .
+
+Ø GET 方式提交请求 :
+
+f unction ajax_get() {
+
+    // 1. 创建异步对象
+
+    var xhr = createXMLHttp();
+
+    // 2. 设置状态改变的监听 回调函数 .
+
+    xhr.onreadystatechange = function(){
+
+        if(xhr.readyState == 4){ // 请求发送成功
+
+            if(xhr.status == 200){ // 响应也成功
+
+                // 获得响应的数据 :
+
+                var data = xhr.responseText;
+
+                // 将数据写入到 DIV 中 :
+
+                document.getElementById("d1").innerHTML = data;
+
+            }
+
+        }
+
+    }
+
+    // 3. 设置请求路径
+
+    xhr.open("GET","/day15/ServletDemo1?name=aaa&pass=123",true);
+
+    // 4. 发送请求
+
+    xhr.send(null);
+
+}
+
+Ø POST 方式提交请求 :
+
+function ajax_post(){
+
+    // 创建异步对象 :
+
+    var xhr = createXMLHttp();
+
+    // 设置监听 :
+
+    xhr.onreadystatechange = function(){
+
+        if(xhr.readyState == 4){
+
+            if(xhr.status == 200){
+
+                document.getElementById("d1").innerHTML = xhr.responseText;
+
+            }
+
+        }
+
+    }
+
+   
+
+    // 打开路径 :
+
+    xhr.open("POST","/day15/ServletDemo1",true);
+
+    xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+
+    // 发送请求 :
+
+    xhr.send("name= 张三 &pass=123");
+
+} 1.2.2.2   步骤分析 :
+
+【步骤一】：创建表和数据库 :
+
+【步骤二】：设计一个注册页面
+
+【步骤三】：在用户名的文本框中使用 onblur 事件触发一个函数 .
+
+【步骤四】： AJAX 的异步操作 , 将文本框的值传入到 Servlet 中 .
+
+【步骤五】： Servlet 中根据传入的用户名去数据库进行查询 .
+
+【步骤六】：查询到了说明用户名已经被占用 , 没有查询到说明用户名可以使用 . 1.2.3 代码实现 :
+
+创建数据库和表 :
+
+create database web_15;
+
+use web_15;
+
+create table user(
+
+    id int primary key auto_increment,
+
+    username varchar(20),
+
+    password varchar(20),
+
+    nickname varchar(20),
+
+    type varchar(20)
+
+);
+
+insert into user values (null,'aaa','111',' 小凤 ','user');
+
+insert into user values (null,'bbb','111',' 小森 ','user');
+
+ 
+
+代码实现 :
+
+function checkUsername(){
+
+    // 获得文本框的值 :
+
+    var username = document.getElementById("username").value;
+
+    // 创建异步对象 :
+
+    var xhr = createXMLHttp();
+
+    // 设置监听 :
+
+    xhr.onreadystatechange = function(){
+
+        if(xhr.readyState == 4){
+
+            if(xhr.status == 200){
+
+                var data = xhr.responseText;
+
+                if(data == 1){
+
+                   document.getElementById("s1").innerHTML = "<font color='green'> 用户名可以使用 </font>";
+
+                   document.getElementById("regBut").disabled = false;
+
+                }else if(data == 2){
+
+                   document.getElementById("s1").innerHTML = "<font color='red'> 用户名已经被占用 </font>";
+
+                   document.getElementById("regBut").disabled = true;
+
+                }
+
+            }
+
+        }
+
+    }
+
+    // 打开连接 :
+
+    xhr.open("GET","/day15/ServletDemo2?username="+username,true);
+
+    // 发送请求 :
+
+    xhr.send(null);
+
+} 1.3 使用 JQ 完成对用户名异步校验的功能 : 1.3.1 需求 :
+
+在注册页面中 , 校验用户名是否存在 . 1.3.2 分析 : 1.3.2.1   技术分析 :
+
+【 JQuery 的 AJAX 】
+
+JQuery 的 AJAX 部分方法 :
+
+* Jq 的对象 .load( 路径 , 参数 , 回调函数 );
+
+* $.get( 路径 , 参数 , 回调函数 , 数据类型 );
+
+* $.post( 路径 , 参数 , 回调函数 , 数据类型 );
+
+* $.ajax();
+
+* serialize(); -- JQ 的 AJAX 传递参数的时候需要使用的方法 . 1.3.2.2   步骤分析 :
+
+【步骤一】：创建表和数据库 :
+
+【步骤二】：设计一个注册页面
+
+【步骤三】：在用户名的文本框中使用 onblur 事件触发一个函数 .
+
+【步骤四】：使用 JQ 的 AJAX 完成异步操作 , 将文本框的值传入到 Servlet 中 .
+
+【步骤五】： Servlet 中根据传入的用户名去数据库进行查询 .
+
+【步骤六】：查询到了说明用户名已经被占用 , 没有查询到说明用户名可以使用 . 1.3.3 代码实现 :
+
+$(function(){
+
+    $("#username").blur(function(){
+
+        // 获得文本框的值 :
+
+        var username = $(this).val();
+
+        // 演示 load 方法 :
+
+        // $("#s1").load("/day15/ServletDemo3",{"username":username});
+
+        // 演示 get/post 方法 :
+
+        $.get("/day15/ServletDemo3",{"username":username},function(data){
+
+            if(data == 1){
+
+                $("#s1").html("<font color='green'> 用户名可以使用 </font>");
+
+                $("#regBut").attr("disabled",false);
+
+            }else if(data == 2){
+
+                $("#s1").html("<font color='red'> 用户名已经存在 </font>");
+
+                $("#regBut").attr("disabled",true);
+
+            }
+
+        });
+
+    });
+
+}); 1.4 案例三：使用 JQ 完成仿百度提示页面 : 1.4.1 需求 :
+
+网站都会有搜索的功能 , 当在文本框中输入一个字母的时候 , 下面就会给出提示的信息 ( 从数据库中获得的 - 异步 ). 1.4.2 分析 : 1.4.2.1   技术分析 :
+
+使用 JQuery 的 AJAX 的部分可以完成 . 1.4.2.2   步骤分析 :
+
+【步骤一：】设计一个商品的搜索页面 .
+
+【步骤二：】 keyup 事件触发一个函数 .
+
+【步骤三：】获得文本框的值 , 提交到 Servlet 中
+
+【步骤四：】在 Servlet 中根据提交名称查询相应信息 .( 显示 5 个 ) 1.4.3 代码实现 :
+
+create table words(
+
+    id int primary key auto_increment,
+
+    word varchar(20)
+
+);
+
+ 
+
+代码实现 :
+
+$(function(){
+
+    // 为文本框绑定事件 :
+
+    $("#word").keyup(function(){
+
+        // 获得文本框的值 :
+
+        var word = $(this).val();
+
+        // 异步发送请求 :
+
+        if(word != ""){
+
+            $.post("/day15/ServletDemo4",{"word":word},function(data){
+
+                $("#d1").show().html(data);
+
+            });
+
+        }else{
+
+            $("#d1").hide();
+
+        }
+
+    });
+
+}); 1.5 案例四：使用 JQ 完成省市联动的案例 : 1.5.1 需求 :
+
+在注册页面上的籍贯的地方有选择省 , 省发生变化市也会跟着变化 . 市的数据从服务器端获取 . 响应 XML 格式的数据 . 1.5.2 分析 : 1.5.2.1   技术分析 :
+
+【 AJAX 的响应的数据】 :
+
+文本 , 一段 HTML 的数据 ,XML,JSON
+
+【使用工具生成 XML 的文件】
+
+通常使用 xStream 工具 . 将集合 , 数组 , 对象转成 XML. 1.5.2.2   步骤分析 :
+
+【步骤一】：使用注册页面中省市的下拉列表 .
+
+【步骤二】：当省份发生变化 , 触发一个事件 .
+
+【步骤三】：将选择的省份的信息传入到 Servlet 中 .
+
+【步骤四】：根据省份信息查询市的信息 .
+
+【步骤五】：将查询到市的信息转成 XML.
+
+【步骤六】：获得 XML 的指定信息 , 显示到第二个列表中 . 1.5.3 代码实现 :
+
+建表：
+
+CREATE TABLE province(     `pid` INT NOT NULL AUTO_INCREMENT ,     `pname` VARCHAR(20) ,     PRIMARY KEY (`pid`)  );
+
+CREATE TABLE city(     `cid` INT NOT NULL AUTO_INCREMENT ,     `cname` VARCHAR(20) ,     `pid` INT ,     PRIMARY KEY (`cid`)  );
+
+ 
+
+$(function(){
+
+    // 为省份下拉列表绑定事件 :
+
+    $("#province").change(function(){
+
+        // 获得选中的省份的 id:
+
+        var pid = $(this).val();
+
+        // alert(pid);
+
+        $.post("/day15/ServletDemo6",{"pid":pid},function(data){
+
+            // alert(data);
+
+            var $city = $("#city");
+
+            $city.html("<option>- 请选择 -</option>");
+
+            $(data).find("city").each(function(){
+
+                var cid = $(this).children("cid").text();
+
+                var cname = $(this).children("cname").text();
+
+               
+
+                $city.append("<option value='"+cid+"'>"+cname+"</option>");
+
+            });
+
+        });
+
+    });
+
+}); 1.6 案例五：使用 JQ 完成省市联动的案例 : 使用 JSON 作为响应数据 . 1.6.1 需求 :
+
+在注册页面上的籍贯的地方有选择省 , 省发生变化市也会跟着变化 . 市的数据从服务器端获取 . 响应 JSON 格式的数据 . 1.6.2 分析 : 1.6.2.1   技术分析 :
+
+【 JSON 的概述】
+
+Ø JSON 的概念 :
+
+
+
+Ø JSON 的数据格式的介绍 :
+
+{“id”:1,”name”:aaa}
+
+[{“id”:1,”name”:aaa},{“id”:2,”name”:bbb}]
+
+{
+
+    “city”:{“cid”:1,”cname”:”xxx”}
+
+}
+
+【 JSON 的生成工具】
+
+Ø JSONLIB 转换 JSON 数据 :
+
+* JSONArray     : 将数组或 List 集合转成 JSON.
+
+* JSONObject    : 将对象或 Map 集合转成 JSON. 1.6.3 代码实现 :
+
+$(function(){
+
+    // 为省份下拉列表绑定事件 :
+
+    $("#province").change(function(){
+
+        var pid = $(this).val();
+
+        $.post("/day15/ServletDemo8",{"pid":pid},function(data){
+
+            // alert(data);
+
+            // JS 识别 JSON:
+
+            // var json = eval(data);
+
+            var $city = $("#city");
+
+            $city.html("<option>- 请选择 -</option>");
+
+            $(data).each(function(i,n){
+
+                // alert(n.cname);
+
+                $city.append("<option value='"+n.cid+"'>"+n.cname+"</option>");
+
+            });
+
+        },"json");
+
+    });
+
+});
+
+ 

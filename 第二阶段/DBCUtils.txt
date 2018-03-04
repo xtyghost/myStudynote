@@ -1,0 +1,40 @@
+DBUtils是java编程中的数据库操作工具,十分小巧,简化了JDBC操作,
+DbUtils核心功能:
+                QueryRunner提供流对SQl语句的操作API
+
+                ResultSetHandler接口,用于定义select操作后,对结果集的封装
+
+                DbUtils类,它是一个工具类,定义了关闭资源与事务处理的方法
+
+
+
+javaBean:实现serializable接口,私有成员变量,空参构造函数,set,get 方法
+ArrayHandler   :将结果集中的第条数据封装成一个Object[ ]数组中,数组中的每一个元素解释这条记录的值
+
+
+QueryRunner类方法quuery(connection con,String sql,ResultSetHandler r,Object...params)//使用该方法将会将查询数据的第一行存放在ResultSethandler中来,若没有数据,则数组长度为0;
+Oject... params SQL语句中的问号占位符
+ResultSetHandler有八大种;
+                                    arrayhandler
+
+                                    arraylisthandler
+
+                                        beanhandler//内不利用反射,只需要提供标准javaBean
+                                    beanlisthandler
+
+                                    columnlisthandler 将指定列存储到list中
+
+                                        scalarHandler() 查询后结果只有一个
+
+                                        maphandler()
+
+                                        maplisthandler();//打印结果有序内部为linkedhashSet
+
+事务处理:
+                    commit:提交成功
+
+                    rollback;回滚事务
+
+                                        
+
+

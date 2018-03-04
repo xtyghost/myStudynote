@@ -1,0 +1,151 @@
+
+
+ 
+
+Http 协议：互联网上进行数据传递的应用层协议
+
+ 
+
+标准的 http 协议的特点：
+
+    默认端口号 80
+
+    一次请求对应一次响应
+
+    无连接
+
+    无状态
+
+ 
+
+=== 》应用层 (HTTP) 传输层 网络层（ TCP/UDP ） 数据链路层
+
+ 
+
+    三次握手 -- 四次挥手
+
+   
+
+    Http1.0  -- 响应完成后，连接直接断开
+
+    Http1.1  -- keep-alive ，可以在某段时间内保持连接不断开，连接过程中发送的多次请求按顺序响应
+
+    Http2.0  -- 多路复用， http 头进行压缩（没有普及）
+
+   
+
+   
+
+抓包目的：
+
+    获取某次请求及其对应的响应的数据内容
+
+   
+
+Http 协议数据规范： http 携带数据的时候， 内部不允许有中文
+
+    请求部分
+
+        请求行
+
+            请求方式
+
+                get
+
+                post
+
+            请求路径
+
+            协议版本
+
+       
+
+        请求头 - 针对这次请求所需要携带的额外数据
+
+            key ： value
+
+            key ： value1 ， value2..
+
+            hha ： xxx
+
+           
+
+            user-agent ：浏览器的内核
+
+            Referer ：当前网页来源，防盗链
+
+            if-modified-since ：
+
+       
+
+        请求体
+
+            get 请求能不能有请求体？？ -- 可以携带请求体
+
+           
+
+    响应部分  
+
+        响应行
+
+            200/206 302 304 404 500
+
+        响应头
+
+            last-modified
+
+            refresh
+
+            location
+
+            content-dispostion
+
+           
+
+        响应体
+
+       
+
+servlet 使用：
+
+    public class XX implements Servlet{
+
+        servce （ request ， response ） {
+
+        }
+
+   
+
+    }
+
+ 
+
+    servlet 配置：
+
+        web.xml
+
+            <servlet>
+
+                <servlet-name>
+
+                <servlet-class>
+
+           
+
+            <servlet-mapping>
+
+                <servlet-name>
+
+                <url-pattren>
+
+   
+
+request 接收参数：
+
+    getParameter （ key ） -- 》 String
+
+    getParameterValues （ key ） -- 》 Stringh[]
+
+    getParameterMap() -- 》 Map<String,String[]>
+
+   

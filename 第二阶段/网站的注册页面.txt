@@ -1,0 +1,32 @@
+表单标签<form></form>,所有要提交的服务器的表单必须使用<form></form>括起来,
+            form的属性:action,将表单提交的位置(地制值,后台java代码)
+
+            method,表单的提交方式(get/post/delete等7种)
+
+            用户名
+
+文本输入项
+<input type="text"  name=""    size=""   maxlenght=""        readonly=""     placehoder=""/>
+密码输入项
+<input   type="password" name= "" />
+
+
+单选按钮
+
+
+<input   type ="radio" name=" 可以分组" values ""  checked"" />
+
+
+多选按钮
+<input type ="checkbox" name="分组" value="" checked=""/>
+下拉列表
+<select name="">
+        <option value="" select="">北京</option>
+
+        <option>上海</option>
+
+</select>
+视频上传
+
+
+<input type=" file"        name=""/>

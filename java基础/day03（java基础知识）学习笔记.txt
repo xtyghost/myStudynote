@@ -1,0 +1,1763 @@
+
+
+第 03 天 java 基础知识
+
+今日内容介绍
+
+u 选择流程控制语句
+
+u 循环流程控制语句
+
+u 控制循环语句 第1章   选择流程控制语句 1.1   顺序结构的基本使用 1.1.1 顺序结构概述
+
+是程序中最简单最基本的流程控制，没有特定的语法结构，按照代码的先后顺序，依次执行，程序中大多数的代码都是这样执行的 1.1.2 顺序流程流程图
+
+1.1.3 代码案例一
+
+package com.itheima_01;
+
+ 
+
+/*
+
+ * 顺序结构：从上往下，依次执行
+
+ */
+
+public class OrderDemo {
+
+    public static void main(String[] args ) {
+
+        System. out .println( " 开始 " );
+
+        System. out .println( " 语句 A" );
+
+        System. out .println( " 语句 B" );
+
+        System. out .println( " 语句 C" );
+
+        System. out .println( " 结束 " );
+
+    }
+
+}
+
+  1.2   If 语句的格式 1.2.1 If 语句格式 1 及执行流程
+
+if 语句第一种格式：
+
+if( 关系表达式 ) {
+
+语句体
+
+       }
+
+执行流程 :
+
+首先判断关系表达式看其结果是 true 还是 false
+
+如果是 true 就执行语句体
+
+如果是 false 就不执行语句体 1.2.2 if 语句格式 1 执行流程图
+
+1.2.3 代码案例二
+
+package com.itheima_02;
+
+/*
+
+ * if 语句有三种格式。
+
+ *
+
+ * if 语句格式 1 ：
+
+ *      if( 关系表达式 ) {
+
+ *          语句体 ;
+
+ *      }
+
+ *
+
+ * 执行流程：
+
+ *      A: 首先判断关系表达式看其结果是 true 还是 false
+
+ *      B: 如果是 true, 就执行语句体
+
+ *      C: 如果是 false, 就不执行语句体
+
+ */
+
+public class IfDemo {
+
+    public static void main(String[] args ) {
+
+        System. out .println( " 开始 " );
+
+        // 定义两个变量
+
+        int a = 10;
+
+        int b = 20;
+
+ 
+
+        if ( a == b ) {
+
+            System. out .println( "a 等于 b" );
+
+        }
+
+ 
+
+        int c = 10;
+
+        if ( a == c ) {
+
+            System. out .println( "a 等于 c" );
+
+        }
+
+ 
+
+        System. out .println( " 结束 " );
+
+    }
+
+} 1.2.4 If 语句格式 2 及执行流程
+
+if 语句第二种格式：
+
+if( 关系表达式 ) {
+
+语句体 1;
+
+       }else {
+
+语句体 2;
+
+       }
+
+执行流程
+
+首先判断关系表达式看其结果是 true 还是 false
+
+如果是 true 就执行语句体 1
+
+如果是 false 就执行语句体 2 1.2.5 if 语句格式 2 执行流程图
+
+1.2.6 代码案例三
+
+package com.itheima_02;
+
+/*
+
+ * if 语句格式 2 ：
+
+ *      if( 关系表达式 ) {
+
+ *          语句体 1;
+
+ *      }else {
+
+ *          语句体 2;
+
+ *      }
+
+ *
+
+ * 执行流程：
+
+ *      A: 判断关系表达式的值是 true 还是 false
+
+ *      B: 如果是 true ，就执行语句体 1
+
+ *      C: 如果是 false ，就执行语句体 2
+
+ */
+
+public class IfDemo2 {
+
+    public static void main(String[] args ) {
+
+        System. out .println( " 开始 " );
+
+        // 判断给定的数据是奇数还是偶数
+
+        // 定义变量
+
+        int a = 100;
+
+        // 给 a 重新赋值
+
+        a = 99;
+
+ 
+
+        if ( a % 2 == 0) {
+
+            System. out .println( "a 是偶数 " );
+
+        } else {
+
+            System. out .println( "a 是奇数 " );
+
+        }
+
+ 
+
+        System. out .println( " 结束 " );
+
+    }
+
+} 1.2.7 If 语句格式 3 及执行流程
+
+ 
+
+if 语句第三种格式：
+
+if( 关系表达式 1) {
+
+语句体 1;
+
+       }else  if ( 关系表达式 2) {
+
+语句体 2;
+
+       }
+
+    …
+
+       else {
+
+语句体 n+1;
+
+       }
+
+执行流程
+
+首先判断关系表达式 1 看其结果是 true 还是 false
+
+如果是 true 就执行语句体 1
+
+如果是 false 就继续判断关系表达式 2 看其结果是 true 还是 false
+
+如果是 true 就执行语句体 2
+
+如果是 false 就继续判断关系表达式…看其结果是 true 还是 false
+
+…
+
+如果没有任何关系表达式为 true ，就执行语句体 n+1 1.2.8 if 语句格式 3 执行流程图
+
+1.2.9 代码案例四
+
+package com.itheima_02;
+
+ 
+
+/*
+
+ * if 语句格式 3 ：
+
+ *      if( 关系表达式 1) {
+
+ *          语句体 1;
+
+ *      }else if( 关系表达式 2) {
+
+ *          语句体 2;
+
+ *      }else if( 关系表达式 3) {
+
+ *          语句体 3;
+
+ *      }
+
+ *      ...
+
+ *      else {
+
+ *          语句体 n+1;
+
+ *      }
+
+ *
+
+ * 执行流程：
+
+ *      A: 首先判断关系表达式 1 看其结果是 true 还是 false
+
+ *      B: 如果是 true ，就执行语句体 1
+
+ *            如果是 false ，就继续进行关系表达式 2 的判断看其结果是 true 还是 false
+
+ *      C: 如果是 true ，就执行语句体 2
+
+ *          如果是 false ，就继续进行关系表达式 ... 的判断看其结果是 true 还是 false
+
+ *      ...
+
+ *      D: 如果没有一个为 true 的，就执行语句体 n+1
+
+ *
+
+ * if 语句的三种格式：
+
+ *      第一种格式适合做一种情况的判断
+
+ *      第二种格式适合做二种情况的判断
+
+ *      第三种格式适合做多种情况的判断
+
+ */
+
+public class IfDemo3 {
+
+    public static void main(String[] args ) {
+
+        // x 和 y 的关系满足如下：
+
+        // x>=3 y = 2x + 1;
+
+        // -1<=x<3 y = 2x;
+
+        // x<=-1 y = 2x – 1;
+
+        // 根据给定的 x 的值，计算出 y 的值并输出。
+
+ 
+
+        // 定义变量
+
+        int x = 5;
+
+       
+
+        /*
+
+        int y;
+
+        if (x >= 3) {
+
+            y = 2 * x + 1;
+
+        } else if (x >= -1 && x < 3) {
+
+            y = 2 * x;
+
+        } else if (x <= -1) {
+
+            y = 2 * x - 1;
+
+        }else {
+
+            y = 0;
+
+        }
+
+        */
+
+       
+
+        int y = 0;
+
+        if ( x >= 3) {
+
+            y = 2 * x + 1;
+
+        } else if ( x >= -1 && x < 3) {
+
+            y = 2 * x ;
+
+        } else if ( x <= -1) {
+
+            y = 2 * x - 1;
+
+        }
+
+       
+
+        System. out .println( "y 的值是： " + y );
+
+    }
+
+}
+
+  1.3 If 语句的练习 1.3.1 if 语句实现获取两个数据较大值 1.3.2 代码案例五
+
+package com.itheima_02;
+
+ 
+
+import java.util.Scanner;
+
+ 
+
+/*
+
+ * 键盘录入两个数据，获取这两个数据的较大值
+
+ *
+
+ * 分析：
+
+ *      A: 看到键盘录入，我们就应该想到键盘录入的三步骤
+
+ *          导包，创建对象，接收数据
+
+ *      B: 获取这两个数据的较大值，其实就是判断两个数据谁大，把大的输出就可以了。
+
+ *
+
+ * 导包：
+
+ *      A: 手动导包
+
+ *          import java.util.Scanner;
+
+ *      B: 鼠标点击红色叉叉，自动生成
+
+ *      C: 快捷键 ( 推荐 )
+
+ *          ctrl +shift+o
+
+ */
+
+public class IfTest {
+
+    public static void main(String[] args ) {
+
+        // 创建对象
+
+        Scanner sc = new Scanner(System. in );
+
+       
+
+        // 接收数据
+
+        System. out .println( " 请输入第一个数据： " );
+
+        int a = sc .nextInt();
+
+       
+
+        System. out .println( " 请输入第二个数据： " );
+
+        int b = sc .nextInt();
+
+       
+
+        // 采用 if 语句格式 2 实现
+
+        /*
+
+        if(a>b){
+
+            System.out.println(" 较大的值是： "+a);
+
+        }else {
+
+            System.out.println(" 较大的值是： "+b);
+
+        }
+
+        */
+
+       
+
+        // 拿到较大的值之后，我未必想直接输出，所以我们定义变量接收这个较大的值
+
+        int max ;
+
+        if ( a > b ){
+
+            max = a ;
+
+        } else {
+
+            max = b ;
+
+        }
+
+        // 可能做其他的操作
+
+        //max += 100;
+
+        System. out .println( " 较大的值是： " + max );
+
+    }
+
+} 1.3.3 if 语句实现判断学生等级 1.3.4 代码案例六
+
+package com.itheima_02;
+
+ 
+
+import java.util.Scanner;
+
+ 
+
+/*
+
+ * 键盘录入学生考试成绩，请根据成绩判断该学生属于哪个级别
+
+ * 90-100   优秀
+
+ * 80-90    好
+
+ * 70-80    良
+
+ * 60-70    及格
+
+ * 60 以下    不及格
+
+ *
+
+ * 分析：
+
+ *      A: 键盘录入学生考试成绩
+
+ *          三步骤
+
+ *      B: 通过简单的分析，我们决定采用 if 语句格式 3 来实现
+
+ *
+
+ * 程序一定要考虑周全了。
+
+ *      安全数据
+
+ *      边界数据
+
+ *      错误数据
+
+ */
+
+public class IfTest2 {
+
+    public static void main(String[] args ) {
+
+        // 创建对象
+
+        Scanner sc = new Scanner(System. in );
+
+       
+
+        // 接收数据
+
+        System. out .println( " 请输入学生的考试成绩： " );
+
+        int score = sc .nextInt();
+
+       
+
+        //if 语句格式 3
+
+        /*
+
+        if(score>=90 && score<=100){
+
+            System.out.println(" 你的成绩属于优秀 ");
+
+        }else if(score>=80 && score<90){
+
+            System.out.println(" 你的成绩属于好 ");
+
+        }else if(score>=70 && score<80){
+
+            System.out.println(" 你的成绩属于良 ");
+
+        }else if(score>=60 && score<70){
+
+            System.out.println(" 你的成绩属于及格 ");
+
+        }else {
+
+            System.out.println(" 你的成绩属于不及格 ");
+
+        }
+
+        */
+
+       
+
+        // 我们发现程序不够健壮 , 加入错误数据的判断
+
+        if ( score <0 || score >100){
+
+            System. out .println( " 你的成绩是错误的 " );
+
+        } else if ( score >=90 && score <=100){
+
+            System. out .println( " 你的成绩属于优秀 " );
+
+        } else if ( score >=80 && score <90){
+
+            System. out .println( " 你的成绩属于好 " );
+
+        } else if ( score >=70 && score <80){
+
+            System. out .println( " 你的成绩属于良 " );
+
+        } else if ( score >=60 && score <70){
+
+            System. out .println( " 你的成绩属于及格 " );
+
+        } else {
+
+            System. out .println( " 你的成绩属于不及格 " );
+
+        }
+
+    }
+
+}
+
+  1.4   switch 语句的格式及执行流程 1.4.1 格式解释 :
+
+switch 表示这是 switch 语句
+
+表达式的取值： byte,short,int,char
+
+JDK5 以后可以是枚举
+
+JDK7 以后可以是 String
+
+case 后面跟的是要和表达式进行比较的值
+
+语句体部分可以是一条或多条语句
+
+break 表示中断，结束的意思，可以结束 switch 语句
+
+default 语句表示所有情况都不匹配的时候，就执行该处的内容，和 if 语句的 else 相似。 1.4.2 执行流程
+
+首先计算出表达式的值
+
+其次，和 case 依次比较，一旦有对应的值，就会执行相应的语句，在执行的过程中，遇到 break 就会结束。
+
+最后，如果所有的 case 都和表达式的值不匹配，就会执行 default 语句体部分，然后程序结束掉。 1.4.3 switch 语句执行流程图
+
+1.5   switch 语句的练习 1.5.1 switch 语句实现根据数字输出对应星期 1.5.2 代码案例七
+
+package com.itheima_03;
+
+ 
+
+import java.util.Scanner;
+
+ 
+
+/*
+
+ * switch 语句格式：
+
+ * switch( 表达式 ) {
+
+ *      case 值 1:
+
+ *          语句体 1;
+
+ *          break;
+
+ *      case 值 2:
+
+ *          语句体 2;
+
+ *          break;
+
+ *      ...
+
+ *      default:
+
+ *          语句体 n+1;
+
+ *          break;
+
+ * }
+
+ * 格式解释：
+
+ *      表达式 :byte,short, int ,char
+
+ *          JDK5 以后可以是枚举
+
+ *          JDK7 以后可以是字符串
+
+ *      case: 就是要和表达式进行比较的值
+
+ *      break: 表示中断 , 结束的意思。
+
+ *      default: 表示所有的情况都不匹配的时候，就执行语句体 n+1 。和 if 语句的 else 相似。
+
+ * 执行流程：
+
+ *      A: 计算出表达式的值
+
+ *      B: 拿计算出来的值和 case 后面的值依次比较，一旦有对应的值，就执行该处的语句，在执行过程中，遇到 break ，就结束。
+
+ *      C: 如果所有的 case 都不匹配，就会执行 default 控制的语句，然后结束。
+
+ * 需求：
+
+ *      根据键盘录入的数值 1 ， 2 ， 3 ， …7 输出对应的星期一，星期二，星期三 … 星期日。
+
+ */
+
+public class SwitchDemo {
+
+    public static void main(String[] args ) {
+
+        // 创建键盘录入对象
+
+        Scanner sc = new Scanner(System. in );
+
+       
+
+        // 接收数据
+
+        System. out .println( " 请输入一个数字 (1-7) ： " );
+
+        int weekday = sc .nextInt();
+
+       
+
+        //switch 语句实现选择
+
+        switch ( weekday ) {
+
+        case 1:
+
+            System. out .println( " 星期一 " );
+
+            break ;
+
+        case 2:
+
+            System. out .println( " 星期二 " );
+
+            break ;
+
+        case 3:
+
+            System. out .println( " 星期三 " );
+
+            break ;
+
+        case 4:
+
+            System. out .println( " 星期四 " );
+
+            break ;
+
+        case 5:
+
+            System. out .println( " 星期五 " );
+
+            break ;
+
+        case 6:
+
+            System. out .println( " 星期六 " );
+
+            break ;
+
+        case 7:
+
+            System. out .println( " 星期日 " );
+
+            break ;
+
+        default :
+
+            System. out .println( " 你输入的数字有误 " );
+
+            break ;
+
+        }
+
+    }
+
+}
+
+  第2章   循环流程控制语句 2.1   for 循环的格式及基本使用 2.1.1 for 循环语句格式：
+
+for( 初始化语句 ; 判断条件语句 ; 控制条件语句 ) {
+
+循环体语句 ;
+
+    } 2.1.2 执行流程
+
+A: 执行初始化语句
+
+B: 执行判断条件语句，看其结果是 true 还是 false
+
+如果是 false ，循环结束。
+
+如果是 true ，继续执行。
+
+C: 执行循环体语句
+
+D: 执行控制条件语句
+
+E: 回到 B 继续 2.1.3 for 循环的执行流程图
+
+2.1.4 代码案例八
+
+package com.itheima_04;
+
+/*
+
+ * for 循环语句格式：
+
+ *      for( 初始化语句 ; 判断条件语句 ; 控制条件语句 ) {
+
+ *          循环体语句 ;
+
+ *      }
+
+ *
+
+ *      执行流程：
+
+ *          A: 执行初始化语句
+
+ *          B: 执行判断条件语句，看结果是 true 还是 false
+
+ *              如果是 true ，就继续执行
+
+ *              如果是 false ，就结束循环
+
+ *          C: 执行循环体语句
+
+ *          D: 执行控制条件语句
+
+ *          E: 回到 B 继续
+
+ *
+
+ * 需求：
+
+ *      在控制台输出 10 次 ”HelloWorld” 的案例。
+
+ */
+
+public class ForDemo {
+
+    public static void main(String[] args ) {
+
+        // 原始写法
+
+        System. out .println( "HelloWorld" );
+
+        System. out .println( "HelloWorld" );
+
+        System. out .println( "HelloWorld" );
+
+        System. out .println( "HelloWorld" );
+
+        System. out .println( "HelloWorld" );
+
+        System. out .println( "HelloWorld" );
+
+        System. out .println( "HelloWorld" );
+
+        System. out .println( "HelloWorld" );
+
+        System. out .println( "HelloWorld" );
+
+        System. out .println( "HelloWorld" );
+
+        System. out .println( "-------------------------" );
+
+       
+
+        // 用循环改进
+
+        for ( int x =1; x <=10; x ++) {
+
+            System. out .println( "HelloWorld" );
+
+        }
+
+    }
+
+}
+
+  2.2   for 循环的练习 2.2.1 for 循环实现获取指定范围数据 2.2.2 代码案例九
+
+package com.itheima_04;
+
+/*
+
+ * 需求：获取数据 1-5 和 5-1
+
+ */
+
+public class ForTest {
+
+    public static void main(String[] args ) {
+
+        // 原始做法
+
+        System. out .println(1);
+
+        System. out .println(2);
+
+        System. out .println(3);
+
+        System. out .println(4);
+
+        System. out .println(5);
+
+        System. out .println( "-------------" );
+
+       
+
+        // 用循环改进
+
+        for ( int x =1; x <=5; x ++) {
+
+            System. out .println( x );
+
+        }
+
+        System. out .println( "-------------" );
+
+       
+
+        //1-5 的数据我们获取到了，如何获取 5-1 呢 ?
+
+        for ( int x =5; x >=1; x --){
+
+            System. out .println( x );
+
+        }
+
+    }
+
+} 2.2.3 for 循环实现 1-5 之间数据求和 2.2.4 代码案例十
+
+package com.itheima_04;
+
+/*
+
+ * 需求：求出 1-5 之间数据之和
+
+ *
+
+ * 分析：
+
+ *      A: 定义求和变量，初始化值是 0
+
+ *      B: 获取 1-5 之间的数据，用 for 循环实现
+
+ *      C: 把每一次获取到的数据，累加起来就可以了
+
+ *      D: 输出求和变量即可
+
+ */
+
+public class ForTest2 {
+
+    public static void main(String[] args ) {
+
+        // 定义求和变量，初始化值是 0
+
+        int sum = 0;
+
+       
+
+        // 获取 1-5 之间的数据，用 for 循环实现
+
+        for ( int x =1; x <=5; x ++) {
+
+            // 把每一次获取到的数据，累加起来就可以了
+
+            //sum = sum + x;
+
+            /*
+
+             * 第一次： sum = 0 + 1 = 1
+
+             * 第二次： sum = 1 + 2 = 3
+
+             * 第三次： sum = 3 + 3 = 6
+
+             * 第四次： sum = 6 + 4 = 10
+
+             * 第五次： sum = 10 + 5 = 15
+
+             */
+
+            sum += x ;
+
+        }
+
+       
+
+        // 输出求和结果
+
+        System. out .println( "sum:" + sum );
+
+    }
+
+}
+
+  2.2.5 for 循环实现 1-100 之间偶数和 2.2.6 代码案例十一
+
+package com.itheima_04;
+
+/*
+
+ * 需求：求出 1-100 之间偶数和
+
+ *
+
+ * 分析：
+
+ *      A: 定义求和变量，初始化值是 0
+
+ *      B: 获取 1-100 之间的数据，用 for 循环实现
+
+ *      C: 把获取到的数据进行判断，看是否是偶数
+
+ *          如果是，就累加
+
+ *      D: 输出求和结果
+
+ */
+
+public class ForTest3 {
+
+    public static void main(String[] args ) {
+
+        // 定义求和变量，初始化值是 0
+
+        int sum = 0;
+
+       
+
+        // 获取 1-100 之间的数据，用 for 循环实现
+
+        for ( int x =1; x <=100; x ++) {
+
+            // 把获取到的数据进行判断，看是否是偶数
+
+            if ( x %2 ==0) {
+
+                sum += x ;
+
+            }
+
+        }
+
+       
+
+        // 输出求和结果
+
+        System. out .println( "sum:" + sum );
+
+    }
+
+}
+
+ 
+
+  2.2.7 for 循环实现在控制台打印水仙花数 2.2.8 代码案例十二
+
+package com.itheima_04;
+
+/*
+
+ * 需求：在控制台输出所有的 ” 水仙花数 ”
+
+ *
+
+ * 分析：
+
+ *      什么是水仙花数呢 ?
+
+ *          所谓的水仙花数是指一个三位数，其各位数字的立方和等于该数本身。
+
+ *          举例： 153 就是一个水仙花数。
+
+ *          153 = 1*1*1 + 5*5*5 + 3*3*3
+
+ *
+
+ *      A: 三位数其实就告诉了我们水仙花数的范围
+
+ *          100-999
+
+ *      B: 如何获取一个数据的每一个位上的数呢 ?
+
+ *          举例：我有一个数据 153 ，请问如何获取到个位，十位，百位
+
+ *          个位： 153%10 = 3;
+
+ *          十位： 153/10%10 = 5;
+
+ *          百位： 153/10/10%10 = 1;
+
+ *          千位： ...
+
+ *          万位： ...
+
+ *      C: 让每个位上的立方和相加，并和该数据进行比较，如果相等，就说明该数据是水仙花数，在控制台输出
+
+ */
+
+public class ForTest4 {
+
+    public static void main(String[] args ) {
+
+        // 通过循环获取到每一个三位数
+
+        for ( int x =100; x <1000; x ++) {
+
+            // 获取个位，十位，百位
+
+            int ge = x %10;
+
+            int shi = x /10%10;
+
+            int bai = x /10/10%10;
+
+           
+
+            // 让每个位上的立方和相加，并和该数据进行比较，如果相等，就说明该数据是水仙花数，在控制台输出
+
+            if (( ge * ge * ge + shi * shi * shi + bai * bai * bai ) == x ) {
+
+                System. out .println( x );
+
+            }
+
+        }
+
+    }
+
+} 2.2.9 for 循环实现统计水仙花的个数 2.2.10 代码案例十三
+
+package com.itheima_04;
+
+/*
+
+ * 需求：统计 ” 水仙花数 ” 共有多少个
+
+ *
+
+ * 分析：
+
+ *      A: 定义统计变量，初始化值是 0
+
+ *      B: 获取三位数，用 for 循环实现
+
+ *      C: 获取三位数的个位，十位，百位
+
+ *      D: 判断这个三位数是否是水仙花数，如果是，统计变量 ++
+
+ *      E: 输出统计结果就可以了
+
+ */
+
+public class ForTest5 {
+
+    public static void main(String[] args ) {
+
+        // 定义统计变量，初始化值是 0
+
+        int count = 0;
+
+       
+
+        // 获取三位数，用 for 循环实现
+
+        for ( int x =100; x <1000; x ++) {
+
+            // 获取三位数的个位，十位，百位
+
+            int ge = x %10;
+
+            int shi = x /10%10;
+
+            int bai = x /10/10%10;
+
+           
+
+            // 判断这个三位数是否是水仙花数，如果是，统计变量 ++
+
+            if (( ge * ge * ge + shi * shi * shi + bai * bai * bai ) == x ) {
+
+                count ++;
+
+            }
+
+        }
+
+       
+
+        // 输出统计结果就可以了
+
+        System. out .println( " 水仙花数共有： " + count + " 个 " );
+
+    }
+
+}
+
+  2.3   while 循环的格式及基本使用 2.3.1 while 循环语句格式
+
+基本格式
+
+   while( 判断条件语句 ) {
+
+循环体语句 ;
+
+   }
+
+扩展格式
+
+初始化语句 ;
+
+   while( 判断条件语句 ) {
+
+循环体语句 ;
+
+控制条件语句 ;
+
+} 2.3.2 执行流程图
+
+2.3.3 代码案例十四
+
+package com.itheima_05;
+
+/*
+
+ * while 循环语句的基本格式：
+
+ *      while( 判断条件语句 ) {
+
+ *          循环体语句 ;
+
+ *      }
+
+ * 扩展格式：
+
+ *      初始化语句 ;
+
+ *      while( 判断条件语句 ) {
+
+ *          循环体语句 ;
+
+ *          控制条件语句 ;
+
+ *      }
+
+ *
+
+ * 回顾 for 循环的语句格式：
+
+ *      for( 初始化语句 ; 判断条件语句 ; 控制条件语句 ) {
+
+ *          循环体语句 ;
+
+ *      }
+
+ */
+
+public class WhileDemo {
+
+    public static void main(String[] args ) {
+
+        // 输出 10 次 HelloWorld
+
+        /*
+
+        for( int x=1; x<=10; x++) {
+
+            System.out.println("HellloWorld");
+
+        }
+
+        */
+
+       
+
+        //while 循环实现
+
+        int x =1;
+
+        while ( x <=10) {
+
+            System. out .println( "HellloWorld" );
+
+            x ++;
+
+        }
+
+    }
+
+} 2.4   while 循环的练习 2.4.1 while 循环实现 1-100 之间数据求和 2.4.2 代码案例十五
+
+package com.itheima_05;
+
+/*
+
+ * 求 1-100 之和。
+
+ * 练习：统计水仙花个数。
+
+ */
+
+public class WhileTest {
+
+    public static void main(String[] args ) {
+
+        // 回顾 for 循环实现
+
+       
+
+        /*
+
+        // 定义求和变量
+
+        int sum = 0;
+
+        // 获取 1-100 之间的数据
+
+        for( int x=1; x<=100; x++) {
+
+            // 累加
+
+            sum += x;
+
+        }
+
+        System.out.println("1-100 的和是： "+sum);
+
+        */
+
+       
+
+        //while 循环实现
+
+        // 定义求和变量
+
+        int sum = 0;
+
+        int x = 1;
+
+        while ( x <=100) {
+
+            sum += x ;
+
+            x ++;
+
+        }
+
+        System. out .println( "1-100 的和是： " + sum );
+
+    }
+
+}
+
+  2.5   do…while 循环的格式及基本使用 2.5.1 do … while 循环语句格式
+
+基本格式
+
+   do {
+
+循环体语句 ;
+
+   }while(( 判断条件语句 );
+
+扩展格式
+
+初始化语句 ;
+
+   do {
+
+循环体语句 ;
+
+控制条件语句 ;
+
+} while(( 判断条件语句 ); 2.5.2 执行流程图
+
+ 
+
+2.5.3 代码案例十六
+
+package com.itheima_06;
+
+/*
+
+ * do...while 循环的基本格式：
+
+ *      do {
+
+ *          循环体语句 ;
+
+ *      }while( 判断条件语句 );
+
+ * 扩展格式：
+
+ *      初始化语句 ;
+
+ *      do {
+
+ *          循环体语句 ;
+
+ *          控制条件语句 ;
+
+ *      }while( 判断条件语句 );
+
+ * 执行流程：
+
+ *      A: 执行初始化语句 ;
+
+ *      B: 执行循环体语句 ;
+
+ *      C: 执行控制条件语句 ;
+
+ *      D: 执行判断条件语句，看是 true 还是 false
+
+ *          如果是 true ，回到 B 继续
+
+ *          如果是 false ，就结束
+
+ *
+
+ * 练习：
+
+ *      求和案例
+
+ *      统计水仙花个数
+
+ */
+
+public class DoWhileDemo {
+
+    public static void main(String[] args ) {
+
+        // 输出 10 次 HelloWorld
+
+        /*
+
+        for( int x=1; x<=10; x++) {
+
+            System.out.println("HelloWorld");
+
+        }
+
+        */
+
+       
+
+        //do...while 改写
+
+        int x =1;
+
+        do {
+
+            System. out .println( "HelloWorld" );
+
+            x ++;
+
+        } while ( x <=10);
+
+    }
+
+} 2.6   三种循环的区别 2.6.1 区别概述
+
+虽然可以完成同样的功能，但是还是有小区别：
+
+do … while 循环至少会执行一次循环体。
+
+for 循环和 while 循环只有在条件成立的时候才会去执行循环体
+
+for 循环语句和 while 循环语句的小区别：
+
+使用区别：控制条件语句所控制的那个变量，在 for 循环结束后，就不能再被访问到了，而 while 循环结束还可以继续使用，如果你想继续使用，就用 while ，否则推荐使用 for 。原因是 for 循环结束，该变量就从内存中消失，能够提高内存的使用效率。
+
+  2.6.2 代码案例十七
+
+package com.itheima_06;
+
+/*
+
+ * 三种循环的区别：
+
+ *      A:do...while 至少执行一次循环体
+
+ *      B:for,while 循环先判断条件是否成立，然后决定是否执行循环体
+
+ *
+
+ * for 和 while 的小区别：
+
+ *      for 循环的初始化变量，在循环结束后，不可以被访问。而 while 循环的初始化变量，是可以被继续使用的。
+
+ *      如果初始化变量，后面还要继续访问，就使用 while ，否则，推荐使用 for 。
+
+ *
+
+ * 循环的使用推荐：
+
+ *      for -- while -- do...while
+
+ */
+
+public class DoWhileDemo2 {
+
+    public static void main(String[] args ) {
+
+        /*
+
+        int x = 3;
+
+        while(x<3) {
+
+            System.out.println(" 我爱林青霞 ");
+
+            x++;
+
+        }
+
+        System.out.println("--------------");
+
+        int y = 3;
+
+        do {
+
+            System.out.println(" 我爱林青霞 ");
+
+            y++;
+
+        }while(y<3);
+
+        */
+
+       
+
+       
+
+        for ( int x =1; x <=10; x ++){
+
+            System. out .println( " 爱生活，爱 Java" );
+
+        }
+
+        // 这里的 x 无法继续访问
+
+        //System.out.println(x);
+
+        System. out .println( "-----------------" );
+
+       
+
+        int y = 1;
+
+        while ( y <=10) {
+
+            System. out .println( " 爱生活，爱 Java" );
+
+            y ++;
+
+        }
+
+        System. out .println( y );
+
+    }
+
+}
+
+                                                                       第3章   控制循环语句 3.1   控制跳转语句 break 3.1.1 Break 的使用场景和作用
+
+break 的使用场景：
+
+在选择结构 switch 语句中
+
+在循环语句中
+
+离开使用场景的存在是没有意义的
+
+break 的作用：
+
+跳出单层循环 3.1.2 代码案例十八
+
+package com.itheima_07;
+
+/*
+
+ * break: 中断的意思
+
+ * 使用场景：
+
+ *      A:switch 语句中
+
+ *      B: 循环中
+
+ * 注意：
+
+ *      离开使用场景是没有意义的。
+
+ * 作用：
+
+ *      跳出循环，让循环提前结束
+
+ */
+
+public class BreakDemo {
+
+    public static void main(String[] args ) {
+
+        //break;
+
+       
+
+        for ( int x =1; x <=10; x ++) {
+
+            if ( x == 3) {
+
+                break ;
+
+            }
+
+            System. out .println( "HelloWorld" );
+
+        }
+
+    }
+
+}
+
+  3.2   控制跳转语句 continue 3.2.1 continue 的使用场景：
+
+在循环语句中
+
+离开使用场景的存在是没有意义的
+
+continue 的作用：
+
+单层循环对比 break ，然后总结两个的区别
+
+break  退出当前循环
+
+continue  退出本次循环 3.2.2 代码案例十九
+
+package com.itheima_07;
+
+/*
+
+ * continue: 继续的意思
+
+ * 使用场景：
+
+ *      循环中
+
+ * 注意：
+
+ *      离开使用场景是没有意义的
+
+ * 作用：
+
+ *      结束一次循环，继续下一次的循环
+
+ * 区别：
+
+ *      break: 退出循环
+
+ *      continue: 结束一次循环，继续下一次的循环
+
+ */
+
+public class ContinueDemo {
+
+    public static void main(String[] args ) {
+
+        //continue;
+
+       
+
+        for ( int x =1; x <=10; x ++) {
+
+            if ( x == 3) {
+
+                //break;
+
+                continue ;
+
+            }
+
+            System. out .println( "HelloWorld" );
+
+        }
+
+    }
+
+}
+
+  3.3   控制跳转语句练习 3.3.1 练习需求 :
+
+按要求分析结果，并验证
+
+       for(int x=1; x<=10; x++) {
+
+              if(x%3==0) {
+
+                     // 分别写 break ， continue ，说说输出几次
+
+              }
+
+              System.out.println(“ 我爱林青霞 ”);
+
+       }
+
+  3.3.2 代码案例二十
+
+package com.itheima_07;
+
+/*
+
+ * 按要求分析结果，并验证
+
+ *
+
+ * break ：输出 2 次
+
+ * continue: 输出 7 次
+
+ */
+
+public class BreakAndContinueDemo {
+
+    public static void main(String[] args ) {
+
+ 
+
+        for ( int x = 1; x <= 10; x ++) {
+
+            if ( x % 3 == 0) {
+
+                // 分别写 break ， continue ，说说输出几次
+
+                //break;
+
+                continue ;
+
+            }
+
+            System. out .println( " 我爱林青霞 " );
+
+        }
+
+ 
+
+    }
+
+}
+
+ 

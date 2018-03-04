@@ -1,0 +1,27 @@
+DBCP核心类
+```
+Basic DataSource
+Basic DataSourceFactory
+
+
+
+
+
+```
+
+
+连接池DBCP
+连接池四大件:DriverClassname,JdbcUrl,Username,password;
+```
+  ###c3p0的使用(核心comboPooDataSource())
+```
+第一步   
+导入jar包
+设置四大件:
+配置文件:c3p0-config.xml(名称固定)
+
+import com.mchange.v2.c3p0.*;
+ ...  ComboPooledDataSource cpds = new ComboPooledDataSource();
+ cpds.setDriverClass( "org.postgresql.Driver" );
+ //loads the jdbc driver cpds.setJdbcUrl( "jdbc:postgresql://localhost/testdb" ); c
+pds.setUser("dbuser"); cpds.setPassword("dbpassword");

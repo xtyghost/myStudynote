@@ -1,0 +1,777 @@
+第 3 章 WEB03 - JS 篇
+
+今日任务
+
+&Oslash;   使用 JS 完成图片轮播效果
+
+&Oslash;   使用 JS 完成页面定时弹出广告
+
+&Oslash;   使用 JS 完成表单的校验
+
+&Oslash;   使用 JS 完成表格的隔行换色
+
+&Oslash;   使用 JS 完成复选框的全选效果
+
+&Oslash;   使用 JS 完成省市联动效果
+
+教学导航
+
+ 教学目标
+
+ 掌握 JS 中的 BOM 对象
+
+ 掌握 JS 中的常用的事件
+
+ 掌握 JS 中的常用 DOM 操作
+
+ 了解 JS 中的内置对象
+
+
+ 教学方法
+
+ 案例驱动法
+1.1      上次课内容回顾：
+
+CSS ：
+
+* CSS 的概述：层叠样式表 .
+
+    * 修饰 HTML 的页面 . 使页面与样式分离 .
+
+* CSS 的语法：
+
+    * 选择器 { 属性名 : 属性值 ; 属性名 : 属性值 ;...}
+
+* CSS 的引入方式：
+
+    * 行内样式：在 html 元素上使用 style 属性设置
+
+    * 内部样式：在 html 中使用 <style></style> 进行设置
+
+    * 外部样式：定义一个 css 文件 , 在 html 中引入该文件 .<link href=”” type=”” rel=””/>
+
+* CSS 的选择器： (****)
+
+    * 元素选择器 :
+
+    * ID 选择器：
+
+    * 类选择器：
+
+    * 后代选择器：
+
+    * 子元素选择器：
+
+* CSS 的样式：
+
+    * 文本
+
+    * 背景
+
+    * 字体
+
+    * 列表
+
+* CSS 的盒子模型：
+
+    * 内边距： padding
+
+    * 边框： border
+
+    * 外边距： margin
+
+* CSS 的悬浮和定位：
+
+    * 悬浮： float 属性设置悬浮 .
+
+    * 清除悬浮： clear 属性清除 .
+
+    * 定位： position 属性设置定位 .
+
+        * 使用 left 和 top 属性控制位置 .
+
+    * display 属性：控制元素的显示方式：
+
+        * block-- 显示的 , none-- 隐藏的 ,inline-- 显示到一行 .
+
+JS:
+
+* JS 的概述： JavaScript 运行在浏览器端脚本语言 .
+
+* JS 的历史：由网景公司研发的 . 由 ECMA 组织统一标准 :ECMAScript.
+
+* JS 的组成： ECMAScript ， BOM ， DOM.
+
+* JS 的语法：
+
+    * JS 的变量声明 :
+
+    * JS 的数据类型：
+
+        * 原始类型： undefined,boolean,string,number,null
+
+        * 引用类型：
+
+    * JS 的运算符：
+
+        * 与 java 中基本一致 . 有一个 === 类型与值都相同的情况下才会为 true.
+
+    * JS 的语句：
+
+        * 与 Java 中的语句一致 .
+
+* 简单的表单校验：
+
+    * 正则的校验：使用 String 的 match 方法和正则中的 test 方法 . 1.2      案例一：使用 JS 完成图片的轮播的效果： 1.2.1     需求：
+
+1.2.2     分析： 1.2.2.1   技术分析：
+
+【 JS 中的 Window 对象的定时的操作】
+
+* 设置定时的方法
+
+
+
+* 清除定时的方法
+
+1.2.2.2   步骤分析：
+
+【步骤一】创建一个 HTML 文件
+
+【步骤二】当页面加载的时候开始计时 . 使用 onload 事件 .
+
+【步骤三】编写 onload 事件触发的函数 .
+
+【步骤四】获得操作图片的控制权 .
+
+【步骤五】修改图片的 src 的属性 . 1.2.3     代码实现：
+
+        <script>
+
+            window.onload = function(){
+
+                // 设置定时：
+
+                window.setInterval("changeImg()",5000);
+
+            }
+
+            var i = 1;
+
+            function changeImg(){
+
+                i++;
+
+                // 获得图片的控制权：
+
+                if(i > 3){
+
+                    i=1;
+
+                }
+
+                var img1 = document.getElementById("img1");
+
+                img1.src="../img/"+i+".jpg";
+
+            }
+
+           
+
+        </script> 1.3      案例二：使用 JS 实现定时弹出广告定时隐藏 . 1.3.1     需求 :
+
+在网站的首页上定时弹出一个广告，并且定时隐藏掉 .
+
+1.3.2     分析： 1.3.2.1   技术分析：
+
+【 JS 的 window 对象的定时的方法】
+
+* 设置定时的方法
+
+
+
+* 清除定时的方法
+
+
+
+【 CSS 的显示和隐藏的属性】
+
+* display
+
+    * block ：显示元素：
+
+    * none ：隐藏元素： 1.3.2.2   步骤分析：
+
+【步骤一】创建一个 HTML 页面
+
+【步骤二】确定事件：页面的加载事件
+
+【步骤三】触发一个函数，编写该函数 .
+
+【步骤四】在函数中设置定时操作 . 定时执行一个显示的函数 .
+
+【步骤五】清空定时，重新设置定时， 5 秒钟隐藏 . 1.3.3     代码实现：
+
+            var time;
+
+           
+
+            window.onload = function(){
+
+                time = window.setInterval("show()",5000);
+
+            }
+
+           
+
+            // 显示广告的方法
+
+            function show(){
+
+                // 获得广告的 div 元素 :
+
+                var adDiv = document.getElementById("adDiv");
+
+                adDiv.style.display = "block";
+
+                window.clearInterval(time);
+
+                time = window.setInterval("hide()",5000);
+
+            }
+
+           
+
+            // 隐藏广告的方法 :
+
+            function hide(){
+
+                // 获得广告的 div 元素 :
+
+                var adDiv = document.getElementById("adDiv");
+
+                adDiv.style.display="none";
+
+                window.clearInterval(time);
+
+            } 1.3.4     总结： 1.3.4.1   JS 中的 BOM 对象 :
+
+
+
+&Oslash;   Window
+
+
+
+* alert();      -- 弹出对话框
+
+* setInterval();
+
+* setTimeout();
+
+* clearInterval();
+
+* clearTimeout();
+
+* confirm();    -- 弹出一个确认窗口
+
+* prompt();     -- 弹出一个可输入的对话框
+
+* open();       -- 打开一个新窗口
+
+ 
+
+&Oslash;   Navigator ：包含的是浏览器的信息 .
+
+
+
+&Oslash;   Screen: 用来获得屏幕信息 :
+
+
+
+&Oslash;   History: 浏览器的历史对象 :
+
+
+
+&Oslash;   Location: 包含 URL 信息的对象
+
+1.4      使用 JS 完成注册页面表单提示及校验 1.4.1     需求：
+
+
+
+注册页面之前是弹出对话框的形式进行校验的这种方式不是特别友好！可以将错误信息显示到文本框的后面 . 而且当光标落入到文本框的时候 , 提示的信息 . 1.4.2     分析： 1.4.2.1   技术分析 :
+
+【 JS 的输出】
+
+* document.getElementById(“”).innerHTML=”HTML 的代码 ”;
+
+* document.write(“”);
+
+【 JS 的事件】
+
+* onfocus   : 获得焦点 .
+
+* onblur    : 失去焦点 .
+
+* onsubmit  : 提交的时候 . 1.4.2.2   步骤分析：
+
+【步骤一】创建一个 html 文档
+
+【步骤二】在要去校验的文本框上添加事件 .
+
+【步骤三】触发函数
+
+【步骤四】在函数中向文本框后的 html 的区域中写入一段提示的内容 . 1.4.3     代码实现 :
+
+            function tips(id,content){
+
+                document.getElementById(id+"Span").innerHTML = "<font color='red'>"+content+"</font>";
+
+            }
+
+           
+
+            function checkForm(){
+
+                // 判断用户名不能为空 :
+
+                var username = document.getElementById("username").value;
+
+                if(username == ""){
+
+                    document.getElementById("usernameSpan").innerHTML = "<font color='red'> 用户名不能为空！ </font>";
+
+                    return false;
+
+                }
+
+               
+
+                var password = document.getElementById("password").value;
+
+                if(password == ""){
+
+                    document.getElementById("passwordSpan").innerHTML = "<font color='red'> 密码不能为空！ </font>";
+
+                    return false;
+
+                }
+
+            } 1.4.4     总结： 1.4.4.1   JS 的事件的总结：
+
+* onload    :
+
+* onclick   :
+
+* onsubmit  :
+
+* onfocus   :
+
+* onblur    :
+
+* onchange  : 下拉列表改变事件 .
+
+* ondblclick: 双击某个元素的事件 .
+
+ 
+
+键盘操作事件 :
+
+* onkeydown :
+
+* onkeyup   :
+
+* onkeypress:
+
+ 
+
+鼠标操作事件：
+
+* onmousemove ：
+
+* onmouseout ：
+
+* onmouseover ：
+
+* onmousedown
+
+* onmouseup 1.5      案例四：使用 JS 完成后台数据展示的隔行换色的表格： 1.5.1     需求：
+
+在后台展示数据的页面上，通常使用表格标签进行数据的展示 . 没有背景的表格比较难看的，可以使用 JS 控制表格的隔行换色 .
+
+1.5.2     分析： 1.5.2.1   技术分析：
+
+【使用 JS 获得表格的行数】
+
+* 获得到控制的表格元素 :
+
+    * var tab1 = document.getElementById(“tab1”);
+
+    * var len = tab1.rows.length; 1.5.2.2   步骤分析：
+
+【步骤一】创建一个 HTML 页面：可以使用后台设计页面 .
+
+【步骤二】确定事件： onload 事件 .
+
+【步骤三】触发一个函数 . 在这个函数中获得操作的表格 .
+
+【步骤四】获得表格中的所有的行数 .
+
+【步骤五】遍历表格的行数 .
+
+【步骤六】判断是否是奇数行还是偶数行 . 1.5.3     代码实现：
+
+            function changeColor(){
+
+                // 获得要操作的对象的控制权：
+
+                var tab1 = document.getElementById("tab1");
+
+                // 获得表格的所有的行数 :
+
+                var count = tab1.rows.length;
+
+                // 遍历每行 :
+
+                for(var i = 0;i<count;i++){
+
+                    if(i % 2 == 0){
+
+                        // 偶数行
+
+                        tab1.rows[i].style.backgroundColor = "#00FF00";
+
+                    }else{
+
+                        // 奇数行
+
+                        tab1.rows[i].style.backgroundColor = "#00FFFF";
+
+                    }
+
+                }
+
+            } 1.5.4     总结： 1.5.4.1   表格中的 tbody 和 thead 标签
+
+            function changeColor(){
+
+                // 获得操作的表格的控制权 :
+
+                var tab1 = document.getElementById("tab1");
+
+                // 获得 tbody 中的所有的行 .
+
+                var len = tab1.tBodies[0].rows.length;
+
+                for(var i = 0;i< len ;i++){
+
+                    if(i % 2 == 0){
+
+                        tab1.tBodies[0].rows[i].style.backgroundColor = "green";
+
+                    }else{
+
+                        tab1.tBodies[0].rows[i].style.backgroundColor = "gold";
+
+                    }
+
+                }
+
+            } 1.6      案例五：使用 JS 完成复选框的全选和全不选的效果 1.6.1     需求：
+
+在实际的开发中一条记录一条记录进行删除的话，效率很低，有的时候需要一起删除多条记录 . 需要通过在表格之前设置一个复选框的形式进行勾选复选框 . 点击一个删除的按钮 .
+
+1.6.2     分析 : 1.6.2.1   技术分析：
+
+  1.6.2.2   步骤分析：
+
+【步骤一】创建一个 HTML 页面 .
+
+【步骤二】确定事件：复选框的单击事件 .
+
+【步骤三】触发一个函数
+
+【步骤四】在函数中 , 获得上面的复选框是否被选中 .
+
+【步骤五】如果选中 , 下面的所有的复选框都被选中 .
+
+【步骤六】如果不选中 , 下面的所有的复选框都不选中 . 1.6.3     代码实现：
+
+            function checkAll(){
+
+                // 获得上面的复选框
+
+                var selectAll = document.getElementById("selectAll");
+
+                // 判断这个复选框是否被选中 .
+
+                var ids = document.getElementsByName("ids");
+
+                if(selectAll.checked == true){
+
+                    // 上面复选框被选中：获得下面所有的复选框 , 修改 checked 属性
+
+                    for(var i = 0 ;i<ids.length;i++){
+
+                        ids[i].checked = true;
+
+                    }
+
+                }else{
+
+                    // 上面复选框没有被选中：获得下面所有的复选框 , 修改 checked 属性
+
+                    for(var i = 0 ;i<ids.length;i++){
+
+                        ids[i].checked = false;
+
+                    }
+
+                }
+
+               
+
+            } 1.6.4     总结： 1.6.4.1   JS 中的 DOM 对象：
+
+【 DOM 的概述】
+
+&Oslash;   什么是 DOM
+
+DOM ： Document Object Model ：文档对象模型 .
+
+将一个 HTML 的文档加载到内存形成一个树形结构 , 从而操作树形结构就可以改变 HTML 的样子 .
+
+&Oslash;   DOM 的使用：
+
+知道 document ， element ， attribute 中的属性和方法
+
+【 DOM 的常用的操作】
+
+&Oslash;   获得元素：
+
+* document.getElementById();       -- 通过 ID 获得元素 .
+
+* document.getElementsByName();    -- 通过 name 属性获得元素 .
+
+* document.getElementsByTagName(); -- 通过标签名获得元素 .
+
+&Oslash;   创建元素：
+
+* document.createElement();        -- 创建元素
+
+* document.createTextNode();       -- 创建文本
+
+&Oslash;   添加节点：
+
+* element.appendChild();           -- 在最后添加一个节点 .
+
+* element.insertBefore();          -- 在某个元素之前插入 .
+
+&Oslash;   删除节点：
+
+* element.removeChild();           -- 删除元素
+
+【使用 DOM 完成对 ul 中添加一个 li 元素】
+
+            function addElement(){
+
+                var city = document.getElementById("city");
+
+                // 创建一个元素 :
+
+                var liEl = document.createElement("li");
+
+                // 创建一个文本节点 :
+
+                var text = document.createTextNode(" 深圳 ");
+
+                // 添加子节点 :
+
+                liEl.appendChild(text);
+
+                city.appendChild(liEl);
+
+            } 1.7      案例六：使用 JS 完成省市联动的效果： 1.7.1     需求：
+
+在注册页面上有两个下拉列表 , 左侧省份的下拉列表一改变 , 右侧的市的下拉列表也要跟着发生变化 .
+
+1.7.2     分析： 1.7.2.1   技术分析 :
+
+【 JS 中创建数组】
+
+
+
+【 JS 的事件】
+
+下拉的列表的改变的事件 .onchange.
+
+【 JS 的 DOM 的操作】
+
+创建元素：
+
+添加元素： 1.7.2.2   步骤分析
+
+【步骤一】创建一个 HTML 文件 .
+
+【步骤二】确定事件： onchange 事件 .
+
+【步骤三】触发函数 , 在函数中编写代码 .
+
+【步骤四】获得到所选择的省份的信息 .
+
+【步骤五】根据选择的省份的信息获得到对应的数组中的市的数据 .
+
+【步骤六】遍历数组中的市的信息 .
+
+【步骤七】创建元素，创建文本 , 最后将元素添加到第二个列表中 . 1.7.3     代码实现 :
+
+            // 定义数组：二维数组：
+
+            var arrs = new Array(5);
+
+            arrs[0] = new Array(" 杭州市 "," 绍兴市 "," 温州市 "," 义乌市 "," 嘉兴市 ");
+
+            arrs[1] = new Array(" 南京市 "," 苏州市 "," 扬州市 "," 无锡市 ");
+
+            arrs[2] = new Array(" 武汉市 "," 襄阳市 "," 荆州市 "," 宜昌市 "," 恩施 ");
+
+            arrs[3] = new Array(" 石家庄市 "," 唐山市 "," 保定市 "," 邢台市 "," 廊坊市 ");
+
+            arrs[4] = new Array(" 长春市 "," 吉林市 "," 四平市 "," 延边市 ");
+
+           
+
+            function changeCity(value){
+
+                // 获得到选中的省份的信息 .
+
+                var city = document.getElementById("city");
+
+               
+
+                // 清除第二个列表中的内容 :
+
+                for(var i=city.options.length;i>0;i--){
+
+                    city.options[i] = null;
+
+                }
+
+                // city.options.length = 0;
+
+               
+
+                // alert(value);
+
+                for(var i= 0 ;i< arrs.length;i++){
+
+                    if(value == i){
+
+                        // 获得所有的市的信息 .
+
+                        for(var j=0;j<arrs[i].length;j++){
+
+                            // alert(arrs[i][j]);
+
+                            // 创建元素：
+
+                            var opEl = document.createElement("option");// <option></option>
+
+                            // 创建文本节点 :
+
+                            var textNode = document.createTextNode(arrs[i][j]);
+
+                            // 将文本的内容添加到 option 元素中 .
+
+                            opEl.appendChild(textNode);
+
+                            // 将 option 的元素添加到第二个列表中 .
+
+                            city.appendChild(opEl);
+
+                        }
+
+                    }
+
+                }
+
+            } 1.7.4     总结： 1.7.4.1   JS 的内置对象 :
+
+
+
+ 
+
+&Oslash;   Array:
+
+
+
+&Oslash;   Boolean:
+
+
+
+&Oslash;   Date:
+
+
+
+* http://www.baidu.com?time=new Date().getTime();
+
+&Oslash;   Math 对象 :
+
+
+
+&Oslash;   String 对象 :
+
+* charAt();
+
+* indexOf();
+
+* lastIndexOf();
+
+* split();
+
+* replace();
+
+* substring();
+
+* substr(); 1.7.4.2   JS 的全局函数：
+
+
+
+* parseInt();
+
+    * parseInt(“11”);
+
+* parseFloat();
+
+    * parseFloat(“32.09”);
+
+ 
+
+* 编码和解码的方法：
+
+// 解码
+
+* decodeURI();
+
+* decodeURIComponent();
+
+ 
+
+// 编码
+
+* encodeURI();
+
+* encodeURIComponent();
+
+ 
+
+eval 函数：
+
+* 将一段内容当成是 JS 的代码执行 .
+
+//var sss = “alert(‘aaaa’)”;
+
+//eval(sss);
+
+ 
+
+ 

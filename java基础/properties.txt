@@ -1,0 +1,8 @@
+Properties实现流Map接口,可以实现流用map接口的方法存储数据,遍历(parameter全都为String)
+setProperty()==put()
+Store(OutputStream out,String coments)==加载到文件中coments评论(对properties的描述)
+load( )===读取指定字节流中的信息
+使用propeties存储的数据必须实现serializable接口(凡是要存入到文件的数据必须实现该接口)
+
+
+可变参数Object...object

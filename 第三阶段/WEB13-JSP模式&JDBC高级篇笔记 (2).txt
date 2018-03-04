@@ -1,0 +1,470 @@
+第 13 章 WEB13-JSP 模式 &JDBC 高级 篇
+
+今日任务
+
+Ø   使用 MVC 设计模式开发一个转账案例
+
+教学导航
+
+
+ 教学目标
+
+ 掌握 JSP 的设计模式
+
+ 了解 MYSQL 的事务管理
+
+ 掌握 JDBC 的事务管理
+
+ 会使用 DBUtils 完成事务的管理
+
+
+ 教学方法
+
+ 案例驱动法
+1.1 上次课内容回顾 :
+
+JSP ：
+
+* JSP 的概述 :
+
+    * JSP ： Java Server Pages.
+
+    * JSP 的运行原理：翻译成 Servlet, 编译成 Class 进行执行 .
+
+* JSP 的脚本元素 :
+
+    * <%!   %>
+
+    * <%    %>
+
+    * <%=   %>
+
+* JSP 的注释：
+
+* JSP 的三个指令 :
+
+    * page,include,taglib   <%@ 指令名称 属性 =” 属性值 ”%>
+
+* JSP 的内置对象：
+
+    * pageContext,request,session,application,page,response,out,config,exception
+
+* JSP 的四个作用范围
+
+    * PageScope             ：当前页面
+
+    * RequestScope          ：一次请求范围 .
+
+    * SessionScope          ：一次会话
+
+    * ApplicationScope      ：整个应用范围 .
+
+* JSP 的动作标签 :
+
+    * <jsp:forward>,<jsp:include>,<jsp:param>,<jsp:useBean>,<jsp:setProperty>,<jsp:getProperty>
+
+EL:
+
+* EL 的概述
+
+    * EL:Expression Language
+
+    * EL 的作用 :
+
+        * 获取数据 ${  }
+
+        * 执行运算
+
+        * 操作 web 开发中常用的对象 ${param }
+
+        * 调用 Java 中方法 :
+
+JSTL
+
+* JSTL 的概述 :
+
+    * JSTL:JSP 标准标签库 .
+
+    * JSTL 标签库 :core,fmt,sql,xml,fn
+
+    * JSTL 的核心标签库 :
+
+        * if,forEach
+
+    * JSTL 的函数库 :
+
+        * ${fn:} 1.2 使用 MVC 设计模式完成转账的案例 : 1.2.1 需求 :
+
+设计一个页面 , 输入三个值 , 一个是付款人 , 一个是收款人 , 一个是转账的金额 . 不能出现付款人的钱被扣除而收款人没有收到钱的情况发生 . 而且要使用 MVC 的设计模式 . 1.2.2 分析 : 1.2.2.1   JSP 的开发模式 :
+
+【动态网页开发模式的发展】
+
+
+
+【 JSP 的开发模式一】：了解
+
+JSP + JavaBean
+
+* 演示模式一的过程 :
+
+    * 在模式一开发中提供了一些 JSP 的标签 :<jsp:useBean> ,<jsp:setProperty >,<jsp:getProperty>
+
+* 使用模式一进行简单的测试 :
+
+<%
+
+    // 接收数据 :
+
+/*  String username = request.getParameter("username");
+
+    String password = request.getParameter("password");
+
+    // 封装数据 :
+
+    User user = new User();
+
+    user.setUsername(username);
+
+    user.setPassword(password); */
+
+%>
+
+<jsp:useBean id="user" class="com.itheima.demo1.domain.User" scope="page"></jsp:useBean>
+
+<%-- <jsp:setProperty property="username" name="user"/>
+
+<jsp:setProperty property="password" name="user"/> --%>
+
+<jsp:setProperty property="*" name="user"/><!-- 表单的元素的 name 属性的值与 User 中的属性名称一致 就可以自动封装 -->
+
+ 
+
+<jsp:getProperty property="username" name="user"/>
+
+【 JSP 的开发模式二】：掌握
+
+JSP + Servlet + JavaBean 称为 MVC 的设计模式 .
+
+MVC:
+
+M:Model: 模型层
+
+V:View: 视图层
+
+C:Controller: 控制层
+
+
+
+【 Java 中的反射技术】（掌握）
+
+Ø 反射 :
+
+
+
+Ø 代码：
+
+【 Java 中的内省技术】 ( 了解 )
+
+Ø 内省 : 用来获得 JavaBean 的属性及属性的 get 或 set 方法 .
+
+JavaBean: 就是一个满足了特定格式的 Java 类 :
+
+* 需要提供无参数的构造方法 :
+
+* 属性私有
+
+* 对私有的属性提供 public 的 get/set 方法 .
+
+Ø 内省的代码 :
+
+    public void demo1() throws Exception{
+
+        // 获得了 Bean 的信息
+
+        BeanInfo beanInfo = Introspector.getBeanInfo(User.class);
+
+        // 获得 Bean 的属性描述了
+
+        PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
+
+        for(PropertyDescriptor pd:pds){
+
+            System.out.println(pd.getName());
+
+            /*pd.getReadMethod(); // 获得 get 方法
+
+            pd.getWriteMethod();// 获得 set 方法 .
+
+*/      }
+
+    }
+
+Ø 使用内省封装一个 MyBeanUtils:
+
+public class MyBeanUtils {
+
+ 
+
+    public static void populate(Object obj,Map<String,String[]> map) throws Exception{
+
+        // 获得类的所有的属性的名称 :
+
+        BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
+
+        // 获得类中所有的属性 :
+
+        PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
+
+        for (PropertyDescriptor pd : pds) {
+
+            if(map.containsKey(pd.getName())){
+
+                Method method = pd.getWriteMethod();
+
+                // 执行 set 方法 :
+
+                method.invoke(obj, map.get(pd.getName())[0]);
+
+            }
+
+        }
+
+    }
+
+}
+
+【事务的概述】
+
+Ø 什么是事务 :
+
+* 事务指的是逻辑上的一组操作 , 组成这组操作的 各个逻辑单元要么一起成功 , 要么一起失败 .
+
+Ø MYSQL 的事务的管理：（了解）
+
+* 创建一个账号的表 :
+
+create database web_13;
+
+use web_13;
+
+create table account(
+
+    id int primary key auto_increment,
+
+    name varchar(20),
+
+    money double
+
+);
+
+insert into account values (null,' 张森 ',10000);
+
+insert into account values (null,' 凤姐 ',10000);
+
+insert into account values (null,' 如花 ',10000);
+
+ 
+
+***** MYSQL 的事务管理有两种方式 :(MYSQL 数据库事务默认是自动提交的 .Oracle 数据库事务默认是不自动提交 .)
+
+* 1. 手动开启事务
+
+* start transaction; -- 开启事务
+
+* 多条 sql;
+
+* commit/rollback;
+
+ 
+
+* 2. 设置一个自动提交参数
+
+* show variables like '%commit%'; -- 查看与 commit 相关参数 .
+
+* set autocommit = 0; -- 将 autocommit 参数设置为 OFF.
+
+ 
+
+【 JDBC 中的事务管理】（掌握）
+
+Ø JDBC 的事务的管理的 API:
+
+
+
+
+
+1.2.2.2   步骤分析 :
+
+【步骤一】：创建一个页面 :
+
+【步骤二】：导入 JDBC 相关的 jar 包和工具类 .
+
+【步骤三】：创建包结构 .
+
+【步骤四】：提交到 Servlet-->Service-->DAO
+
+【步骤五】：页面跳转 : 1.2.3 代码实现 : 1.2.3.1   准备工作 :
+
+  1.2.3.2   代码实现 :
+
+  1.2.3.3   DBUtils 实现事务管理 :
+
+Ø 没有事务管理 :
+
+
+
+
+
+
+
+Ø 有事务管理 :
+
+
+
+
+
+1.2.4 总结 : 1.2.4.1   事务特性 :
+
+Ø 原子性：强调事务的不可分割 .
+
+Ø 一致性：强调的是事务的执行的前后，数据的完整性要保持一致 .
+
+Ø 隔离性：一个事务的执行不应该受到其他事务的干扰 .
+
+Ø 持久性：事务一旦结束 ( 提交 / 回滚 ) 数据就持久保持到了数据库 . 1.2.4.2   如果不考虑事务的隔离性 , 引发一些安全性问题 :
+
+Ø 一类读问题 :
+
+* 脏读       : 一个事务读到另一个事务还没有提交的数据 .
+
+* 不可重复读 : 一个事务读到了另一个事务已经提交的 update 的数据 , 导致在当前的事务中多次查询结果不一致 .
+
+* 虚读 / 幻读   : 一个事务读到另一个事务已经提交的 insert 的数据 , 导致在当前的事务中多次的查询结果不一致 .
+
+Ø 一类写问题 :
+
+* 引发两类丢失更新 : 1.2.4.3   解决引发的读问题 :
+
+设置事务的隔离级别 :
+
+* read uncommitted     : 未提交读 . 脏读，不可重复读，虚读都可能发生 .
+
+* read committed       : 已提交读 . 避免脏读 . 但是不可重复读和虚读有可能发生 .
+
+* repeatable read      : 可重复读 . 避免脏读 , 不可重复读 . 但是虚读有可能发生 .
+
+* serializable         : 串行化的 . 避免脏读，不可重复读，虚读的发生 .
+
+ 
+
+***** MYSQL 隔离级别： repeatable read  Oracle 隔离级别 :read committed 1.2.4.4   演示脏读的发生 :
+
+Ø 分别开启两个窗口 :A,B
+
+Ø 分别查看两个窗口的隔离级别 :select @@tx_isolation;
+
+Ø 设置 A 窗口的隔离级别为 : read uncommitted:
+
+* set session transaction isolation level read uncommitted;
+
+Ø 分别在两个窗口中开启事务 :
+
+* start transaction;
+
+Ø 在 B 窗口完成转账的操作 :
+
+* update account set money = money - 1000 where name = ' 张森 ';
+
+* update account set money = money + 1000 where name = ' 凤姐 ';
+
+Ø 在 A 窗口查询数据 :( 钱已经到账 --- 脏读 )
+
+* select * from account;  -- A 事务读到了 B 事务还没有提交的数据 . 1.2.4.5   演示避免脏读，不可重复读发生
+
+Ø 分别开启两个窗口 :A,B
+
+Ø 分别查看两个窗口的隔离级别 :select @@tx_isolation;
+
+Ø 设置 A 窗口的隔离级别为 : read committed:
+
+* set session transaction isolation level read committed;
+
+Ø 分别在两个窗口中开启事务 :
+
+* start transaction;
+
+Ø 在 B 窗口完成转账的操作 :
+
+* update account set money = money - 1000 where name = ' 张森 ';
+
+* update account set money = money + 1000 where name = ' 凤姐 ';
+
+Ø 在 A 窗口中进行查询 :
+
+* select * from account; -- 避免脏读 .
+
+Ø 在 B 窗口提交事务 :
+
+* commit;
+
+Ø 在 A 窗口中再次查询 :
+
+* select * from account; -- 转账成功 .( 不可重复读 : 一个事务读到另一个事务中已经提交的 update 的数据 , 导致多次查询结果不一致 .) 1.2.4.6   演示避免不可重复读 :
+
+Ø 分别开启两个窗口 :A,B
+
+Ø 分别查看两个窗口的隔离级别 :select @@tx_isolation;
+
+Ø 设置 A 窗口的隔离级别为 : repeatable read:
+
+* set session transaction isolation level repeatable read;
+
+Ø 分别在两个窗口中开启事务 :
+
+* start transaction;
+
+Ø 在 B 窗口完成转账的操作 :
+
+* update account set money = money - 1000 where name = ' 张森 ';
+
+* update account set money = money + 1000 where name = ' 凤姐 ';
+
+Ø 在 A 窗口查询 :
+
+* select * from account; -- 转账没有成功 : 避免脏读 .
+
+Ø 在 B 窗口提交事务 :
+
+* commit;
+
+Ø 在 A 窗口中再次查询 :
+
+* select * from account; -- 转账没有成功 : 避免不可重复读 .
+
+  1.2.4.7   演示避免虚读的发生 :
+
+Ø 分别开启两个窗口 :A,B
+
+Ø 分别查看两个窗口的隔离级别 :select @@tx_isolation;
+
+Ø 设置 A 窗口的隔离级别为 : serializable:
+
+* set session transaction isolation level serializable;
+
+Ø 在 A,B 两个窗口中分别开启事务 :
+
+* start transaction;
+
+Ø 在 B 窗口中完成一个 insert 操作 :
+
+* insert into account values (null,' 王老师 ',10000);
+
+Ø 在 A 创建中进行查询的操作 :
+
+* select * from account; -- 没有查询到任何结果 .
+
+Ø 在 B 窗口提交事务 :
+
+* commit; -- A 窗口马上就会显 示数据 .
+
+从页面内取数据只要有name,那么value的默认为""

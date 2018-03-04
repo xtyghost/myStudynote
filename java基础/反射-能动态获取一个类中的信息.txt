@@ -1,0 +1,30 @@
+Class   s = String . class ;
+     Class   s1 = "sfda" . getClass () ;
+     Class   s2 = Class . forName ( "java.lang.String" ) ;//名字是全名(包含包名)
+     System . out . println ( s ) ;
+     System . out . println ( s1 ) ;      System . out . println ( s2 ) ;
+
+反射的应用场景:想要对指定名称的字节码文件对象进行加载获取并调用其内部内容
+获取类的字节码文件:对象.getClass( )
+                                                  类名.class-----------不会执行静态代码块
+
+                                                Class.forname:通过"名字"找打类名对象
+
+一般用反射的类都带空参构造,使用new instance( )获取实例
+Class字节码文件类具有获取所以字段的方法,获取到特定的方法对象后再使用newInstanc( )获取实例
+要点:Class类File类,construtor类
+反射的作用简化书写,大大的提高了程序的扩展性
+implements
+包名要全称以.分隔
+method对象.invoke(object,parameterTypes)
+反射的机制;
+                    类加载器:bootsrap 根类加载器:(一段c++代码)
+
+                    ExtClassLoader扩展类加载器;
+
+                    AppClassLoader系统/应用类加载器
+
+全盘责任委托机制:坑爹机制
+类加载器会加载src和bin目录先的文件(bin目录会产生src下的副本)
+通过反射获得的方法,中的变量类型均为最初始的类型不带泛型
+

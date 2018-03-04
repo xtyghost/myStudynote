@@ -1,0 +1,1191 @@
+get第 7 章 WEB07 - JDBC 篇
+
+今日任务
+
+Ø   使用 JDBC 完成对分类表的 CRUD 的操作 (JDBC 的回顾 )
+
+Ø   使用 DBCP,C3P0 连接池完成基本数据库的操作 ( 抽取工具类 )
+
+Ø   使用元数据抽取一个 JDBC 的框架 .
+
+Ø   能够使用 DBUtils 完成 CRUD 的操作
+
+ 
+
+教学导航
+
+
+ 教学目标
+
+ 掌握 DBCP 和 C3P0 连接池的使用并掌握连接池的原理 .
+
+ 掌握使用元数据抽取基本的 JDBC 通用方法的思想 .
+
+ 能够使用 DBUtils 完成基本的 CRUD 的操作
+
+
+ 教学方法
+
+ 案例驱动法
+1.1 上次课内容回顾：
+
+MYSQL:
+
+* 数据库的概述：指的是一个文件系统 , 这个文件系统通过 SQL 访问 .
+
+* 关系型数据库：数据库中存放的是实体之间的关系 .
+
+* 常见的关系型数据库 :MYSQL,Oracle,DB2,SQLServer,SQLite,SyBase
+
+MYSQL 的使用 :
+
+* 安装和卸载：
+
+* 存储结构 :
+
+    * 一台电脑安装了 MYSQL 的服务器软件 , 那么这台电脑称为是 MYSQL 数据库服务器 . 一个软件创建一个数据库 , 有一个实体类创建一个表与之对应 , 实体的实例对象通常使用表中的记录与之对应 .
+
+SQL: 结构化查询语言：
+
+* SQL 的分类 :
+
+    * DDL ：数据定义语言 .create,alter,drop...
+
+    * DML ：数据操纵语言 .update,insert,delete
+
+    * DCL ：数据控制语言 .grant,if,...
+
+    * DQL ：数据查询语言 .select
+
+* SQL 对数据库 CRUD ：
+
+* SQL 对数据库中表 CRUD 的操作
+
+* SQL 对数据库中表的记录的操作：
+
+    * update,insert,delete
+
+    * Select ... From ... Where ... Group by ... Having ... Order by ...;
+
+* SQL 的多表设计：
+
+    * 一对多：在多的一方创建外键执向一的一方的主键 .
+
+    * 多对多：创建中间表 , 至少两个字段作为外键执向多对多双方的主键 .
+
+    * 一对一：唯一外键对应 , 主键对应 .
+
+* SQL 的多表的查询：
+
+    * 连接查询：
+
+        * 交叉连接 :
+
+        * 内连接：
+
+            * 显式内连接： inner join
+
+            * 隐式内连接：
+
+        * 外连接
+
+            * 左外连接： left outer join
+
+            * 右外连接： right outer join
+
+    * 子查询： 1.2 案例一：使用 JDBC 完成 CRUD 的操作 : 1.2.1 需求：
+
+对分类管理使用 JDBC 进行 CRUD 的操作 . 1.2.2 分析： 1.2.2.1   技术分析：
+
+【 JDBC 的概述】
+
+Ø JDBC:Java DataBase Connectivity Java 数据库的连接 .
+
+* 是 SUN 公司统一提供的一套接口规范 (JDBC). 各个数据库生产商提供实现 .
+
+Ø 驱动 : 两个硬件设备之间通信的桥梁 .
+
+【 JDBC 的开发步骤】
+
+Ø 注册驱动 :
+
+Ø 获得连接：
+
+Ø 获得执行 SQL 语句对象 :
+
+Ø 释放资源 : 1.2.2.2   步骤分析：
+
+【步骤一】：创建一个 Java 项目 .
+
+【步骤二】：引入 mysql 的驱动包 .
+
+【步骤三】：编写代码 .
+
+【步骤四】：完成 CRUD 的操作： 1.2.3 代码实现：
+
+工具类的抽取：
+
+public class JDBCUtils {
+
+ 
+
+    /**
+
+     * 注册驱动的方法
+
+     */
+
+    public static void loadDriver(){
+
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+
+        } catch (ClassNotFoundException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
+    /**
+
+     * 获得连接的方法
+
+     */
+
+    public static Connection getConnection(){
+
+       
+
+        Connection conn = null;
+
+        try {
+
+            loadDriver();
+
+            conn = DriverManager.getConnection("jdbc:mysql:///web_07", "root", "123");
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return conn;
+
+    }
+
+   
+
+    /**
+
+     * 释放资源的方法
+
+     */
+
+    public static void release(ResultSet rs,Statement stmt,Connection conn){
+
+        if (rs != null) {
+
+            try {
+
+                rs.close();
+
+            } catch (SQLException e) {
+
+              e.printStackTrace();
+
+            }
+
+            // 垃圾回收尽快回收对象 .
+
+            rs = null;
+
+        }
+
+        if (stmt != null) {
+
+            try {
+
+              stmt.close();
+
+            } catch (SQLException e) {
+
+              e.printStackTrace();
+
+            }
+
+            // 垃圾回收尽快回收对象 .
+
+            stmt = null;
+
+        }
+
+        if (conn != null) {
+
+            try {
+
+              conn.close();
+
+            } catch (SQLException e) {
+
+              e.printStackTrace();
+
+            }
+
+            // 垃圾回收尽快回收对象 .
+
+            conn = null;
+
+        }
+
+    }
+
+   
+
+    public static void release(Statement stmt,Connection conn){
+
+        if (stmt != null) {
+
+            try {
+
+              stmt.close();
+
+            } catch (SQLException e) {
+
+              e.printStackTrace();
+
+            }
+
+            // 垃圾回收尽快回收对象 .
+
+            stmt = null;
+
+        }
+
+        if (conn != null) {
+
+            try {
+
+              conn.close();
+
+            } catch (SQLException e) {
+
+              e.printStackTrace();
+
+            }
+
+            // 垃圾回收尽快回收对象 .
+
+            conn = null;
+
+        }
+
+    }
+
+}
+
+ 
+
+带有属性文件的工具类的抽取：
+
+定义了一个属性文件 :
+
+public class JDBCUtils {
+
+    private static final String driverClass;
+
+    private static final String url;
+
+    private static final String username;
+
+    private static final String password;
+
+   
+
+ 
+
+    static {
+
+        Properties properties = null;
+
+        // 读取属性文件：使用 Java 中 Properties 的对象 .
+
+        try{
+
+            InputStream is = new FileInputStream("src/jdbc.properties");
+
+            properties = new Properties();
+
+            properties.load(is);
+
+        }catch(Exception e){
+
+            e.printStackTrace();
+
+        }
+
+       
+
+        driverClass = properties.getProperty("driverClass");
+
+        url = properties.getProperty("url");
+
+        username = properties.getProperty("username");
+
+        password = properties.getProperty("password");
+
+    }
+
+   
+
+    /**
+
+     * 注册驱动的方法
+
+     */
+
+    public static void loadDriver(){
+
+        try {
+
+            Class.forName(driverClass);
+
+        } catch (ClassNotFoundException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
+    /**
+
+     * 获得连接的方法
+
+     */
+
+    public static Connection getConnection(){
+
+       
+
+        Connection conn = null;
+
+        try {
+
+            loadDriver();
+
+            conn = DriverManager.getConnection(url, username, password);
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return conn;
+
+    }
+
+   
+
+    /**
+
+     * 释放资源的方法
+
+     */
+
+    public static void release(ResultSet rs,Statement stmt,Connection conn){
+
+        if (rs != null) {
+
+            try {
+
+                rs.close();
+
+            } catch (SQLException e) {
+
+              e.printStackTrace();
+
+            }
+
+            // 垃圾回收尽快回收对象 .
+
+            rs = null;
+
+        }
+
+        if (stmt != null) {
+
+            try {
+
+              stmt.close();
+
+            } catch (SQLException e) {
+
+              e.printStackTrace();
+
+            }
+
+            // 垃圾回收尽快回收对象 .
+
+            stmt = null;
+
+        }
+
+        if (conn != null) {
+
+            try {
+
+              conn.close();
+
+            } catch (SQLException e) {
+
+              e.printStackTrace();
+
+            }
+
+            // 垃圾回收尽快回收对象 .
+
+            conn = null;
+
+        }
+
+    }
+
+   
+
+    public static void release(Statement stmt,Connection conn){
+
+        if (stmt != null) {
+
+            try {
+
+              stmt.close();
+
+            } catch (SQLException e) {
+
+              e.printStackTrace();
+
+            }
+
+            // 垃圾回收尽快回收对象 .
+
+            stmt = null;
+
+        }
+
+        if (conn != null) {
+
+            try {
+
+              conn.close();
+
+            } catch (SQLException e) {
+
+              e.printStackTrace();
+
+            }
+
+            // 垃圾回收尽快回收对象 .
+
+            conn = null;
+
+        }
+
+    }
+
+}
+
+ 
+
+参见 JDBCDemo2 类 : 1.2.4 总结： 1.2.4.1   JDBC 的 API:
+
+【 Connection 】
+
+Ø 创建执行 SQL 的对象 :
+
+
+
+
+
+
+
+Ø 进行事务管理 :
+
+
+
+
+
+
+
+【 Statement 】
+
+Ø 执行 SQL 语句 :
+
+
+
+
+
+
+
+Ø 执行批处理：
+
+
+
+
+
+
+
+【 ResultSet 】
+
+Ø 获得结果集中的数据：
+
+* getXXX(int idx);
+
+     * select cname,cid from category;
+
+* getXXX(String name);
+
+Ø 默认情况下： next();
+
+* 正常的情况下结果集只能向下的 . 1.3 案例二：使用连接池改造 JDBC 的工具类： 1.3.1 需求：
+
+传统 JDBC 的操作 , 对连接的对象销毁不是特别好 . 每次创建和销毁连接都是需要花费时间 . 可以使用连接池优化的程序 .
+
+* 在程序开始的时候 , 可以创建几个连接 , 将连接放入到连接池中 . 用户使用连接的时候 , 可以从连接池中进行获取 . 用完之后 , 可以将连接归还连接池 . 1.3.2 分析 : 1.3.2.1   技术分析：
+
+【自定义连接池】（了解）
+
+* SUN 公司提供了一个连接池的接口 .(javax.sql.DataSource).
+
+* 定义一个连接池 : 实现这个接口 .
+
+* 使用 List 集合存放多个连接的对象 .
+
+ 
+
+【自定义连接池的代码】
+
+public class MyDataSource implements DataSource{
+
+    // 创建一个 List 集合用于存放多个连接对象 .
+
+    private List<Connection> list = new ArrayList<Connection>();
+
+    // 在程序开始的时候，初始化几个连接 , 将连接存放到 list 中 .
+
+    public MyDataSource() {
+
+        // 初始化 3 个连接 :
+
+        for(int i=1;i<=3;i++){
+
+            Connection conn = JDBCUtils.getConnection();
+
+            list.add(conn);
+
+        }
+
+    }
+
+   
+
+    @Override
+
+    // 获得连接的方法：
+
+    public Connection getConnection() throws SQLException {
+
+        if(list.size() <= 0){
+
+            for(int i=1;i<=3;i++){
+
+                Connection conn = JDBCUtils.getConnection();
+
+                list.add(conn);
+
+            }  
+
+        }
+
+        Connection conn = list.remove(0);
+
+        return conn;
+
+    }
+
+   
+
+    // 归还连接的方法：
+
+    public void addBack(Connection conn){
+
+        list.add(conn);
+
+    }
+
+...
+
+}
+
+【自定义连接池中问题及如何解决】
+
+Ø 问题 ?
+
+1. 如果使用自定义连接池 , 那么需要额外记住自定义连接池中的 API.
+
+2. 能不能使用面向接口的编程方式 .
+
+Ø 解决：
+
+不额外提供 API 方法，就可以解决上述两个问题！！！
+
+能不能还调用 Connection 的 close 方法 . 能不能增强 Connection 的 close 方法 , 原有的销毁变为归还 !!!
+
+Ø 如何增强 Connection 的 close 方法 :
+
+* 增强一个 Java 类中的某个方法有几种方式 ???
+
+    * 一种方式：继承的方式 .
+
+        * 能够控制这个类的构造的时候 , 才可以使用继承 .
+
+ 
+
+    * 二种方式：装饰者模式方式 .
+
+* 包装对象和被包装的对象都要实现相同的接口 .
+
+        * 包装的对象中需要获得到被包装对象的引用 .
+
+        ***** 缺点：如果接口的方法比较多 , 增强其中的某个方法 . 其他的功能的方法需要原有调用 .
+
+ 
+
+    * 三种方式：动态代理的方式 .
+
+* 被增强的对象实现接口就可以 .
+
+【继承和装饰者的案例】
+
+/**
+
+ * 继承的方式增强一个类中某个方法 :
+
+ */
+
+class Man{
+
+    public void run(){
+
+        System.out.println(" 跑 ....");
+
+    }
+
+}
+
+ 
+
+class SuperMan extends Man{
+
+    public void run(){
+
+        // super.run();
+
+        System.out.println(" 飞 ....");
+
+    }
+
+}
+
+ 
+
+/**
+
+ * 使用装饰者的方式完成类的方法的增强
+
+ */
+
+interface Waiter{
+
+    public void server();
+
+}
+
+ 
+
+class Waiteress implements Waiter{
+
+ 
+
+    @Override
+
+    public void server() {
+
+        System.out.println(" 服务 ...");
+
+    }
+
+   
+
+}
+
+ 
+
+class WaiteressWrapper implements Waiter{
+
+    private Waiter waiter;
+
+ 
+
+    public WaiteressWrapper(Waiter waiter) {
+
+     this.waiter = waiter;
+
+    }
+
+   
+
+    @Override
+
+    public void server() {
+
+        System.out.println(" 微笑 ...");
+
+        // this.waiter.server();
+
+       
+
+    }
+
+   
+
+}
+
+【使用装饰者模式增强 Connection 的 close 方法】
+
+public class MyConnection implements Connection{
+
+ 
+
+    private Connection conn;
+
+    private List<Connection> list;
+
+ 
+
+    public MyConnection(Connection conn,List<Connection> list) {
+
+        this.conn = conn;
+
+        this.list = list;
+
+    }
+
+ 
+
+ 
+
+    @Override
+
+    public void close() throws SQLException {
+
+        list.add(conn);
+
+    }
+     ...
+
+}
+
+ 
+
+连接池的 getConnection 方法：
+    @Override
+
+    // 获得连接的方法：
+
+    public Connection getConnection() throws SQLException {
+
+        if(list.size() <= 0){
+
+            for(int i=1;i<=3;i++){
+
+                Connection conn = JDBCUtils.getConnection();
+
+                list.add(conn);
+
+            }  
+
+        }
+
+        Connection conn = list.remove(0);
+
+        MyConnection myConn = new MyConnection(conn, list);
+
+        return myConn;
+
+    }
+
+【常见的开源的数据库连接池】：
+
+Ø DBCP ：
+
+DBCP(DataBase connection pool), 数据库连接池 。是 apache 上的一个 java 连接池项目，也是 tomcat 使用的连接池组件。单独使用 dbcp 需要 2 个包： commons-dbcp.jar,commons-pool.jar 由于建立数据库连接是一个非常耗时 耗资源 的行为，所以通过连接池预先同数据库建立一些连接，放在内存中，应用程序需要建立数据库连接时直接到连接池中申请一个就行，用完后再放回去。
+
+Ø C3P0 ：
+
+C3P0 是一个开源的 JDBC 连接池 ，它实现了数据源和 JNDI 绑定，支持 JDBC3 规范和 JDBC2 的标准扩展。目前使用它的 开源项目 有 Hibernate ， Spring 等。
+
+Ø Tomcat 内置连接池：
+
+【 DBCP 连接池的使用】
+
+第一步：引入 DBCP 连接池的 jar 包 .
+
+第二步：编写 DBCP 代码：
+
+    * 手动设置参数 :
+
+    * 配置文件设置参数 :
+
+【 DBCP 连接池的使用】
+
+    @Test
+
+    /**
+
+     * 手动方式 :
+
+     */
+
+    public void demo1(){
+
+        Connection conn = null;
+
+        PreparedStatement stmt = null;
+
+        ResultSet rs = null;
+
+        BasicDataSource dataSource = new BasicDataSource();
+
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+
+        dataSource.setUrl("jdbc:mysql:///web_07");
+
+        dataSource.setUsername("root");
+
+        dataSource.setPassword("123");
+
+        try{
+
+            // 获得连接 :
+
+            conn = dataSource.getConnection();
+
+            // 编写 SQL:
+
+            String sql = "select * from category";
+
+            // 预编译 SQL:
+
+            stmt = conn.prepareStatement(sql);
+
+            // 执行 SQL:
+
+            rs = stmt.executeQuery();
+
+            while(rs.next()){
+
+                System.out.println(rs.getInt("cid")+"   "+rs.getString("cname"));
+
+            }
+
+        }catch(Exception e){
+
+            e.printStackTrace();
+
+        }finally{
+
+            JDBCUtils.release(rs,stmt, conn);
+
+        }
+
+    }
+
+   
+
+    @Test
+
+    /**
+
+     * 配置文件方式：
+
+     */
+
+    public void demo2(){
+
+        Connection conn = null;
+
+        PreparedStatement stmt = null;
+
+        ResultSet rs = null;
+
+        Properties properties = new Properties();
+
+       
+
+        try{
+
+            properties.load(new FileInputStream("src/dbcpconfig.properties"));
+
+            DataSource dataSource = BasicDataSourceFactory.createDataSource(properties);
+
+            // 获得连接 :
+
+            conn = dataSource.getConnection();
+
+            // 编写 SQL:
+
+            String sql = "select * from category";
+
+            // 预编译 SQL:
+
+            stmt = conn.prepareStatement(sql);
+
+            // 执行 SQL:
+
+            rs = stmt.executeQuery();
+
+            while(rs.next()){
+
+                System.out.println(rs.getInt("cid")+"   "+rs.getString("cname"));
+
+            }
+
+        }catch(Exception e){
+
+            e.printStackTrace();
+
+        }finally{
+
+            JDBCUtils.release(rs,stmt, conn);
+
+        }
+
+    }
+
+【 C3P0 连接池的使用】
+
+第一步：引入 C3P0 连接池的 jar 包 .
+
+第二步：编写代码：
+
+* 手动设置参数 :
+
+* 配置文件设置参数：
+
+ 
+
+【 C3P0 改造工具类】
+
+public class JDBCUtils2 {
+
+    private static final ComboPooledDataSource DATA_SOURCE =new ComboPooledDataSource();
+
+    /**
+
+     * 获得连接的方法
+
+     */
+
+    public static Connection getConnection(){
+
+        Connection conn = null;
+
+        try {
+
+            conn = DATA_SOURCE.getConnection();
+
+        } catch (SQLException e) {
+
+            // TODO Auto-generated catch block
+
+            e.printStackTrace();
+
+        }
+
+        return conn;
+
+    }
+
+...
+} 1.4 案例三：手动抽取一个 DBUtils 的工具类 : 1.4.1 需求：
+
+每次进行 JDBC 的 CURD 的操作的时候，有很多的代码都是相似的 . 可以不可以抽取工具类 . 完成一些通用性的代码 ? 1.4.2 分析：
+metadata又称中介数据,中继数据,为描述数据的数据(data about data)
+主要为了描述数据的属性信息,用来支持例如:指示存储位置,历史数据,资源查找,文件记录等功能 1.4.2.1   技术分析：
+
+【 JDBC 的元数据 MataData 】（了解） -- 编写通用性较高的代码 .
+
+Ø DatabaseMetaData ：获得数据库连接的信息 , 获得数据库的表的信息 .
+
+* 获得数据库元数据 :Connection 中 getMetaData();
+
+ 
+
+Ø ParameterMetaData ：获得 SQL 中的参数的个数及类型 .
+
+* 获得参数元数据： PreparedStatement 中 getParameterMetaData ()
+
+ 
+
+Ø ResultSetMetaData ：获得结果集中的列名及列的类型 .
+
+* 获得结果集元数据： ResultSet 中 getMeta()
+
+【元数据的使用】
+
+    @Test
+
+    /**
+
+     * 数据库元数据
+
+     */
+
+    public void demo1(){
+
+        Connection conn = null;
+
+        conn = JDBCUtils2.getConnection();
+
+        // 获得数据库元数据 :
+
+        try {
+
+            DatabaseMetaData metaData = conn.getMetaData();
+
+            System.out.println(" 获得驱动名称 :"+metaData.getDriverName());
+
+            System.out.println(" 获得驱动 URL:"+metaData.getURL());
+
+            System.out.println(" 获得用户名 :"+metaData.getUserName());
+
+           
+
+            // 获得表中的主键：
+
+            ResultSet rs = metaData.getPrimaryKeys(null, null, "category");
+
+            if(rs.next()){
+
+                String name = rs.getString("COLUMN_NAME");
+
+                System.out.println(name);
+
+            }
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
+   
+
+    @Test
+
+    /**
+
+     * 参数元数据：
+
+     */
+
+    public void demo2(){
+
+        Connection conn = null;
+
+        PreparedStatement stmt = null;
+
+        try{
+
+            conn = JDBCUtils2.getConnection();
+
+            String sql = "update category set cname = ? where cid = ?";
+
+            stmt = conn.prepareStatement(sql);
+
+            ParameterMetaData metaData = stmt.getParameterMetaData();
+
+            int count = metaData.getParameterCount();
+
+            System.out.println(count);
+
+        }catch(Exception e){
+
+           
+
+        }
+
+    }
+
+   
+
+    @Test
+
+    /**
+
+     * 结果集元数据：
+
+     */
+
+    public void demo3(){
+
+        Connection conn = null;
+
+        PreparedStatement stmt = null;
+
+        ResultSet rs = null;
+
+        try{
+
+            conn = JDBCUtils2.getConnection();
+
+            String sql = "select * from category";
+
+            stmt = conn.prepareStatement(sql);
+
+            rs = stmt.executeQuery();
+
+           
+
+            ResultSetMetaData metaData = rs.getMetaData();
+
+            int count = metaData.getColumnCount();
+
+            for(int i = 1;i<=count ;i++){
+
+                String name = metaData.getColumnName(i);
+
+               
+
+                String type = metaData.getColumnTypeName(i);
+
+                System.out.println(name+type);
+
+            }
+
+        }catch(Exception e){
+
+           
+
+        }
+
+    }
+
+ 

@@ -1,0 +1,3 @@
+Integer的自动装箱-128到127之间会缓存
+delete元素字符
+remove 对象

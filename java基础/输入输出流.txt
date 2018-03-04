@@ -1,0 +1,7 @@
+标准输入流:public static final InputStram in;
+标准输出流:public staic  final PrintStream out;
+outputSramWriter将字节输出转换为字符输出流
+inputStreamReader:将字节输入流转换为字符输入流
+字符打印流: print(String str ) 输出任意类型的数据.'
+void println(string str):输出任意类型的数据,自动写入换行操作
+

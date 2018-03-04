@@ -1,0 +1,127 @@
+jsp开发模式一:jsp+javaBean的模式:jsp显示数据,使用javaBean封装和处理数据
+jsp开发模式二:jsp显示数据,javabean封装处理数据,servlet控制维护数据
+模式二 ;mvc的设计模式
+对象的封装BeanUtils.populate(object,map)//原理,反射,内省(只获得get()方法)
+//获取累的信息对象
+BeanInfo beanInfo=introspector.getBeanInfo(User.class);
+//获取累的所有属性
+PropertyDescriptor[]  pdd= beanInfo.getpropertyDescriptors();
+##反射
+```
+当反射调用静态方法时,可以clazz.getMethod(null,param.class...):
+
+setaccessible(true)
+object.getclass()//
+Classname.class//不调用静态代码块:class在object里没有
+Class.forname()//调用静态代码块
+new classname()//调用静态代码块
+
+
+```
+##内省
+```
+获取对象描述器 introspector----------beanInfo
+一个javaBean的属性有get和set方法决定
+获取所有的属性描述器  propertyDescripetor
+通过属性描述器获取它对应的方法,getReadMethod(),getWriteMethod()
+操作
+```
+事物的管理
+```
+事物是指逻辑上的一组在操作,一荣俱荣,一损俱损
+mysql事务管理(默认自动提交)oracle数据库默认不自动提交
+方式1:手动开启事务
+start transaction开启
+commit/rollback 
+方式2:设置一个自动提交数据
+show variables like '%commit%'
+set autocommit=off 不自动提交
+```
+jdbc中事务的管理 connection
+setAutoCommit(boolean autoCommit)//设置是否开启事务
+commit()
+rollback
+如何共享连接
+```
+方法一:在service中获取连接,以参数形式传给dao层
+方法二:绑定当前线程:ThreadLocal ,
+
+
+```
+ DBUitls事务管理
+```
+没有事务管理时
+QueryRuner(DataSource  datasource)
+query()
+update()
+ 有事务管理时
+setAutocommit(0)
+rollback(savepoint)
+connection.setsavePoint();
+```
+Connection的共享方式
+方法一;传递
+方法二;和当前线程绑定
+事务的特性
+
+
+```
+原子性:强调事务不可分割
+一致性:执行前后,数据保持一致
+隔离性:强调一个事务的执行不应被其他事务干扰
+持久性:事务一旦接受(提交/回滚), 保持到数据库
+```
+不考虑安全性问题
+```
+脏读:一个窗口读到了另一个窗口未提交的数据
+不可重复:一个窗口两次查询结果不同(读到了update的数据);事务的并发操作
+虚读/幻读:读到了insert的数据
+
+
+```
+隔离级别
+```
+read uncommitted
+read commited
+repeatale read
+read serializable线性化,序列化   
+```
+使用mvc模式实现商品增删改查  
+```
+解决重复提交问题:令牌机制   
+
+
+```
+异常处理
+```
+servlet--异常处理
+service--如果--事务管理,捕获异常,在catch中进行回滚操作;否则抛出
+dap---抛出异常
+
+
+```
+写问题
+```
+一个事物的回滚操作,将另一个事务的体积更新覆盖掉
+一个事物的提交操作,将另一个事务的体积更新覆盖掉
+
+```
+事务隔离
+```
+并发的隔离:锁机制
+共享锁:一个事务中添加共享锁,另一个事务同样一个可获得共享锁,可以查询,但不能修改
+排它锁:一个事务家里排他锁,另一事务时不能获得任何锁
+read uncommitted/read commited/repeatable read
+在查询时不加锁,修改时加共享锁
+serializable
+在查询时对表加共享锁,修改时排他锁;
+
+
+
+
+数据的隔离--------mvcc(多版本并发控制)-----v版本快照
+
+
+
+
+```

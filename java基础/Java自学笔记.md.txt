@@ -1,0 +1,8 @@
+Switch支持byte,short,char,int,Enum类型(1.5加入),String(1.7加入)
+java两种数组声明方式,:
+```
+int []  arr;
+int    arr[];
+
+
+``

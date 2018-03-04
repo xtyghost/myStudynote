@@ -1,0 +1,4 @@
+Map的常用子类:
+l----Hashtable:内部结构时哈希表,同步: (不允许存在Null键或Null值)
+l--HashMap : 内部结构时哈希表,不是同步的(允许存在Null键或Null值)
+l---:TreeMap :

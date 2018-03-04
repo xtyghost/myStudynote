@@ -1,0 +1,145 @@
+Servlet 是运行在服务端的java小程序,是sun公司提供的一套接口
+serlet规范:三个技术点:1servlet技术2filter技术--过滤器3listener技术--监听器
+web文件发布常见错误:x(java文件jsp文件写错) !(路径,环境问题)
+### 运行环境的添加
+```
+build path  ------add library  --------jre system libray
+```
+##java文件的发布
+```
+web项目导包不需要build path
+编写java类implements servlet接口实现接口方法(重点service)
+####基础信息的配置
+在web.xml中配置路径,<servlet></servlet>--代号---全类名
+一般类的配置属性都在这里如:<load-on-startup>
+
+
+####虚拟路径的配置
+    <servlet-mapping></servlet-mapping>--代号------虚拟路径(以/开头)
+
+
+```
+##servlet的方法:
+```
+init( servletconfig  config     ) 默认服务器页面创建时
+service() 服务器页面被访问时(Servlet线程不安全,不要添加成员变量),每次被访问从TomCat线程池中那一个线程执行任务
+destroy() 服务器页面被销毁时(服务器页面更新时会销毁页面)
+```
+##服务器的生命周期
+```
+Servlet默认第一次访问servlet时创建该对象(单例存在)
+服务器关闭时销毁了(或项目被移除时)
+每次访问时执行service方法
+service(ServletRequest req,ServletResponse res) 
+请求:ServletRequest  封装http的请求信息
+响应:ServletResponse一个盒子可以封装http信息
+```
+#Tomcat内核工作
+```
+1解析请求的地址
+2创建servlet对象(默认第一次当被访问时)
+3创建请求的request 和Response对象 (每访问一次就创建一对request对象和response对象)
+##Tomcat
+maxThreads
+minspareThreads
+MaxAspareThreads
+Acceptcount--zuixiaoogxianzuixiaokongxianzuidaxianchegnshu250minSpareThreads
+配置 excutor节点关联connector用name属性
+配置excutor属性在connector中
+```
+##url-pattern配置方式
+```
+完全匹配大于目录匹配>扩展名匹配
+1完全匹配:访问路径和配置的资源完全相同才能访问
+2目录匹配;目录匹配就可以访问   
+3扩展名匹配 格式:*.扩展名        <url-pattern>*.扩展名<url-pattern>
+第二种第三种不要混用/aaa/bbb/*.txt(错误的)
+
+
+```
+##服务器启动实例化Servlet配置
+//servlet线程不安全
+```
+Servlet的何时创建:默认第一次访问时创建:  当seerlet配置时加上<load-on-startup> servlet对象在服务器启动时就创建<load-on-startup>number</load-on-startup>number代表优先级,非负整数,值越小越有限(只能写最后一行)
+不要用将number作为1:1已经被Tomcat默认servlet占用
+
+
+```
+缺省的servlet对象url-pattern 为/默认的servlet对象(无法找打对象时用该对象顶替)
+```
+但注意当你使用缺省的servlet对象时,你无法在访问静态资源,原因在  config\web.xml(tomcat全局web配置文件)中<url-pattern>/</url-pattern>代表查找静态页面的引用,该引用会帮你找静态资源,;(你使用 <url-pattern>/</url-pattern>覆盖了tomcat中的功能 )
+
+
+```
+###所有web用应用中的资源响应都是servlet负责,包括静态页面
+###ServletContext代表web应用的环境(上下文)对象
+```
+分层的作用:简化代码;
+ 
+
+
+```
+web项目的发布将webContent下的一切发布了其中web-inf不可浏览器访问,同时将webContent名字改为项目名.srci下的文件,会编译为.class文件,存在classes下
+##读取文件功能二
+```
+读取文件getrealpath()
+该方法不同的服务器有不同的实现:有的服务器不支持
+读取classes文件下的.class文件,可以使用同类加载器,(完美方案)
+String  path =contextServlet.class.getClassLoader().getResource("filepath").getPath()
+contextServlet.class.getClassLoader().getResource("../../")
+```
+ServletContext时一域对象(存储数据的区域)
+ServletContext域对象的作用范围:整个web应用(所用动态web资源都可以随意的向servletContext域中存取数据,数据共享)
+
+serletcontext作用:获取init数据,获取页面(文件加载),域对象
+###路径
+```
+相对路径  不可以以/开头
+
+
+绝对路径   以/开始
+                    带协议
+
+                    不带协议
+
+                    客户端路径
+                服务器端路径(转发........)
+           
+
+
+
+
+
+```
+##获取ServletContext的初始化参数功能一
+```
+getinitparameter()
+getinitparameternames();返回Enumeration;
+
+
+```
+获得mime类型功能三
+```
+servletContext.getmimeType();
+
+
+```
+功能四
+```
+域对象
+```
+##线程池的配置
+```
+
+
+Executor节点
+   maxThreads
+  maxSpareThreads
+  minSpareThreads
+   acceptCount
+域connector关联
+方式二
+      直接在Connector节点配置
+```
+##servletconfig
+

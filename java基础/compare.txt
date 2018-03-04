@@ -1,0 +1,8 @@
+==比较的是地址值
+equals比较的是哈希值和你自定义的数据
+toString 是一个方法
+hashcode相同不代表地址值相同
+HashSet集合数据结构是哈西表
+对于ArrayList集合删除,增添,修改,查看判断equals方法
+对于HashSet集合判断hashcode和equals方法
+

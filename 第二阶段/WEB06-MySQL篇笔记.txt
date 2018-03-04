@@ -1,0 +1,742 @@
+第6章WEB06 - MySQL 篇
+
+今日任务
+
+Ø   对 MYSQL 数据库中的数据库 , 表及数据的 CRUD 的操作
+
+Ø   给定一套系统模型分析其中表关系并完成建表操作
+
+Ø   完成对 MYSQL 数据库的多表查询及建表操作 .
+
+ 
+
+教学导航
+
+
+ 教学目标
+
+ 掌握 MYSQL 的基本数据库 , 表及表中记录的操作
+
+ 掌握 MYSQL 中的多表创建及多表查询
+
+ 掌握 MYSQL 中的表关系分析并能正确建表
+
+ 了解 MYSQL 可视化界面的使用
+
+
+ 教学方法
+
+ 案例驱动法
+
+
+  1.1 上次课内容回顾：
+
+BootStrap ：
+
+* 响应式的 HTML,CSS,JS 的框架 .
+
+* 响应式设计：
+
+    * 设计一套页面 , 适配不同的设备 , 在手机 ,PAD,PC 端都能够正常浏览 .
+
+* 响应式原理：
+
+    * 使用 CSS3 的媒体查询 , 根据屏幕的分辨率匹配不用的样式 .
+
+* BootStrap:
+
+    * 全局 CSS ：
+
+        * 栅格：
+
+        * 表单 :
+
+        * 按钮 ...
+
+    * 组件 :
+
+        * 导航条：
+
+        * 分页栏 :
+
+        * 标签页 :
+
+    * JS 的插件：
+
+        * 图片轮播 . 1.2 MYSQL 的回顾： 1.2.1 MySQL 的概述： 1.2.1.1   什么是数据库：
+
+数据库：就是一个文件系统 , 这个文件必须通过标准的 SQL 访问 . 1.2.1.2   什么是关系型数据库：
+
+关系型的数据库存放的都是实体之间的关系 .
+
+1.2.1.3   常用的关系型数据库：
+
+MySQL       ：免费的小型的数据库 , 现在被 Oracle 收购 .
+
+Oracle      ： Oracle 公司收费的大型的数据库 .
+
+SQLServer   ：微软公司收费中型的数据库 .
+
+DB2         ： IBM 公司收费的大型的数据库 .
+
+SyBase      ： SyBase 公司收费的数据库 . 已经被淘汰 .PowerDesigner 数据建模的工具 .
+
+SQLite      ：小型的嵌入式的数据库 .
+
+***** Java 程序中经常使用的数据库
+
+MySQL
+
+Oracle 1.2.1.4   数据库存储的结构：
+
+  1.2.2 SQL 的概述： 1.2.2.1   什么是 SQL:
+
+SQL: 结构化的查询语言 . 1.2.2.2   SQL 分类 :
+
+DDL: 数据定义语言
+
+    * create,alter,drop...
+
+DML: 数据操纵语言
+
+    * update,insert,delete
+
+DCL: 数据控制语言
+
+    * grant,if..
+
+DQL: 数据查询语言
+
+    * select 1.2.2.3   SQL 的特点：
+
+非过程性语言 : 一条语句就会有一个运行的结果 . 1.2.3 使用 SQL 1.2.3.1   使用 SQL 操作数据库 ( 对数据库的 CRUD 的操作 )
+
+【创建数据库】
+
+语法 :
+
+* create database 数据库名称 [character set 字符集 collate 字符集校对 ];
+
+练习 :
+
+* 创建 db1;
+
+    * create database db1;
+
+* 创建一个带有字符集的数据库 db2;
+
+    *  create database db2 character set gbk;
+
+* 创建一个带有字符集和校对规则的数据库 db3;
+
+    * create database db3 character set utf8 collate  utf8_bin;
+
+【查看数据库】
+
+语法 :
+
+* 查看数据库服务器中所有的数据库 :
+
+    * show databases;
+
+* 查看某个数据库的定义信息 .
+
+    * show create database 数据库名 ;
+
+* 查看当前正在使用的数据库信息 .
+
+    * select database();
+
+【删除数据库】
+
+语法 :
+
+* 删除数据库 :
+
+    * drop database 数据库名 ;
+
+【修改数据库】
+
+语法 :
+
+* 修改数据库修改的是的数据库的字符集和校对规则 .
+
+    * alter database 数据库名 character set 新字符集 collate 校对规则 ;
+
+【切换数据库】
+
+语法 :
+
+* use 数据库名称 ; 1.2.3.2   使用 SQL 操作数据库中的表 ( 对数据库的表 CRUD 的操作 )
+
+【创建表】
+
+Ø 语法 :
+
+* create table 表名 (
+
+    字段名 类型 ( 长度 ) 约束 ,
+
+    字段名 类型 ( 长度 ) 约束 ,
+
+    字段名 类型 ( 长度 ) 约束
+
+);
+
+ 
+
+Ø 数据类型 :
+
+* Java 类型 :             MySQL:
+
+  byte/short/int/long   tinyint/smallint/int/bigint
+
+  String                char/varchar
+
+                            * 区别 ?char 是固定长度的字符串 ,varchar 可变长度的字符串 .
+
+                            * char(8) 和 varchar(8)
+
+                                * 如果插入一个字符串 hello 插入到 char 那么 插入 hello   . 插入到 varchar 中 插入 hello
+
+ float                  float
+
+ double                 double
+
+ boolean                bit
+
+ Date                   date/time/datetime/timestamp
+
+                        * datetime 和 timestamp 都是既有日期又有时间的日期类型
+
+                            * 区别 ? datetime 需要使用外部传入的日期 . 如果没传这个值就是 Null. timestamp 会使用系统当前的时间作为这个值的默认值 .
+
+  文本文件                 Text
+
+  二级制文件               BLOB
+
+***** Oralce 使用 CLOB/BLOB
+
+***** MYSQL 中除了字符串类型需要设置长度其他的类型都有默认长度 .
+
+ 
+
+Ø 约束：
+
+单表约束：
+
+* 主键约束： primary key ( 默认就是唯一非空的 )
+
+* 唯一约束： unique
+
+* 非空约束： not null
+
+ 
+
+Ø 创建一个表：
+
+Ø ***** 创建表之前先选择数据库 :use 某个数据库 ;
+
+create table employee(
+
+    eid int primary key auto_increment,
+
+    ename varchar(20) not null,
+
+    email varchar(30) unique,
+
+    birthday date,
+
+    job varchar(20),
+
+    resume text
+
+);
+
+【表的查看】
+
+Ø 查看数据库中有哪些表：
+
+* show tables;
+
+Ø 查看表结构 :
+
+* desc 表名 ;
+
+【表的删除】
+
+Ø 表的删除 :
+
+* drop table 表名 ;
+
+【表的修改】
+
+Ø 修改表添加列：
+
+* alter table 表名 add 列名 类型 ( 长度 ) 约束 ;
+
+    * alter table employee add image varchar(50);
+
+Ø 修改表删除列：
+
+* alter table 表名 drop 列名 ;
+
+    * alter table employee drop job;
+
+Ø 修改表的列的类型长度及约束 :
+
+* alter table 表名 modify 列名 类型 ( 长度 ) 约束 ;
+
+    * alter table employee modify image varchar(80) not null;
+
+Ø 修改表的列名
+
+* alter table 表名 change 旧列名 新列名 类型 ( 长度 ) 约束 ;
+
+    * alter table employee change image eimage varchar(60);
+
+Ø 修改表名
+
+* rename table 旧表名 to 新表名 ;
+
+    * rename table employee to user;
+
+Ø 修改表的字符集：
+
+* alter table 表名 character set 字符集 ;
+
+    * alter table user character set gbk;
+
+ 
+
+  1.2.3.3 使用 SQL 操作数据库中的表的记录 ( 对表的记录的 CRUD 的操作 )
+
+【插入记录】
+
+Ø 语法
+
+* insert into 表名 ( 列名 , 列名 ,...) values ( 值 1, 值 2,...);       --- 插入指定列的值
+
+* insert into 表名 values ( 值 1, 值 2,...);                   --- 插入所有列的值
+
+ 
+
+Ø 注意事项：
+
+* 列名的个数与值的个数对应 .
+
+* 列的类型与值的类型对应 . 位置也要对应 .
+
+* 列的类型如果是字符串或者日期 , 写值的时候使用单引号将值引起来 .
+
+* 插入的值的最大长度不能超过列的最大长度 .
+
+ 
+
+Ø 插入记录：
+
+* 插入某几列的值 :
+
+    * insert into employee (eid,ename,email) values (null,'aaa','aaa@itcast.cn');
+
+* 插入所有列的值 :
+
+    * insert into employee values (null,'bbb','bbb@itcast.cn','1990-09-01','HR','I am HR');
+
+Ø 插入中文：
+
+insert into employee (eid,ename,email) values (null,' 张三 ','aaa@163.cn');
+
+ERROR 1366 (HY000): Incorrect string value: '\xD5\xC5\xC8\xFD' for column 'ename' at row 1
+
+***** 插入中文问题的解决：
+
+* show variables like '%character%';
+
+
+
+***** 找到 MYSQL 的安装路径 /my.ini 文件：
+
+
+
+**** 重新加载 mysql 的配置文件：
+
+* services.msc
+
+* 停止 mysql 的服务 , 重新启动 mysql 服务 .
+
+* 执行之前的 SQL 语句 .
+
+【修改记录】
+
+Ø 语法：
+
+* update 表 set 列名 = 值 , 列名 = 值 [where 条件 ];
+
+Ø 注意事项：
+
+* 列名和值类型也要一致 .
+
+* 值不能超过列的最大长度 .
+
+* 值是字符串或日期 , 需要使用单引号 .
+
+Ø 练习：
+
+* 修改 employee 表中所有记录的 job 为 WORKER
+
+    * update employee set job='WORKER';
+
+* 修改 employee 表将 name 为 aaa 的邮箱改为 aaa@163.com
+
+    * update employee set email = 'aaa@163.com' where ename = 'aaa';
+
+* 修改 employee 表将 name 为 bbb 的邮箱改为 bbb@163.com 同时修改 job 为 HR
+
+    * update employee set email = 'bbb@163.com' , job='HR' where ename='bbb';
+
+【删除记录】
+
+Ø 语法：
+
+* delete from 表 [where 条件 ];
+
+Ø 注意事项：
+
+* 删除表中的一行记录 , 不能删除某列值
+
+* 如果没有条件删除表中的所有列 .
+
+Ø 练习：
+
+* 删除 id 为 8 的记录 :
+
+    * delete from employee where eid = 8;
+
+* 删除所有记录 :
+
+    * delete from employee;
+
+Ø 删除表中的所有记录 truncate table 表名   和 delete from 表   区别 ?
+
+* 区别 :
+
+    * truncate table 删除表的记录：将整个表删除掉 , 重新创建一个新的表 .truncate 属于 DDL.
+
+    * delete from 删除表的记录：一条一条进行删除 . delete 属于 DML 。
+
+        * 事务管理 只能作用在 DML 语句上 . 如果再一个事务中使用 delete 删除所有记录，可以找回 .
+
+【基本查询】
+
+Ø 查询语句：
+
+* select [distinct] *| 列名 from 表 [where 条件 ];
+
+ 
+
+Ø 准备：
+
+create table exam(
+
+    id int primary key auto_increment,
+
+    name varchar(20),
+
+    english int,
+
+    chinese int,
+
+    math    int
+
+);
+
+ 
+
+insert into exam values (null,' 张三 ',85,74,91);
+
+insert into exam values (null,' 李四 ',95,90,83);
+
+insert into exam values (null,' 王五 ',85,84,59);
+
+insert into exam values (null,' 赵六 ',75,79,76);
+
+insert into exam values (null,' 田七 ',69,63,98);
+
+insert into exam values (null,' 李四 ',89,90,83);
+
+ 
+
+Ø 查询所有记录 :
+
+* select * from exam;
+
+Ø 查询这个班级人的姓名和英语成绩 :
+
+* select name,english from exam;
+
+Ø 查询英语成绩 , 将重复英语成绩去掉 :
+
+* select distinct english from exam;
+
+Ø 查询李四的学生成绩 :
+
+select * from exam where name=' 李四 ';
+
+Ø 查询名称叫李四并且英语成绩大于 90 的
+
+select * from exam where name=' 李四 ' and english >90;
+
+Ø 将成绩 +10 分进行显示 :
+
+select name ,english+10,chinese+10 ,math+10 from exam;
+
+Ø 显示这个人的名称和对应总成绩的分数 :
+
+select name,english+chinese+math from exam;
+
+Ø 使用 as 起别名 ,as 可以省略 .
+
+select name , english+chinese+math as sum from exam;
+
+【条件查询】
+
+Ø where 语句后面可以加：
+
+条件的关键字：
+
+= , > , >= , <, <= , <>
+
+ 
+
+like 中可以使用占位符 : _ 和 %  ：下划线匹配一个字符 , %: 可以匹配任意多个字符 .
+
+* like ‘ 张％ ’;  like ‘ 张 _’; like ‘% 明 ’; like ‘% 明 %’;
+
+ 
+
+in 后跟着一组值 .
+
+* id in (1,2,3)
+
+ 
+
+and or not
+
+【排序查询】
+
+Ø order by 对数据进行排序 . 默认升序 . （ asc 升序 ,desc 降序）
+
+* 查询所有学生的信息 , 并且按语文成绩进行排序 .
+
+    * select * from exam order by chinese;
+
+* 查询所有学生的信息 , 并且按语文成绩进行降序排序 .
+
+    * select * from exam order by chinese desc;
+
+* 查询学生的信息 , 按照英语成绩降序排序，如果英语成绩相同 , 按照语文降序 .
+
+    * select * from exam order by english desc, chinese desc;
+
+* 查询姓李的学生的信息 , 同时按照英语升序排序 .
+
+    * select * from exam where name like ' 李 %' order by english asc;
+
+【聚合函数】
+
+Ø sum()
+
+Ø count()
+
+Ø max()
+
+Ø min()
+
+Ø avg()
+
+* 查询每个学生总成绩 :
+
+    * select name,(english+chinese+math) from exam;
+
+* 统计所有学生的总分 :
+
+    * select sum(english+chinese+math) from exam;   -- ifnull(english,0)
+
+    * select sum(english)+sum(chinese)+sum(math) from exam;
+
+* 统计学生的个数 :
+
+    * select count(*) from exam;
+
+* 统计英语成绩的最高分 :
+
+    * select max(english) from exam;
+
+* 统计语文成绩的最低分 :
+
+    * select min(chinese) from exam;
+
+* 统计英语成绩平均分 :
+
+    * select avg(english) from exam;
+
+【分组】
+
+Ø group by
+
+创建一个订单详情的表 :
+
+* 统计订单中的每类商品所购买的个数：
+
+    * SELECT product,COUNT(*) FROM orderitem GROUP BY product;
+
+* 统计订单中的每类商品所花的金额 :
+
+    * SELECT product,SUM(price) FROM orderitem GROUP BY product;
+
+* 统计订单中的每类商品所花总金额大于 2000 信息 .
+
+    * SELECT product,SUM(price) FROM orderitem GROUP BY product HAVING SUM(price) > 2000;
+
+ 
+
+* 统计订单中名称有电子的商品并且所花金额大于 1500 同时按照价格降序排序：
+
+    * SELECT product,SUM(price) FROM orderitem WHERE product LIKE ' 电 %' GROUP BY product HAVING SUM(price) > 1500 ORDER BY SUM(price) DESC;
+
+【 SQL 的查询语句的总结】
+
+顺序 :   s...f...w...g...h...o...; 1.3 案例一：将商城的案例中的表结构进行分析： 1.3.1 需求 :
+
+在最后的综合案例中 , 会创建数据库 , 为数据库中创建很多表 . 表与表之间是有关系存在 , 分析表之间关系并且完成表的创建 . 1.3.2 分析： 1.3.2.1   技术分析
+
+【数据库的多表设计】
+
+数据库都是关系型的数据库 , 存的是实体之间的关系 . 实体之间有哪些关系 ?
+
+实体的关系总结起来就有三种关系：
+
+ 
+
+一对多 :
+
+    * 客户和订单：一个客户可以产生多个订单 , 一个订单只能属于是某一个客户 .
+
+    * 部门和员工：一个部门下可以有多个员工 , 一个员工只能属于某一个部门 .
+
+ 
+
+多对多 :
+
+    * 学生和课程：一个学生可以选择多门课程 , 一门课程可以被多个学生选择 .
+
+    * 订单和商品：一个订单中包含多个商品 , 一个商品也可以出现多个订单中 .
+
+ 
+
+一对一：
+
+    * 公司和地址：一个公司只能有一个注册地址 , 一个地址也只能被一个公司注册 .
+
+【多表的设计】
+
+Ø 一对多的关系的建表原则：
+
+* 在多的一方创建一个字段 , 这个字段作为外键执向一的一方的主键 .
+
+ 
+
+Ø 多对多的关系的建表原则：
+
+* 　创建一个第三种表，中间表中至少需要两个字段分别作为外键执向多对多双方的各自的主键 .
+
+ 
+
+Ø 一对一的关系的建表原则：
+
+* 唯一外键对应：假设一对一的双方是一对多的关系 . 在多的一方创建外键执向一的一方的主键 . 需要在外键上添加一个 unique 约束 .
+
+* 主键对应：将一对一的双方的主键建立映射 .
+
+【使用 SQL 创建一对多的关系】
+
+创建客户表 :
+
+create table customer(
+
+    cid int primary key auto_increment,
+
+    cname varchar(20)
+
+);
+
+ 
+
+create table orders(
+
+    oid int primary key auto_increment,
+
+    addr varchar(50),
+
+    cid int
+
+);
+
+ 
+
+***** 约束：用来保证数据的完成型 .
+
+* 多表约束：外键约束！！！
+
+***** 给 orders 表中的 cid 添加外键约束 .
+
+* alter table orders add foreign key (cid) references customer(cid); 1.3.3 商城模型分析：
+
+1.4 案例二：使用 SQL 完成多表的查询： 1.4.1 需求：
+
+使用多表的查询，完成某个分类下的商品的显示 . 很多的情况下都需要使用多表的查询 . 1.4.2 分析： 1.4.2.1   技术分析：
+
+【多表的查询的 SQL 】
+
+Ø 多表的查询的方式：
+
+* 交叉连接：
+
+    * select * from A,B;   --- 获得的是两个表的笛卡尔积 .
+
+* 内连接 : inner join -- inner 可以省略
+
+    * 显式内连接： select * from A inner join B on 条件 ;
+
+        * SELECT * FROM customer c INNER JOIN orders o ON c.cid = o.cid;
+
+    * 隐式内连接： select * from A,B where 条件 ;
+
+        * SELECT * FROM customer c ,orders o WHERE c.cid = o.cid;
+
+* 外连接： outer join -- outer 可以省略
+
+    * 左外连接： left outer join  -- select * from A left outer join B on 条件 ;
+
+        * SELECT * FROM customer c LEFT OUTER JOIN orders o ON c.cid = o.cid;
+
+     * 右外连接： right outer join -- select * from A right outer join B on 条件 ;
+
+        * SELECT * FROM customer c RIGHT OUTER JOIN orders o ON c.cid = o.cid;
+
+【多表查询的子查询】
+
+Ø 一个 SQL 语句查询的过程中需要依赖另一个查询语句 .
+
+SELECT * FROM customer c,orders o WHERE c.cid = o.cid AND  c.cid IN (SELECT cid FROM orders WHERE addr LIKE ' 海淀 %');
+
+【多表练习】
+
+按客户名称统计订单的个数 .
+
+SELECT c.cname,COUNT(*) FROM customer c,orders o WHERE c.cid = o.cid GROUP BY c.cname;
+
+ 
+
+ 
